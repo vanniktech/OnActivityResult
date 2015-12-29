@@ -26,6 +26,14 @@ dependencies {
 }
 ```
 
+### Snapshots
+
+```groovy
+compile 'com.vanniktech:onactivityresult:0.1.1-SNAPSHOT'
+apt 'com.vanniktech:onactivityresult-compiler:0.1.1-SNAPSHOT'
+```
+Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
+
 ## Example
 
 Override `onActivityResult` in your Activity / Fragment and call `ActivityResult.onResult`
