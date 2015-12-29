@@ -1,0 +1,177 @@
+apply plugin: 'com.github.ben-manes.versions'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+    }
+}
+
+allprojects {
+    // Workaround to prevent Gradle from stealing focus from other apps during tests run/etc.
+    // https://gist.github.com/artem-zinnatullin/4c250e04636e25797165
+    tasks.withType(JavaForkOptions) {
+        jvmArgs '-Djava.awt.headless=true'
+    }
+}
+
+ext {
+    isCI = 'true'.equals(System.getProperty('CI'))
+
+    minSdkVersion = 15
+    compileSdkVersion = 23
+    targetSdkVersion = 23
+    buildToolsVersion = '23.0.2'
+
+    shouldPreDex = !isCI
+    shouldDexInProcess = !isCI
+
+    supportLibraryVersion = '23.1.1'
+
+    junit = 'junit:junit:4.12'
+    robolectric = 'org.robolectric:robolectric:3.0'
+
+    supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
+    supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
+    supportDesign = "com.android.support:design:$supportLibraryVersion"
+
+    findbugsannotations = 'com.google.code.findbugs:annotations:3.0.1'
+    butterknife = 'com.jakewharton:butterknife:7.0.1'
+
+    google = [
+            autoservice   : 'com.google.auto.service:auto-service:1.0-rc2',
+            compiletesting: 'com.google.testing.compile:compile-testing:0.8'
+    ]
+
+    testing = [
+            android           : 'com.google.android:android:4.1.1.4',
+            junit             : 'junit:junit:4.12',
+            mockito           : 'org.mockito:mockito-core:2.0.31-beta',
+            robolectric       : 'org.robolectric:robolectric:3.0',
+            reflections       : 'org.reflections:reflections:0.9.10',
+            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.1.0',
+            robolectricExludes: [
+                    'commons-logging', 'httpclient'
+            ]
+    ]
+
+    square = [
+            javapoet: 'com.squareup:javapoet:1.4.0'
+    ]
+
+    javaVersion = JavaVersion.VERSION_1_7
+}
+
+subprojects { project ->
+    version = VERSION_NAME
+    group = GROUP
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    project.plugins.apply('checkstyle')
+
+    checkstyle {
+        toolVersion = '6.13'
+        configFile rootProject.file('code_quality_tools/checkstyle.xml')
+        ignoreFailures false
+        showViolations true
+    }
+
+    project.task("checkstyle", type: Checkstyle) {
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        classpath = files()
+    }
+
+    project.plugins.apply('net.ltgt.errorprone')
+
+    if (!rootProject.ext.isCI) {
+        tasks.matching { it instanceof Test }.all {
+            testLogging.events = ["failed", "passed", "skipped"]
+        }
+    }
+
+    afterEvaluate {
+        final boolean isAndroidLibrary = project.plugins.hasPlugin('com.android.library')
+        final boolean isAndroidApp = project.plugins.hasPlugin('com.android.application')
+        final boolean isAndroidPlugin = isAndroidLibrary || isAndroidApp
+
+        final String dependsOnTask = isAndroidPlugin ? "assembleDebug" : "assemble"
+        final String findbugsClassesPath = isAndroidPlugin ? 'build/intermediates/classes/debug/' : 'build/classes/main/'
+
+        project.plugins.apply('findbugs')
+
+        project.findbugs {
+            sourceSets = []
+            ignoreFailures = false
+            toolVersion = '3.0.1'
+            effort = 'max'
+            reportLevel = 'low'
+            excludeFilter = rootProject.file("code_quality_tools/findbugs-filter.xml")
+        }
+
+        project.task("findbugs", type: FindBugs, dependsOn: dependsOnTask) {
+            description 'Run findbugs'
+            group 'verification'
+
+            classes = project.fileTree(findbugsClassesPath)
+            source = project.fileTree('src')
+            classpath = project.files()
+
+            reports {
+                xml.enabled = rootProject.ext.isCI
+                html.enabled = !rootProject.ext.isCI
+            }
+        }
+
+        project.plugins.apply('pmd')
+
+        project.pmd {
+            toolVersion = '5.4.1'
+            ignoreFailures = false
+        }
+
+        project.task("pmd", type: Pmd, dependsOn: dependsOnTask) {
+            description 'Run pmd'
+            group 'verification'
+
+            ruleSetFiles = project.files(rootProject.file("code_quality_tools/pmd.xml"))
+            ruleSets = []
+
+            source 'src'
+            include '**/*.java'
+            exclude '**/gen/**'
+
+            reports {
+                xml.enabled = rootProject.ext.isCI
+                html.enabled = !rootProject.ext.isCI
+            }
+        }
+
+        tasks.findByName('pmd').dependsOn('assemble')
+        tasks.findByName('findbugs').dependsOn('assemble')
+
+        def checkTask = tasks.findByName('check')
+
+        checkTask.dependsOn('pmd')
+        checkTask.dependsOn('findbugs')
+        checkTask.dependsOn('checkstyle')
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}

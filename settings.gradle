@@ -1,0 +1,1 @@
+include ':onactivityresult', ':onactivityresult-compiler', ':onactivityresult-annotations', ':onactivityresult-sample'

@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion as int
+    buildToolsVersion rootProject.ext.buildToolsVersion as String
+
+    defaultConfig {
+        applicationId "com.vanniktech.onactivityresult.sample"
+        minSdkVersion rootProject.ext.minSdkVersion as int
+        targetSdkVersion rootProject.ext.targetSdkVersion as int
+        versionCode 1
+        versionName "1.0"
+    }
+
+    def shouldSign = project.hasProperty('RELEASE_STORE_FILE') && project.hasProperty('RELEASE_STORE_PASSWORD') && project.hasProperty('RELEASE_KEY_ALIAS') && project.hasProperty('RELEASE_KEY_PASSWORD')
+
+    if (shouldSign) {
+        signingConfigs {
+            release {
+                // http://stackoverflow.com/a/21020469/1979703
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaVersion as JavaVersion
+        targetCompatibility rootProject.ext.javaVersion as JavaVersion
+    }
+
+    dexOptions {
+        preDexLibraries = rootProject.ext.shouldPreDex
+        dexInProcess = rootProject.ext.shouldDexInProcess
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            zipAlignEnabled true
+
+            if (shouldSign) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    lintOptions {
+        warningsAsErrors true
+        abortOnError true
+        textReport true
+        textOutput 'stdout'
+    }
+}
+
+dependencies {
+    compile project(':onactivityresult')
+    apt project(':onactivityresult-compiler')
+
+    // compile 'com.vanniktech:onactivityresult:0.1.0'
+    // apt 'com.vanniktech:onactivityresult-compiler:0.1.0'
+
+    compile rootProject.ext.butterknife
+
+    compile rootProject.ext.supportAppcompat
+    compile rootProject.ext.supportDesign
+}
