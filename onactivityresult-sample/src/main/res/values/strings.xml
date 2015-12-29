@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OnActivityResult Sample</string>
+    <string name="title_activity_for_result">Activity for result</string>
+</resources>

@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion as int
+    buildToolsVersion rootProject.ext.buildToolsVersion as String
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion as int
+
+        consumerProguardFiles 'proguard-rules.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaVersion as JavaVersion
+        targetCompatibility rootProject.ext.javaVersion as JavaVersion
+    }
+
+    dexOptions {
+        preDexLibraries = rootProject.ext.shouldPreDex
+        dexInProcess = rootProject.ext.shouldDexInProcess
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        warningsAsErrors true
+        abortOnError true
+        textReport true
+        textOutput 'stdout'
+    }
+}
+
+dependencies {
+    compile project(':onactivityresult-annotations')
+
+    compile rootProject.ext.supportAnnotations
+
+    testCompile rootProject.ext.testing.junit
+    testCompile rootProject.ext.testing.mockito
+    testCompile rootProject.ext.testing.privateConstructor
+    testCompile rootProject.ext.testing.robolectric
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

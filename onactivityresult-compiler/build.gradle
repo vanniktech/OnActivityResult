@@ -1,0 +1,23 @@
+import org.gradle.internal.jvm.Jvm
+
+apply plugin: 'java'
+
+targetCompatibility = rootProject.ext.javaVersion as JavaVersion
+sourceCompatibility = rootProject.ext.javaVersion as JavaVersion
+
+dependencies {
+    compile project(':onactivityresult-annotations')
+
+    compile rootProject.ext.square.javapoet
+
+    compile rootProject.ext.google.autoservice
+
+    testCompile rootProject.ext.testing.android
+    testCompile rootProject.ext.testing.junit
+    testCompile rootProject.ext.testing.mockito
+    testCompile rootProject.ext.google.compiletesting
+    testCompile rootProject.ext.testing.privateConstructor
+    testCompile files(Jvm.current().getToolsJar())
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

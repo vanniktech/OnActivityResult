@@ -1,0 +1,7 @@
+-keep class onactivityresult.** { *; }
+-dontwarn onactivityresult.internal.**
+-keep class **$$OnActivityResult { *; }
+
+-keepclasseswithmembernames class * {
+    @onactivityresult.* <methods>;
+}
