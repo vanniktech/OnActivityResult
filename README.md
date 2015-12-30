@@ -5,8 +5,8 @@
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 * Generates boilerplate code for OnActivityResult callbacks and lets you focus on what matters.
-* Generated code is fully traceable.
-* Everything is generated during compile time.
+* Generated code is fully traceable and debuggable.
+* Everything is generated during compile time with appropriate errors / warnings.
 * No reflection used!
 
 ## Gradle
@@ -32,6 +32,7 @@ dependencies {
 compile 'com.vanniktech:onactivityresult:0.1.1-SNAPSHOT'
 apt 'com.vanniktech:onactivityresult-compiler:0.1.1-SNAPSHOT'
 ```
+
 Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
 
 ## Example
@@ -65,6 +66,14 @@ void onActivityResultPickImage(final int resultCode, final Intent intent) {
     Toast.makeText(this, "Got image for result " + resultCode + " with intent " + intent, Toast.LENGTH_SHORT).show();
 }
 ```
+
+## Advantages over [AfterMath](https://github.com/MichaelEvans/Aftermath)
+
+* Gives you compile error(s) when using invalid RequestCode
+* Annotated method does not require resultCode & Intent to be present. It'll work with every combination (no params, resultCode, Intent, resultCode & Intent, Intent & resultCode)
+* The annotations are on mavenCentral
+* More detailed error messages
+* Almost 100% unit test coverage
 
 ## Thanks
 
