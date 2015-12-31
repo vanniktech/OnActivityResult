@@ -12,23 +12,6 @@ import static onactivityresult.util.JavaFileObjectUtils.assertThatFailsWithError
 @SuppressWarnings({ "checkstyle:magicnumber", "PMD.AvoidDuplicateLiterals" })
 public class OnActivityResultInvalidParametersTest {
     @Test
-    public void testOnActivityResultMemberMethodTooManyArgumentsShouldLetTheProcessorFail() {
-        //@formatter:off
-        final JavaFileObject source = JavaFileObjects.forSourceString("test/OnActivityResultTooManyParametersTest", Joiner.on('\n').join(
-                "package test;",
-
-                "import onactivityresult.OnActivityResult;",
-
-                "public class OnActivityResultTooManyParametersTest {",
-                        "@OnActivityResult(requestCode = 3) public void myOnActivityResult(final int resultCode, final int foo, final int bar) {}",
-                "}")
-        );
-        //@formatter:on
-
-        assertThatFailsWithErrorMessage(source, "@OnActivityResult methods can have at most 2 parameter(s). (test.OnActivityResultTooManyParametersTest.myOnActivityResult)", 4);
-    }
-
-    @Test
     public void testOnActivityResultMemberMethodDuplicatedIntArgumentsShouldLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/OnActivityResultTooManyParametersTest", Joiner.on('\n').join(

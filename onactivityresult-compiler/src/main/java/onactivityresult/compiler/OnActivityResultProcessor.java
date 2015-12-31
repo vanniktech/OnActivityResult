@@ -20,7 +20,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -30,6 +29,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 
+import onactivityresult.IntentData;
 import onactivityresult.OnActivityResult;
 
 import static javax.tools.Diagnostic.Kind.ERROR;
@@ -38,7 +38,7 @@ import static javax.tools.Diagnostic.Kind.ERROR;
 public class OnActivityResultProcessor extends AbstractProcessor {
     static final String         ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
     private static final String FQN_ANDROID_INTENT           = "android.content.Intent";
-    private static final int    MAX_ALLOWED_PARAMETERS       = 2;
+    private static final String FQN_ANDROID_URI              = "android.net.Uri";
 
     private Filer    filer;
     private Elements elementUtils;
@@ -58,6 +58,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         final Set<String> supportedAnnotations = new HashSet<>();
 
         supportedAnnotations.add(OnActivityResult.class.getCanonicalName());
+        supportedAnnotations.add(IntentData.class.getCanonicalName());
 
         return supportedAnnotations;
     }
@@ -66,7 +67,9 @@ public class OnActivityResultProcessor extends AbstractProcessor {
     public boolean process(final Set<? extends TypeElement> elements, final RoundEnvironment environment) {
         final Map<String, ActivityResultClass> activityResultClasses = new HashMap<>();
 
-        this.handleOnActivityResultAnnotation(activityResultClasses, environment);
+        final AnnotatedMethodParameters annotatedParameters = this.getAnnotatedMethodParameters(environment);
+
+        this.handleOnActivityResultAnnotation(activityResultClasses, environment, annotatedParameters);
 
         this.writeActivityResultClasses(activityResultClasses);
 
@@ -78,7 +81,41 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
-    private void handleOnActivityResultAnnotation(final Map<String, ActivityResultClass> activityResultClasses, final RoundEnvironment environment) {
+    private AnnotatedMethodParameters getAnnotatedMethodParameters(final RoundEnvironment environment) {
+        final AnnotatedMethodParameters annotatedParameters = new AnnotatedMethodParameters();
+
+        this.getIntentDataMethodParameters(environment, annotatedParameters);
+
+        return annotatedParameters;
+    }
+
+    private void getIntentDataMethodParameters(final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
+        final Class<IntentData> annotation = IntentData.class;
+        final Set<? extends Element> intentDatas = environment.getElementsAnnotatedWith(annotation);
+
+        for (final Element intentData : intentDatas) {
+            if (!SuperficialValidation.validateElement(intentData)) {
+                continue;
+            }
+
+            try {
+                final Element enclosingElement = intentData.getEnclosingElement();
+
+                if (!ElementUtils.isParameter(intentData)) {
+                    throw new OnActivityResultProcessingException(enclosingElement, "@%s annotation must be on a method parameter", annotation.getSimpleName());
+                } else if (!intentData.asType().toString().equals(FQN_ANDROID_URI)) {
+                    throw new OnActivityResultProcessingException(enclosingElement, "@%s parameters must be of type %s", annotation.getSimpleName(), FQN_ANDROID_URI);
+                } else {
+                    final ExecutableElement executableElement = (ExecutableElement) enclosingElement;
+                    annotatedParameters.put(executableElement, annotation, Parameter.createIntentData());
+                }
+            } catch (final OnActivityResultProcessingException e) {
+                e.printError(processingEnv);
+            }
+        }
+    }
+
+    private void handleOnActivityResultAnnotation(final Map<String, ActivityResultClass> activityResultClasses, final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
         final Class<OnActivityResult> annotation = OnActivityResult.class;
         final Set<? extends Element> elements = environment.getElementsAnnotatedWith(annotation);
 
@@ -88,7 +125,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             }
 
             try {
-                if (element.getKind() != ElementKind.METHOD || !(element instanceof ExecutableElement)) {
+                if (!ElementUtils.isMethod(element)) {
                     throw new OnActivityResultProcessingException(element, "@%s annotation must be on a method", annotation.getSimpleName());
                 }
 
@@ -97,7 +134,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 this.checkFieldModifiers(executableElement, annotation, Modifier.PRIVATE, Modifier.STATIC);
                 this.checkRequestCode(executableElement);
 
-                final ParameterList parameters = this.getParameters(executableElement, annotation);
+                final ParameterList parameters = this.getParametersForMethod(executableElement, annotation, annotatedParameters);
                 final ActivityResultClass activityResultClass = this.getOrCreateActivityResultClassInstance(activityResultClasses, element);
                 final RequestCode requestCode = new RequestCode(executableElement.getAnnotation(annotation).requestCode());
                 activityResultClass.add(new MethodCall(executableElement, parameters), requestCode);
@@ -107,22 +144,21 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         }
     }
 
-    private ParameterList getParameters(final ExecutableElement executableElement, final Class<? extends Annotation> annotation) throws OnActivityResultProcessingException {
+    private ParameterList getParametersForMethod(final ExecutableElement executableElement, final Class<? extends Annotation> annotation, final AnnotatedMethodParameters annotatedParameters) throws OnActivityResultProcessingException {
         final List<? extends VariableElement> methodParameters = executableElement.getParameters();
+        final ParameterList parameters = new ParameterList();
 
         final int methodParametersSize = methodParameters.size();
 
-        if (methodParametersSize > MAX_ALLOWED_PARAMETERS) {
-            throw new OnActivityResultProcessingException(executableElement, "@%s methods can have at most %s parameter(s)", annotation.getSimpleName(), MAX_ALLOWED_PARAMETERS);
-        }
+        if (methodParametersSize > 0) {
+            for (final VariableElement methodParameter : methodParameters) {
+                final IntentData intentDataAnnotation = methodParameter.getAnnotation(IntentData.class);
 
-        final ParameterList parameters = new ParameterList(MAX_ALLOWED_PARAMETERS);
-
-        if (!methodParameters.isEmpty()) {
-            parameters.add(this.getParameterTypeFromVariableElement(methodParameters.get(0)));
-
-            if (methodParametersSize == MAX_ALLOWED_PARAMETERS) {
-                parameters.add(this.getParameterTypeFromVariableElement(methodParameters.get(1)));
+                if (intentDataAnnotation != null) {
+                    parameters.add(annotatedParameters.get(executableElement, IntentData.class));
+                } else {
+                    parameters.add(this.getParameterTypeFromVariableElement(methodParameter));
+                }
             }
 
             final boolean hasNotEnoughParameters = parameters.size() != methodParametersSize;
@@ -148,7 +184,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         return null;
     }
 
-    private void checkRequestCode(final Element element) throws OnActivityResultProcessingException {
+    private void checkRequestCode(final ExecutableElement element) throws OnActivityResultProcessingException {
         final OnActivityResult annotation = element.getAnnotation(OnActivityResult.class);
 
         if (annotation.requestCode() < 0) {

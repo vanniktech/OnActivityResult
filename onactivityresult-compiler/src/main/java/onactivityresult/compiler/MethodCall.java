@@ -1,7 +1,5 @@
 package onactivityresult.compiler;
 
-import java.util.Iterator;
-
 import javax.lang.model.element.ExecutableElement;
 
 final class MethodCall {
@@ -18,18 +16,10 @@ final class MethodCall {
     }
 
     String getParameters() {
-        final StringBuilder stringBuilder = new StringBuilder();
+        return parameters.toString();
+    }
 
-        final Iterator<Parameter> iterator = parameters.iterator();
-
-        if (iterator.hasNext()) {
-            do {
-                stringBuilder.append(iterator.next().getName()).append(", ");
-            } while (iterator.hasNext());
-
-            stringBuilder.setLength(stringBuilder.length() - 2);
-        }
-
-        return stringBuilder.toString();
+    boolean needsIntentData() {
+        return parameters.needsIntentData();
     }
 }

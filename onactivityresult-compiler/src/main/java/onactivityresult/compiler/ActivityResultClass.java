@@ -22,6 +22,7 @@ final class ActivityResultClass {
 
     private static final ClassName ACTIVITY_ON_RESULT = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName INTENT             = ClassName.get("android.content", "Intent");
+    private static final ClassName URI                = ClassName.get("android.net", "Uri");
 
     private final String classPackage;
     private final String className;
@@ -81,7 +82,14 @@ final class ActivityResultClass {
 
             final List<MethodCall> methodCallsForRequestCode = activityResultCalls.getMethodCallsForRequestCode(requestCode);
 
+            boolean hasAlreadyIntentData = false;
+
             for (final MethodCall methodCall : methodCallsForRequestCode) {
+                if (methodCall.needsIntentData() && !hasAlreadyIntentData) {
+                    result.addStatement("final $T $L = $L.getData()", URI, Parameter.INTENT_DATA, Parameter.INTENT);
+                    hasAlreadyIntentData = true;
+                }
+
                 final String methodName = methodCall.getMethodName();
                 result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodName, methodCall.getParameters());
             }

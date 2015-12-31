@@ -16,7 +16,7 @@ public class OnActivityResultProcessorTest {
         final Set<String> supportedAnnotationTypes = onActivityResultProcessor.getSupportedAnnotationTypes();
         final String[] strings = supportedAnnotationTypes.toArray(new String[supportedAnnotationTypes.size()]);
 
-        final String[] expected = new String[] { "onactivityresult.OnActivityResult" };
+        final String[] expected = new String[] { "onactivityresult.IntentData", "onactivityresult.OnActivityResult" };
         assertArrayEquals(expected, strings);
     }
 

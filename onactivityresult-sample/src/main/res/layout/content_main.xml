@@ -22,6 +22,13 @@
         tools:ignore="HardcodedText"/>
 
     <Button
+        android:id="@+id/start_activity_for_result_2_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Activity for result 2"
+        tools:ignore="HardcodedText"/>
+
+    <Button
         android:id="@+id/pick_image_from_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
