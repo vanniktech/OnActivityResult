@@ -10,12 +10,23 @@ import static org.junit.Assert.assertTrue;
 public class ParameterTest {
     @Test
     public void testCreateResultCode() {
-        assertEquals(Parameter.RESULT_CODE, Parameter.createResultCode().getName());
+        final Parameter parameter = Parameter.createResultCode();
+        assertEquals(Parameter.RESULT_CODE, parameter.getName());
+        assertEquals(false, parameter.isIntentData());
     }
 
     @Test
     public void testCreateIntent() {
-        assertEquals(Parameter.INTENT, Parameter.createIntent().getName());
+        final Parameter parameter = Parameter.createIntent();
+        assertEquals(Parameter.INTENT, parameter.getName());
+        assertEquals(false, parameter.isIntentData());
+    }
+
+    @Test
+    public void testCreateIntentData() {
+        final Parameter parameter = Parameter.createIntentData();
+        assertEquals(Parameter.INTENT_DATA, parameter.getName());
+        assertEquals(true, parameter.isIntentData());
     }
 
     @SuppressWarnings("EqualsBetweenInconvertibleTypes")
@@ -25,13 +36,19 @@ public class ParameterTest {
         assertTrue(Parameter.createResultCode().equals(Parameter.createResultCode()));
         assertFalse(Parameter.createIntent().equals(Parameter.createResultCode()));
         assertFalse(Parameter.createIntent().equals(Parameter.INTENT));
+        assertFalse(Parameter.createIntent().equals(Parameter.INTENT_DATA));
         assertFalse(Parameter.createResultCode().equals(Parameter.RESULT_CODE));
+        assertFalse(Parameter.createResultCode().equals(Parameter.INTENT_DATA));
     }
 
     @Test
     public void testHashCode() {
         assertEquals(Parameter.createIntent().hashCode(), Parameter.createIntent().hashCode());
         assertEquals(Parameter.createResultCode().hashCode(), Parameter.createResultCode().hashCode());
+        assertEquals(Parameter.createIntentData().hashCode(), Parameter.createIntentData().hashCode());
+
         assertNotEquals(Parameter.createIntent().hashCode(), Parameter.createResultCode().hashCode());
+        assertNotEquals(Parameter.createIntentData().hashCode(), Parameter.createResultCode().hashCode());
+        assertNotEquals(Parameter.createIntentData().hashCode(), Parameter.createIntent().hashCode());
     }
 }

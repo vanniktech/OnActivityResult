@@ -29,8 +29,8 @@ dependencies {
 ### Snapshots
 
 ```groovy
-compile 'com.vanniktech:onactivityresult:0.1.1-SNAPSHOT'
-apt 'com.vanniktech:onactivityresult-compiler:0.1.1-SNAPSHOT'
+compile 'com.vanniktech:onactivityresult:0.2.0-SNAPSHOT'
+apt 'com.vanniktech:onactivityresult-compiler:0.2.0-SNAPSHOT'
 ```
 
 Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
@@ -52,20 +52,31 @@ Annotate your methods and get the callback
 
 ```java
 @OnActivityResult(requestCode = 33)
-void onActivityResultTestActivity() {
-    Toast.makeText(this, "Got activity for result", Toast.LENGTH_SHORT).show();
-}
+void onActivityResultTestActivity() { /* Do something */ }
 
 @OnActivityResult(requestCode = 1)
-void onActivityResultTestActivity(final int resultCode) {
-    Toast.makeText(this, "Got activity for result " + resultCode, Toast.LENGTH_SHORT).show();
-}
+void onActivityResultTestActivity(final int resultCode) { /* Do something */ }
 
 @OnActivityResult(requestCode = 2)
-void onActivityResultPickImage(final int resultCode, final Intent intent) {
-    Toast.makeText(this, "Got image for result " + resultCode + " with intent " + intent, Toast.LENGTH_SHORT).show();
-}
+void onActivityResultPickImage(final int resultCode, final Intent intent) { /* Do something */ }
 ```
+
+Various parameters are supported:
+
+* `none`
+* `int`
+* `Intent`
+* `int, Intent`
+* `Intent, int`
+
+Where int parameters will get the resultCode and Intent parameters will get the Intent. Note: Each annotated method shall only have one int and / or Intent variable.
+
+In addition to that other parameter annotations are supported like:
+
+* [@IntentData]((onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java)) `Uri`
+
+See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/onactivityresult/sample/MainActivity.java
+).
 
 ## Advantages over [AfterMath](https://github.com/MichaelEvans/Aftermath)
 
@@ -74,6 +85,7 @@ void onActivityResultPickImage(final int resultCode, final Intent intent) {
 * The annotations are on mavenCentral
 * More detailed error messages
 * Almost 100% unit test coverage
+* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation
 
 ## Thanks
 
