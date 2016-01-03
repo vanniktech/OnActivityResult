@@ -3,4 +3,8 @@ apply plugin: 'java'
 targetCompatibility = rootProject.ext.javaVersion as JavaVersion
 sourceCompatibility = rootProject.ext.javaVersion as JavaVersion
 
+dependencies {
+    testCompile rootProject.ext.testing.junit
+}
+
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
