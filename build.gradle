@@ -107,7 +107,6 @@ subprojects { project ->
         final boolean isAndroidApp = project.plugins.hasPlugin('com.android.application')
         final boolean isAndroidPlugin = isAndroidLibrary || isAndroidApp
 
-        final String dependsOnTask = isAndroidPlugin ? "assembleDebug" : "assemble"
         final String findbugsClassesPath = isAndroidPlugin ? 'build/intermediates/classes/debug/' : 'build/classes/main/'
 
         project.plugins.apply('findbugs')
@@ -121,7 +120,7 @@ subprojects { project ->
             excludeFilter = rootProject.file("code_quality_tools/findbugs-filter.xml")
         }
 
-        project.task("findbugs", type: FindBugs, dependsOn: dependsOnTask) {
+        project.task("findbugs", type: FindBugs) {
             description 'Run findbugs'
             group 'verification'
 
@@ -142,7 +141,7 @@ subprojects { project ->
             ignoreFailures = false
         }
 
-        project.task("pmd", type: Pmd, dependsOn: dependsOnTask) {
+        project.task("pmd", type: Pmd) {
             description 'Run pmd'
             group 'verification'
 
