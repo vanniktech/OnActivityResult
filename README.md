@@ -85,6 +85,7 @@ See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/
 * The annotations are on mavenCentral
 * More detailed error messages
 * Almost 100% unit test coverage
+* Inheritance support
 * [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation
 
 ## Thanks
