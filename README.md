@@ -92,7 +92,7 @@ See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/
 
 [Thanks to JakeWharton's ButterKnife](https://github.com/JakeWharton/butterknife)
 
-[Thanks to Hannes Dorfmann's Annotation Processing 101](hannesdorfmann.com/annotation-processing/annotationprocessing101/)
+[Thanks to Hannes Dorfmann's Annotation Processing 101](http://hannesdorfmann.com/annotation-processing/annotationprocessing101/)
 
 # License
 
