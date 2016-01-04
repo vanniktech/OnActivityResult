@@ -55,7 +55,7 @@ ext {
             mockito           : 'org.mockito:mockito-core:2.0.31-beta',
             robolectric       : 'org.robolectric:robolectric:3.0',
             reflections       : 'org.reflections:reflections:0.9.10',
-            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.1.0',
+            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0',
             robolectricExludes: [
                     'commons-logging', 'httpclient'
             ]

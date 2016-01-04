@@ -36,9 +36,14 @@ import static javax.tools.Diagnostic.Kind.ERROR;
 
 @AutoService(Processor.class)
 public class OnActivityResultProcessor extends AbstractProcessor {
-    static final String         ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
-    private static final String FQN_ANDROID_INTENT           = "android.content.Intent";
-    private static final String FQN_ANDROID_URI              = "android.net.Uri";
+    static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
+
+    private static final String FQN_ANDROID_INTENT = "android.content.Intent";
+    private static final String FQN_ANDROID_URI    = "android.net.Uri";
+
+    private static final int RESULT_CANCELED   = 0;
+    private static final int RESULT_OK         = -1;
+    private static final int RESULT_FIRST_USER = 1;
 
     private Filer    filer;
     private Elements elementUtils;
@@ -101,7 +106,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             try {
                 final Element enclosingElement = intentData.getEnclosingElement();
 
-                if (!ElementUtils.isParameter(intentData)) {
+                if (!Utils.isParameter(intentData)) {
                     throw new OnActivityResultProcessingException(enclosingElement, "@%s annotation must be on a method parameter", annotation.getSimpleName());
                 } else if (!intentData.asType().toString().equals(FQN_ANDROID_URI)) {
                     throw new OnActivityResultProcessingException(enclosingElement, "@%s parameters must be of type %s", annotation.getSimpleName(), FQN_ANDROID_URI);
@@ -125,19 +130,21 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             }
 
             try {
-                if (!ElementUtils.isMethod(element)) {
+                if (!Utils.isMethod(element)) {
                     throw new OnActivityResultProcessingException(element, "@%s annotation must be on a method", annotation.getSimpleName());
                 }
 
                 final ExecutableElement executableElement = (ExecutableElement) element;
 
                 this.checkFieldModifiers(executableElement, annotation, Modifier.PRIVATE, Modifier.STATIC);
-                this.checkRequestCode(executableElement);
+                this.checkAnnotationMethods(executableElement);
 
                 final ParameterList parameters = this.getParametersForMethod(executableElement, annotation, annotatedParameters);
                 final ActivityResultClass activityResultClass = this.getOrCreateActivityResultClassInstance(activityResultClasses, element);
-                final RequestCode requestCode = new RequestCode(executableElement.getAnnotation(annotation).requestCode());
-                activityResultClass.add(new MethodCall(executableElement, parameters), requestCode);
+                final OnActivityResult onActivityResult = executableElement.getAnnotation(annotation);
+                final RequestCode requestCode = new RequestCode(onActivityResult.requestCode());
+                final int[] resultCodes = onActivityResult.resultCodes();
+                activityResultClass.add(new MethodCall(executableElement, parameters, resultCodes), requestCode);
             } catch (final OnActivityResultProcessingException error) {
                 error.printError(processingEnv);
             }
@@ -184,11 +191,26 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         return null;
     }
 
-    private void checkRequestCode(final ExecutableElement element) throws OnActivityResultProcessingException {
+    private void checkAnnotationMethods(final ExecutableElement element) throws OnActivityResultProcessingException {
         final OnActivityResult annotation = element.getAnnotation(OnActivityResult.class);
 
         if (annotation.requestCode() < 0) {
             throw new OnActivityResultProcessingException(element, "RequestCodes must be >= 0");
+        }
+
+        final int[] filterResultCodes = annotation.resultCodes();
+        final Set<Integer> set = new HashSet<>(filterResultCodes.length);
+
+        for (final int filterResultCode : filterResultCodes) {
+            if (filterResultCode != RESULT_CANCELED && filterResultCode != RESULT_FIRST_USER && filterResultCode != RESULT_OK) {
+                throw new OnActivityResultProcessingException(element, "Invalid resultCode %s", filterResultCode);
+            }
+
+            if (set.contains(filterResultCode)) {
+                throw new OnActivityResultProcessingException(element, "Duplicate resultCode %s", filterResultCode);
+            } else {
+                set.add(filterResultCode);
+            }
         }
     }
 
@@ -199,7 +221,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
         if (cachedActivityResultClass == null) {
             final String packageName = this.getPackageName(enclosingElement);
-            final String className = this.getClassName(enclosingElement, packageName);
+            final String className = Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX;
 
             final ActivityResultClass activityResultClass = new ActivityResultClass(packageName, className, targetType);
 
@@ -214,11 +236,6 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         }
 
         return cachedActivityResultClass;
-    }
-
-    private String getClassName(final TypeElement type, final String packageName) {
-        final int packageLen = packageName.length() + 1;
-        return type.getQualifiedName().toString().substring(packageLen).replace('.', '$') + ACTIVITY_RESULT_CLASS_SUFFIX;
     }
 
     private String findParent(final TypeElement typeElement, final Map<String, ActivityResultClass> activityResultClasses) {
@@ -237,7 +254,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
             if (activityResultClasses.containsKey(currentTypeElement.toString())) {
                 final String packageName = this.getPackageName(currentTypeElement);
-                return packageName + '.' + this.getClassName(currentTypeElement, packageName);
+                return packageName + '.' + Utils.getClassName(currentTypeElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX;
             }
         }
     }

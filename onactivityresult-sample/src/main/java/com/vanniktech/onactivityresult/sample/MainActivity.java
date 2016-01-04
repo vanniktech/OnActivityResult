@@ -1,5 +1,6 @@
 package com.vanniktech.onactivityresult.sample;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,9 +59,14 @@ public class MainActivity extends AppCompatActivity {
         this.startActivityForResult(chooserIntent, REQUEST_CODE_PICK_IMAGE);
     }
 
-    @OnActivityResult(requestCode = REQUEST_CODE_TEST_ACTIVITY)
-    void onActivityResultTestActivity(final int resultCode) {
-        Toast.makeText(this, "Got activity for result " + resultCode, Toast.LENGTH_SHORT).show();
+    @OnActivityResult(requestCode = REQUEST_CODE_TEST_ACTIVITY, resultCodes = { Activity.RESULT_OK })
+    void onActivityResultTestActivityOk() {
+        Toast.makeText(this, "Got activity for result ok", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnActivityResult(requestCode = REQUEST_CODE_TEST_ACTIVITY, resultCodes = { Activity.RESULT_CANCELED })
+    void onActivityResultTestActivityCanceled() {
+        Toast.makeText(this, "Got activity for result canceled", Toast.LENGTH_SHORT).show();
     }
 
     @OnActivityResult(requestCode = REQUEST_CODE_TEST_2_ACTIVITY)
