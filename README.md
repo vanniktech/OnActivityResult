@@ -54,8 +54,11 @@ Annotate your methods and get the callback
 @OnActivityResult(requestCode = 33)
 void onActivityResultTestActivity() { /* Do something */ }
 
-@OnActivityResult(requestCode = 1)
-void onActivityResultTestActivity(final int resultCode) { /* Do something */ }
+@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_OK })
+void onActivityResultActivityOk() { /* Only do something when ok */ }
+
+@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_CANCELED })
+void onActivityResultActivityCanceled() { /* Only do something when canceled */ }
 
 @OnActivityResult(requestCode = 2)
 void onActivityResultPickImage(final int resultCode, final Intent intent) { /* Do something */ }
@@ -73,7 +76,7 @@ Where int parameters will get the resultCode and Intent parameters will get the 
 
 In addition to that other parameter annotations are supported like:
 
-* [@IntentData]((onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java)) `Uri`
+* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) `Uri uri`. Since 0.2.0
 
 See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/onactivityresult/sample/MainActivity.java
 ).
@@ -86,7 +89,8 @@ See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/
 * More detailed error messages
 * Almost 100% unit test coverage
 * Inheritance support
-* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation
+* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation. Since 0.2.0
+* Specify resultCodes with e.g. `resultCodes = { Activity.RESULT_OK }`. Since 0.2.0
 
 ## Thanks
 

@@ -1,5 +1,7 @@
 package onactivityresult.compiler;
 
+import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -8,6 +10,11 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ParameterTest {
+    @Test
+    public void testConstructorConfirmsParameters() {
+        PrivateConstructorChecker.forClass(Parameter.class).expectedWithParameters(String.class, boolean.class).check();
+    }
+
     @Test
     public void testCreateResultCode() {
         final Parameter parameter = Parameter.createResultCode();

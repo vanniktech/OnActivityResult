@@ -39,8 +39,17 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 public @interface OnActivityResult {
     /**
-     * @return requestCode that should be <code>>= 0</code>
+     * @return requestCode that should be <code>>= 0</code><br>
+     *         Upon receiving the requestCode the method will be called
      * @since 0.1.0
      */
     int requestCode();
+
+    /**
+     * @return result codes that should be either {@link android.app.Activity#RESULT_CANCELED}, {@link android.app.Activity#RESULT_OK} or {@link android.app.Activity#RESULT_FIRST_USER}.<br>
+     *         Only upon receiving the the given resultCodes the method will be called.<br>
+     *         Default behaviour is that for all resultCodes the method will be called.
+     * @since 0.2.0
+     */
+    int[] resultCodes() default {};
 }

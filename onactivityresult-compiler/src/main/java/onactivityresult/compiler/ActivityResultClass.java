@@ -7,6 +7,8 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,6 +25,15 @@ final class ActivityResultClass {
     private static final ClassName ACTIVITY_ON_RESULT = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName INTENT             = ClassName.get("android.content", "Intent");
     private static final ClassName URI                = ClassName.get("android.net", "Uri");
+
+    private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR = new Comparator<MethodCall>() {
+        @Override
+        public int compare(final MethodCall lhs, final MethodCall rhs) {
+            final int[] lhsResultCodes = lhs.getResultCodes();
+            final int[] rhsResultCodes = rhs.getResultCodes();
+            return Integer.compare(rhsResultCodes.length, lhsResultCodes.length);
+        }
+    };
 
     private final String classPackage;
     private final String className;
@@ -80,25 +91,81 @@ final class ActivityResultClass {
                 result.nextControlFlow("else if ($L == $L)", REQUEST_CODE_PARAMETER_NAME, requestCode.requestCode);
             }
 
-            final List<MethodCall> methodCallsForRequestCode = activityResultCalls.getMethodCallsForRequestCode(requestCode);
-
-            boolean hasAlreadyIntentData = false;
-
-            for (final MethodCall methodCall : methodCallsForRequestCode) {
-                if (methodCall.needsIntentData() && !hasAlreadyIntentData) {
-                    result.addStatement("final $T $L = $L.getData()", URI, Parameter.INTENT_DATA, Parameter.INTENT);
-                    hasAlreadyIntentData = true;
-                }
-
-                final String methodName = methodCall.getMethodName();
-                result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodName, methodCall.getParameters());
-            }
+            final List<MethodCall> methodCallsForRequestCode = this.getSortedMethodCallsFor(requestCode);
+            this.addMethodCalls(result, methodCallsForRequestCode);
         }
 
         result.endControlFlow();
 
         return result.build();
+    }
 
+    private List<MethodCall> getSortedMethodCallsFor(final RequestCode requestCode) {
+        final List<MethodCall> methodCallsForRequestCode = activityResultCalls.getMethodCallsForRequestCode(requestCode);
+        Collections.sort(methodCallsForRequestCode, METHOD_CALL_COMPARATOR);
+        return methodCallsForRequestCode;
+    }
+
+    private void addMethodCalls(final MethodSpec.Builder result, final List<MethodCall> methodCalls) {
+        boolean hasAlreadyIntentData = false;
+        boolean isFirstResultCodeIfStatement = true;
+
+        for (int i = 0; i < methodCalls.size(); i++) {
+            final MethodCall methodCall = methodCalls.get(i);
+            final int[] resultCodes = methodCall.getResultCodes();
+            final boolean hasResultCodeFilter = resultCodes.length > 0;
+
+            final boolean isMethodCallWithoutResultCodeAfterMethodCallWithResultCode = !hasResultCodeFilter && !isFirstResultCodeIfStatement;
+
+            if (isMethodCallWithoutResultCodeAfterMethodCallWithResultCode) {
+                result.endControlFlow();
+                hasAlreadyIntentData = false;
+            }
+
+            if (hasResultCodeFilter) {
+                final String ifExpression = this.getIfExpression(resultCodes);
+
+                if (isFirstResultCodeIfStatement) {
+                    result.beginControlFlow("if ($L)", ifExpression);
+                    isFirstResultCodeIfStatement = false;
+                } else {
+                    result.nextControlFlow("else if ($L)", ifExpression);
+                }
+
+                hasAlreadyIntentData = false;
+            }
+
+            if (methodCall.needsIntentData() && !hasAlreadyIntentData) {
+                result.addStatement("final $T $L = $L.getData()", URI, Parameter.INTENT_DATA, Parameter.INTENT);
+                hasAlreadyIntentData = true;
+            }
+
+            final String methodName = methodCall.getMethodName();
+            result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodName, methodCall.getParameters());
+
+            final boolean isLast = i + 1 == methodCalls.size();
+
+            if (isLast && !isMethodCallWithoutResultCodeAfterMethodCallWithResultCode && !isFirstResultCodeIfStatement) {
+                result.endControlFlow();
+            }
+        }
+    }
+
+    private String getIfExpression(final int... resultCodes) {
+        final StringBuilder sb = new StringBuilder();
+
+        if (resultCodes.length > 0) {
+            final String equals = " == ";
+            final String or = " || ";
+
+            for (final int resultCode : resultCodes) {
+                sb.append(Parameter.RESULT_CODE).append(equals).append(resultCode).append(or);
+            }
+
+            sb.setLength(sb.length() - or.length());
+        }
+
+        return sb.toString();
     }
 
     void setSuperActivityResultClass(final String superActivityResultClass) {

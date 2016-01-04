@@ -113,5 +113,4 @@ public class OnActivityResultModifierTest {
 
         assertThatSucceeds(source);
     }
-
 }
