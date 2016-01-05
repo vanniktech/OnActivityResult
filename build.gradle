@@ -34,9 +34,6 @@ ext {
 
     supportLibraryVersion = '23.1.1'
 
-    junit = 'junit:junit:4.12'
-    robolectric = 'org.robolectric:robolectric:3.0'
-
     supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
     supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
     supportDesign = "com.android.support:design:$supportLibraryVersion"
