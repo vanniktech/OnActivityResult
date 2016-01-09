@@ -1,15 +1,13 @@
 package onactivityresult.compiler;
 
-import java.util.Arrays;
-
 import javax.lang.model.element.ExecutableElement;
 
 final class MethodCall {
     private final ParameterList     parameters;
     private final ExecutableElement method;
-    private final int[]             resultCodes;
+    private final ResultCodes       resultCodes;
 
-    MethodCall(final ExecutableElement method, final ParameterList parameters, final int... resultCodes) {
+    MethodCall(final ExecutableElement method, final ParameterList parameters, final ResultCodes resultCodes) {
         this.method = method;
         this.parameters = parameters;
         this.resultCodes = resultCodes;
@@ -31,7 +29,7 @@ final class MethodCall {
         return parameters.getIntentDataPrecondition();
     }
 
-    int[] getResultCodes() {
-        return Arrays.copyOf(resultCodes, resultCodes.length);
+    ResultCodes getResultCodes() {
+        return resultCodes;
     }
 }

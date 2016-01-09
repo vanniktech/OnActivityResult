@@ -44,6 +44,9 @@ public class OnActivityResultComplexScenarioTest {
                     "@OnActivityResult(requestCode = 8, resultCodes = { 0 }) public void eight(@IntentData final Uri uri) {}",
                     "@OnActivityResult(requestCode = 8, resultCodes = { 1 }) public void eight(final Intent intent, @IntentData final Uri uri) {}",
                     "@OnActivityResult(requestCode = 8) public void eight(final Intent intent, final int resultCode, @Nullable @IntentData final Uri uri) {}",
+
+                    "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri, final Intent intent) {}",
+                    "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri) {}",
                 "}")
         );
         //@formatter:on
@@ -63,11 +66,11 @@ public class OnActivityResultComplexScenarioTest {
                     "@Override",
                     "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
                         "if (requestCode == 3) {",
-                            "if (resultCode == -1 || resultCode == 0) {",
-                                "final Uri intentData = IntentHelper.getIntentData(intent);",
-                                "t.three(intent, intentData);",
-                            "} else if (resultCode == 1) {",
+                            "if (resultCode == 1) {",
                                 "t.three(intent);",
+                            "} else if (resultCode == -1 || resultCode == 0) {",
+                                " final Uri intentData = IntentHelper.getIntentData(intent);",
+                                "t.three(intent, intentData);",
                             "}",
                         "} else if (requestCode == 5) {",
                             "if (resultCode == -1) {",
@@ -91,12 +94,12 @@ public class OnActivityResultComplexScenarioTest {
                             "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                             "t.sixA(intentDataNullable);",
                         "} else if (requestCode == 7) {",
-                            "if (resultCode == 1) {",
-                                "final Uri intentData = IntentHelper.getIntentData(intent);",
-                                "t.seven(intent, intentData);",
-                            "} else if (resultCode == -1) {",
+                            "if (resultCode == -1) {",
                                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                                 "t.seven(intentData);",
+                            "} else if (resultCode == 1) {",
+                                "final Uri intentData = IntentHelper.getIntentData(intent);",
+                                "t.seven(intent, intentData);",
                             "}",
 
                             "final Uri intentData = IntentHelper.getIntentData(intent);",
@@ -112,6 +115,12 @@ public class OnActivityResultComplexScenarioTest {
 
                             "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                             "t.eight(intent, resultCode, intentDataNullable);",
+                        "} else if (requestCode == 9) {",
+                            "if (resultCode == 1) {",
+                                "final Uri intentData = IntentHelper.getIntentData(intent);",
+                                "t.nine(intentData, intent);",
+                                "t.nine(intentData);",
+                            "}",
                         "}",
                     "}",
                 "}")

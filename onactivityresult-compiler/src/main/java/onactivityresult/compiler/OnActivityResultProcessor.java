@@ -144,7 +144,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 final ActivityResultClass activityResultClass = this.getOrCreateActivityResultClassInstance(activityResultClasses, element);
                 final OnActivityResult onActivityResult = executableElement.getAnnotation(annotation);
                 final RequestCode requestCode = new RequestCode(onActivityResult.requestCode());
-                final int[] resultCodes = onActivityResult.resultCodes();
+                final ResultCodes resultCodes = new ResultCodes(onActivityResult.resultCodes());
                 activityResultClass.add(new MethodCall(executableElement, parameters, resultCodes), requestCode);
             } catch (final OnActivityResultProcessingException error) {
                 error.printError(processingEnv);

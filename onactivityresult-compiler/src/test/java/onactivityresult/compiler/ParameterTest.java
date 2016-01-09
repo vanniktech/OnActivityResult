@@ -44,6 +44,7 @@ public class ParameterTest {
     public void testEquals() {
         assertTrue(Parameter.createIntent().equals(Parameter.createIntent()));
         assertTrue(Parameter.createResultCode().equals(Parameter.createResultCode()));
+
         assertFalse(Parameter.createIntent().equals(Parameter.createResultCode()));
         assertFalse(Parameter.createIntent().equals(Parameter.INTENT));
         assertFalse(Parameter.createIntent().equals(Parameter.INTENT_DATA));
