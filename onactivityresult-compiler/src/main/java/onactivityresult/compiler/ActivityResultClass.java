@@ -3,12 +3,15 @@ package onactivityresult.compiler;
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -32,9 +35,7 @@ final class ActivityResultClass {
     private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR = new Comparator<MethodCall>() {
         @Override
         public int compare(final MethodCall lhs, final MethodCall rhs) {
-            final int[] lhsResultCodes = lhs.getResultCodes();
-            final int[] rhsResultCodes = rhs.getResultCodes();
-            return Integer.compare(rhsResultCodes.length, lhsResultCodes.length);
+            return lhs.getResultCodes().compareTo(rhs.getResultCodes());
         }
     };
 
@@ -94,7 +95,7 @@ final class ActivityResultClass {
                 result.nextControlFlow("else if ($L == $L)", REQUEST_CODE_PARAMETER_NAME, requestCode.requestCode);
             }
 
-            final List<MethodCall> methodCallsForRequestCode = this.getSortedMethodCallsFor(requestCode);
+            final Map<ResultCodes, List<MethodCall>> methodCallsForRequestCode = this.getSortedMethodCallsGroupedByResultCodesFor(requestCode);
             this.addMethodCalls(result, methodCallsForRequestCode);
         }
 
@@ -103,20 +104,42 @@ final class ActivityResultClass {
         return result.build();
     }
 
-    private List<MethodCall> getSortedMethodCallsFor(final RequestCode requestCode) {
+    private Map<ResultCodes, List<MethodCall>> getSortedMethodCallsGroupedByResultCodesFor(final RequestCode requestCode) {
         final List<MethodCall> methodCallsForRequestCode = activityResultCalls.getMethodCallsForRequestCode(requestCode);
         Collections.sort(methodCallsForRequestCode, METHOD_CALL_COMPARATOR);
-        return methodCallsForRequestCode;
+
+        final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes = new TreeMap<>();
+
+        for (final MethodCall methodCall : methodCallsForRequestCode) {
+            final ResultCodes resultCodes = methodCall.getResultCodes();
+
+            final List<MethodCall> methodCalls = sortedMethodCallsGroupedByResultCodes.get(resultCodes);
+
+            if (methodCalls != null) {
+                methodCalls.add(methodCall);
+            } else {
+                final List<MethodCall> methodCallList = new ArrayList<>();
+                methodCallList.add(methodCall);
+                sortedMethodCallsGroupedByResultCodes.put(resultCodes, methodCallList);
+            }
+        }
+
+        return sortedMethodCallsGroupedByResultCodes;
     }
 
-    private void addMethodCalls(final MethodSpec.Builder result, final List<MethodCall> methodCalls) {
+    private void addMethodCalls(final MethodSpec.Builder result, final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes) {
         final Map<Parameter.PreCondition, Boolean> appliedIntentDatas = new HashMap<>();
         boolean isFirstResultCodeIfStatement = true;
 
-        for (int i = 0; i < methodCalls.size(); i++) {
-            final MethodCall methodCall = methodCalls.get(i);
-            final int[] resultCodes = methodCall.getResultCodes();
-            final boolean hasResultCodeFilter = resultCodes.length > 0;
+        final Iterator<Map.Entry<ResultCodes, List<MethodCall>>> it = sortedMethodCallsGroupedByResultCodes.entrySet().iterator();
+
+        while (it.hasNext()) {
+            final Map.Entry<ResultCodes, List<MethodCall>> resultCodesListEntry = it.next();
+
+            final ResultCodes resultCodes = resultCodesListEntry.getKey();
+            final List<MethodCall> methodCalls = resultCodesListEntry.getValue();
+
+            final boolean hasResultCodeFilter = resultCodes.size() > 0;
 
             final boolean isMethodCallWithoutResultCodeAfterMethodCallWithResultCode = !hasResultCodeFilter && !isFirstResultCodeIfStatement;
 
@@ -126,7 +149,7 @@ final class ActivityResultClass {
             }
 
             if (hasResultCodeFilter) {
-                final String ifExpression = this.getIfExpression(resultCodes);
+                final String ifExpression = resultCodes.getIfExpression();
 
                 if (isFirstResultCodeIfStatement) {
                     result.beginControlFlow("if ($L)", ifExpression);
@@ -138,41 +161,26 @@ final class ActivityResultClass {
                 appliedIntentDatas.clear();
             }
 
-            final Parameter.PreCondition intentDataPrecondition = methodCall.getIntentDataPrecondition();
-            final boolean hasPrecondition = Boolean.TRUE.equals(appliedIntentDatas.get(intentDataPrecondition));
+            for (final MethodCall methodCall : methodCalls) {
+                final Parameter.PreCondition intentDataPrecondition = methodCall.getIntentDataPrecondition();
+                final boolean hasPrecondition = Boolean.TRUE.equals(appliedIntentDatas.get(intentDataPrecondition));
 
-            if (methodCall.needsIntentData() && !hasPrecondition) {
-                final String suffix = intentDataPrecondition.getSuffix();
-                result.addStatement("final $1T $2L$3L = $4T.getIntentData$3L($5L)", URI, Parameter.INTENT_DATA, suffix, INTENT_HELPER, Parameter.INTENT);
-                appliedIntentDatas.put(methodCall.getIntentDataPrecondition(), true);
+                if (methodCall.needsIntentData() && !hasPrecondition) {
+                    final String suffix = intentDataPrecondition.getSuffix();
+                    result.addStatement("final $1T $2L$3L = $4T.getIntentData$3L($5L)", URI, Parameter.INTENT_DATA, suffix, INTENT_HELPER, Parameter.INTENT);
+                    appliedIntentDatas.put(methodCall.getIntentDataPrecondition(), true);
+                }
+
+                final String methodName = methodCall.getMethodName();
+                result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodName, methodCall.getParameters());
             }
 
-            final String methodName = methodCall.getMethodName();
-            result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodName, methodCall.getParameters());
-
-            final boolean isLast = i + 1 == methodCalls.size();
+            final boolean isLast = !it.hasNext();
 
             if (isLast && !isMethodCallWithoutResultCodeAfterMethodCallWithResultCode && !isFirstResultCodeIfStatement) {
                 result.endControlFlow();
             }
         }
-    }
-
-    private String getIfExpression(final int... resultCodes) {
-        final StringBuilder sb = new StringBuilder();
-
-        if (resultCodes.length > 0) {
-            final String equals = " == ";
-            final String or = " || ";
-
-            for (final int resultCode : resultCodes) {
-                sb.append(Parameter.RESULT_CODE).append(equals).append(resultCode).append(or);
-            }
-
-            sb.setLength(sb.length() - or.length());
-        }
-
-        return sb.toString();
     }
 
     void setSuperActivityResultClass(final String superActivityResultClass) {
