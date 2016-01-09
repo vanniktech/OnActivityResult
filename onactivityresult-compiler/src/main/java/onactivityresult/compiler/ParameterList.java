@@ -8,7 +8,9 @@ import java.util.Set;
 
 final class ParameterList {
     private final Collection<Parameter> list;
-    private boolean                     needsIntentData;
+
+    private boolean                needsIntentData;
+    private Parameter.PreCondition intentDataPrecondition;
 
     ParameterList() {
         list = new ArrayList<>();
@@ -20,6 +22,7 @@ final class ParameterList {
 
             if (parameter.isIntentData()) {
                 needsIntentData = true;
+                intentDataPrecondition = parameter.getPreCondition();
             }
         }
     }
@@ -52,5 +55,9 @@ final class ParameterList {
 
     boolean needsIntentData() {
         return needsIntentData;
+    }
+
+    public Parameter.PreCondition getIntentDataPrecondition() {
+        return intentDataPrecondition;
     }
 }

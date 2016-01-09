@@ -17,6 +17,7 @@ dependencies {
     testCompile rootProject.ext.testing.mockito
     testCompile rootProject.ext.google.compiletesting
     testCompile rootProject.ext.testing.privateConstructor
+    testCompile rootProject.ext.intellijAnnotations
     testCompile files(Jvm.current().getToolsJar())
 }
 

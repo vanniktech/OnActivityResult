@@ -17,7 +17,16 @@ import java.lang.annotation.Target;
  *     }
  * </code>
  * </p>
- * 
+ * <br>
+ * If any annotation with the name Nullable (e.g. google's support annotation or IntelliJs annotation) is applied on this parameter,<br>
+ * it'll check the {@link android.content.Intent} for non null first and then try to get the intent data.<br>
+ * If the intent or the data is null, null will be returned.
+ * <br>
+ * <br>
+ * If any annotation with the name NotNull or NonNull (e.g. google's support annotation or IntelliJs annotation) is applied on this parameter,<br>
+ * it'll check the {@link android.content.Intent} for non null first and then check that the intent data is also not null.<br>
+ * If the intent or the data is null an exception will be thrown.
+ *
  * @since 0.2.0
  */
 @Retention(CLASS)

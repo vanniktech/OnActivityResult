@@ -27,6 +27,10 @@ final class MethodCall {
         return parameters.needsIntentData();
     }
 
+    Parameter.PreCondition getIntentDataPrecondition() {
+        return parameters.getIntentDataPrecondition();
+    }
+
     int[] getResultCodes() {
         return Arrays.copyOf(resultCodes, resultCodes.length);
     }

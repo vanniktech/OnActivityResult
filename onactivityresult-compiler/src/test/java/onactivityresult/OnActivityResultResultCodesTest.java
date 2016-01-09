@@ -170,6 +170,7 @@ public class OnActivityResultResultCodesTest {
                 "import android.content.Intent;",
                 "import android.net.Uri;",
                 "import java.lang.Override;",
+                "import onactivityresult.IntentHelper;",
                 "import onactivityresult.internal.IOnActivityResult;",
 
                 "public class TestActivity$$OnActivityResult<T extends TestActivity> implements IOnActivityResult<T> {",
@@ -177,11 +178,11 @@ public class OnActivityResultResultCodesTest {
                     "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
                         "if (requestCode == 4) {",
                             "if (resultCode == 1) {",
-                                "final Uri intentData = intent.getData();",
+                                "final Uri intentData = IntentHelper.getIntentData(intent);",
                                 "t.bar(intent, intentData);",
                             "}",
-        
-                            "final Uri intentData = intent.getData();",
+
+                            "final Uri intentData = IntentHelper.getIntentData(intent);",
                             "t.foo(intent, resultCode, intentData);",
                         "}",
                     "}",

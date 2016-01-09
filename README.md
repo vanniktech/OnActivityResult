@@ -89,7 +89,7 @@ See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/
 * More detailed error messages
 * Almost 100% unit test coverage
 * Inheritance support
-* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation. Since 0.2.0
+* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation with @NonNull & @Nullable support. Since 0.2.0
 * Specify resultCodes with e.g. `resultCodes = { Activity.RESULT_OK }`. Since 0.2.0
 
 ## Thanks
