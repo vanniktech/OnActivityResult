@@ -1,9 +1,6 @@
 package onactivityresult.compiler;
 
-import com.google.auto.common.SuperficialValidation;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeVariableName;
+import static javax.tools.Diagnostic.Kind.ERROR;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -32,9 +29,13 @@ import javax.lang.model.util.Elements;
 import onactivityresult.IntentData;
 import onactivityresult.OnActivityResult;
 
-import static javax.tools.Diagnostic.Kind.ERROR;
+import com.google.auto.common.SuperficialValidation;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeVariableName;
 
 @AutoService(Processor.class)
+@SuppressWarnings("PMD.GodClass")
 public class OnActivityResultProcessor extends AbstractProcessor {
     static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
 
@@ -162,7 +163,12 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 final IntentData intentDataAnnotation = methodParameter.getAnnotation(IntentData.class);
 
                 if (intentDataAnnotation != null) {
-                    parameters.add(annotatedParameters.get(executableElement, IntentData.class));
+                    final Parameter parameter = annotatedParameters.get(executableElement, IntentData.class);
+
+                    if (parameter != null) {
+                        parameter.setPreCondition(Parameter.PreCondition.from(methodParameter.getAnnotationMirrors()));
+                        parameters.add(parameter);
+                    }
                 } else {
                     parameters.add(this.getParameterTypeFromVariableElement(methodParameter));
                 }

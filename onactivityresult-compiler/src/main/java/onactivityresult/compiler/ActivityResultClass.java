@@ -1,19 +1,21 @@
 package onactivityresult.compiler;
 
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.PUBLIC;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-
-import static javax.lang.model.element.Modifier.FINAL;
-import static javax.lang.model.element.Modifier.PUBLIC;
 
 final class ActivityResultClass {
     private static final String TARGET_VARIABLE_NAME = "t";
@@ -25,6 +27,7 @@ final class ActivityResultClass {
     private static final ClassName ACTIVITY_ON_RESULT = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName INTENT             = ClassName.get("android.content", "Intent");
     private static final ClassName URI                = ClassName.get("android.net", "Uri");
+    private static final ClassName INTENT_HELPER      = ClassName.get("onactivityresult", "IntentHelper");
 
     private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR = new Comparator<MethodCall>() {
         @Override
@@ -107,7 +110,7 @@ final class ActivityResultClass {
     }
 
     private void addMethodCalls(final MethodSpec.Builder result, final List<MethodCall> methodCalls) {
-        boolean hasAlreadyIntentData = false;
+        final Map<Parameter.PreCondition, Boolean> appliedIntentDatas = new HashMap<>();
         boolean isFirstResultCodeIfStatement = true;
 
         for (int i = 0; i < methodCalls.size(); i++) {
@@ -119,7 +122,7 @@ final class ActivityResultClass {
 
             if (isMethodCallWithoutResultCodeAfterMethodCallWithResultCode) {
                 result.endControlFlow();
-                hasAlreadyIntentData = false;
+                appliedIntentDatas.clear();
             }
 
             if (hasResultCodeFilter) {
@@ -132,12 +135,16 @@ final class ActivityResultClass {
                     result.nextControlFlow("else if ($L)", ifExpression);
                 }
 
-                hasAlreadyIntentData = false;
+                appliedIntentDatas.clear();
             }
 
-            if (methodCall.needsIntentData() && !hasAlreadyIntentData) {
-                result.addStatement("final $T $L = $L.getData()", URI, Parameter.INTENT_DATA, Parameter.INTENT);
-                hasAlreadyIntentData = true;
+            final Parameter.PreCondition intentDataPrecondition = methodCall.getIntentDataPrecondition();
+            final boolean hasPrecondition = Boolean.TRUE.equals(appliedIntentDatas.get(intentDataPrecondition));
+
+            if (methodCall.needsIntentData() && !hasPrecondition) {
+                final String suffix = intentDataPrecondition.getSuffix();
+                result.addStatement("final $1T $2L$3L = $4T.getIntentData$3L($5L)", URI, Parameter.INTENT_DATA, suffix, INTENT_HELPER, Parameter.INTENT);
+                appliedIntentDatas.put(methodCall.getIntentDataPrecondition(), true);
             }
 
             final String methodName = methodCall.getMethodName();

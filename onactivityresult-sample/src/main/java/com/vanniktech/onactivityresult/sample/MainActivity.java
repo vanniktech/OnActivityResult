@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnActivityResult(requestCode = REQUEST_CODE_PICK_IMAGE)
-    void onActivityResultPickImage(final int resultCode, final Intent intent, @IntentData final Uri uri) {
+    void onActivityResultPickImage(final int resultCode, final Intent intent, @Nullable @IntentData final Uri uri) {
         Toast.makeText(this, "Got image for result " + resultCode + " with intent " + intent + " and uri " + uri, Toast.LENGTH_SHORT).show();
     }
 }
