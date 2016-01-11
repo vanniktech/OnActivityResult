@@ -1,4 +1,5 @@
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.vanniktech.code.quality.tools'
 
 buildscript {
     repositories {
@@ -10,6 +11,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
         classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+        classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.1.0'
     }
 }
 
@@ -75,95 +77,12 @@ subprojects { project ->
         mavenCentral()
     }
 
-    project.plugins.apply('checkstyle')
-
-    checkstyle {
-        toolVersion = '6.13'
-        configFile rootProject.file('code_quality_tools/checkstyle.xml')
-        ignoreFailures false
-        showViolations true
-    }
-
-    project.task("checkstyle", type: Checkstyle) {
-        source 'src'
-        include '**/*.java'
-        exclude '**/gen/**'
-
-        classpath = files()
-    }
-
     project.plugins.apply('net.ltgt.errorprone')
 
     if (!rootProject.ext.isCI) {
         tasks.matching { it instanceof Test }.all {
             testLogging.events = ["failed", "passed", "skipped"]
         }
-    }
-
-    afterEvaluate {
-        final boolean isAndroidLibrary = project.plugins.hasPlugin('com.android.library')
-        final boolean isAndroidApp = project.plugins.hasPlugin('com.android.application')
-        final boolean isAndroidPlugin = isAndroidLibrary || isAndroidApp
-
-        final String findbugsClassesPath = isAndroidPlugin ? 'build/intermediates/classes/debug/' : 'build/classes/main/'
-
-        project.plugins.apply('findbugs')
-
-        project.findbugs {
-            sourceSets = []
-            ignoreFailures = false
-            toolVersion = '3.0.1'
-            effort = 'max'
-            reportLevel = 'low'
-            excludeFilter = rootProject.file("code_quality_tools/findbugs-filter.xml")
-        }
-
-        project.task("findbugs", type: FindBugs) {
-            description 'Run findbugs'
-            group 'verification'
-
-            classes = project.fileTree(findbugsClassesPath)
-            source = project.fileTree('src')
-            classpath = project.files()
-
-            reports {
-                xml.enabled = rootProject.ext.isCI
-                html.enabled = !rootProject.ext.isCI
-            }
-        }
-
-        project.plugins.apply('pmd')
-
-        project.pmd {
-            toolVersion = '5.4.1'
-            ignoreFailures = false
-        }
-
-        project.task("pmd", type: Pmd) {
-            description 'Run pmd'
-            group 'verification'
-
-            ruleSetFiles = project.files(rootProject.file("code_quality_tools/pmd.xml"))
-            ruleSets = []
-
-            source 'src'
-            include '**/*.java'
-            exclude '**/gen/**'
-
-            reports {
-                xml.enabled = rootProject.ext.isCI
-                html.enabled = !rootProject.ext.isCI
-            }
-        }
-
-        tasks.findByName('pmd').dependsOn('assemble')
-        tasks.findByName('findbugs').dependsOn('assemble')
-
-        def checkTask = tasks.findByName('check')
-
-        checkTask.dependsOn('pmd')
-        checkTask.dependsOn('findbugs')
-        checkTask.dependsOn('checkstyle')
     }
 }
 
