@@ -1,8 +1,9 @@
 package onactivityresult.compiler;
 
-import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
-
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,9 +11,9 @@ import java.util.Collections;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import org.junit.Test;
+
+import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
 @SuppressWarnings("checkstyle:magicnumber")
 public class StringUtilsTest {
@@ -30,6 +31,7 @@ public class StringUtilsTest {
         assertEquals("", StringUtils.getList(",", new Object[0]));
 
         assertEquals("3,4,5,6", StringUtils.getList(",", 3, 4, 5, 6));
+        assertEquals("7", StringUtils.getList(",", 7));
     }
 
     @Test
@@ -37,13 +39,13 @@ public class StringUtilsTest {
         assertEquals("", StringUtils.getReadableParameters(null));
         assertEquals("", StringUtils.getReadableParameters(Collections.<VariableElement>emptyList()));
         assertEquals("Intent, Float", StringUtils.getReadableParameters(Arrays.asList(this.createVariableElement("android.content.Intent"), this.createVariableElement("java.lang.Float"))));
+        assertEquals("Intent", StringUtils.getReadableParameters(Collections.singletonList(this.createVariableElement("android.content.Intent"))));
     }
 
     private VariableElement createVariableElement(final String name) {
         final VariableElement variableElement = mock(VariableElement.class);
         final TypeMirror typeMirror = mock(TypeMirror.class);
-        // noinspection ResultOfMethodCallIgnored
-        doReturn(name).when(typeMirror).toString();
+        when(typeMirror.toString()).thenReturn(name);
         doReturn(typeMirror).when(variableElement).asType();
 
         return variableElement;

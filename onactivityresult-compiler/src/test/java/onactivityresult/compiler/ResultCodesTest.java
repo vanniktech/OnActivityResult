@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+@SuppressWarnings("checkstyle:magicnumber")
 public class ResultCodesTest {
     @Test
     public void testComparable() {
