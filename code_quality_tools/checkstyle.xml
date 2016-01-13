@@ -127,7 +127,9 @@
         <module name="FinalLocalVariable"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
+        <module name="CovariantEquals"/>
         <module name="EqualsAvoidNull"/>
+        <module name="VariableDeclarationUsageDistance"/>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
         <module name="MagicNumber">
@@ -142,6 +144,7 @@
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
         <module name="NoClone"/>
+        <module name="NoFinalizer"/>
         <module name="UnnecessaryParentheses"/>
 
         <!-- Checks for class design                         -->
@@ -150,7 +153,9 @@
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="InnerTypeLast"/>
+        <module name="ExplicitInitialization"/>
         <module name="OneTopLevelClass"/>
+        <module name="MissingSwitchDefault"/>
         <module name="VisibilityModifier">
             <property name="packageAllowed" value="true"/>
             <property name="protectedAllowed" value="true"/>
@@ -167,20 +172,26 @@
         <!-- http://checkstyle.sourceforge.net/config_annotation.html -->
         <module name="MissingDeprecated"/>
         <module name="MissingOverride"/>
+        <module name="AnnotationUseStyle"/>
+        <module name="AnnotationLocation">
+            <property name="allowSamelineMultipleAnnotations" value="true"/>
+            <property name="allowSamelineSingleParameterlessAnnotation" value="true"/>
+            <property name="allowSamelineParameterizedAnnotation" value="false"/>
+        </module>
 
         <module name="RegexpSinglelineJava">
            <property name="format" value="(final)?\s*[\w]+ a[A-Z]{1}[\w]+"/>
-           <property name="message" value="aVariable notation should not be used."/>
+           <property name="message" value="aVariable notation is deprecated and should be variable instead"/>
         </module>
 
         <module name="RegexpSinglelineJava">
            <property name="format" value="(final)?\s*[\w]+ an[A-Z]{1}[\w]+"/>
-           <property name="message" value="anVariable notation should not be used"/>
+           <property name="message" value="anAwfulVariable notation is deprecated and should be variable instead"/>
         </module>
 
         <module name="RegexpSinglelineJava">
            <property name="format" value="(final)?\s*[\w]+ p[A-Z]{1}[\w]+"/>
-           <property name="message" value="pVariable notation should not be used"/>
+           <property name="message" value="pVariable notation is deprecated"/>
         </module>
 
         <module name="RegexpSinglelineJava">

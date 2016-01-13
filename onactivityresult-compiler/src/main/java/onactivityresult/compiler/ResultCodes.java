@@ -44,9 +44,9 @@ class ResultCodes implements Comparable<ResultCodes> {
             return 1;
         }
 
-        final boolean sameSize = o.resultCodes.length == this.resultCodes.length;
+        final boolean isSameSize = o.resultCodes.length == this.resultCodes.length;
 
-        if (sameSize) {
+        if (isSameSize) {
             for (int i = 0; i < this.resultCodes.length; i++) {
                 final int oResultCode = o.resultCodes[i];
                 final int resultCode = this.resultCodes[i];
