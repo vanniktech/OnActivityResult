@@ -1,49 +1,34 @@
 package onactivityresult;
 
-import static onactivityresult.util.JavaFileObjectUtils.assertThatFailsWithErrorMessage;
-import static onactivityresult.util.JavaFileObjectUtils.assertThatSucceeds;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 import javax.tools.JavaFileObject;
+
+import onactivityresult.compiler.OnActivityResultProcessor;
 
 import org.junit.Test;
 
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
-@SuppressWarnings({ "checkstyle:magicnumber", "PMD.AvoidDuplicateLiterals" })
 public class OnActivityResultModifierTest {
     @Test
     public void testPrivateOnActivityResultMemberMethodShouldLetTheProcessorFail() {
         //@formatter:off
-        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
-
-                "import onactivityresult.OnActivityResult;",
-
-                "public class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) private void myOnActivityResult() {}",
-                "}")
-        );
+        TestActivity.create().build(
+            "@OnActivityResult(requestCode = 3) private void myOnActivityResult() {}"
+        ).failsWithErrorMessage("@OnActivityResult methods must not be private or static. (test.TestActivity.myOnActivityResult)", 1);
         //@formatter:on
-
-        assertThatFailsWithErrorMessage(source, "@OnActivityResult methods must not be private or static. (test.TestActivity.myOnActivityResult)", 4);
     }
 
     @Test
     public void testStaticOnActivityResultMemberMethodShouldLetTheProcessorFail() {
         //@formatter:off
-        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
-
-                "import onactivityresult.OnActivityResult;",
-
-                "public class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) public static void myOnActivityResult() {}",
-                "}")
-        );
+        TestActivity.create().build(
+            "@OnActivityResult(requestCode = 3) public static void myOnActivityResult() {}"
+        ).failsWithErrorMessage("@OnActivityResult methods must not be private or static. (test.TestActivity.myOnActivityResult)", 1);
         //@formatter:on
-
-        assertThatFailsWithErrorMessage(source, "@OnActivityResult methods must not be private or static. (test.TestActivity.myOnActivityResult)", 4);
     }
 
     @Test
@@ -112,5 +97,10 @@ public class OnActivityResultModifierTest {
         //@formatter:on
 
         assertThatSucceeds(source);
+    }
+
+    private void assertThatSucceeds(final JavaFileObject source) {
+        assertAbout(javaSource()).that(source).compilesWithoutError();
+        assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).compilesWithoutError();
     }
 }
