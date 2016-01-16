@@ -1,15 +1,17 @@
 package onactivityresult;
 
-import com.google.common.base.Joiner;
-import com.google.testing.compile.JavaFileObjects;
-
-import org.junit.Test;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 import javax.tools.JavaFileObject;
 
-import static onactivityresult.util.JavaFileObjectUtils.assertEquals;
+import onactivityresult.compiler.OnActivityResultProcessor;
 
-@SuppressWarnings({ "checkstyle:magicnumber", "PMD.AvoidDuplicateLiterals" })
+import org.junit.Test;
+
+import com.google.common.base.Joiner;
+import com.google.testing.compile.JavaFileObjects;
+
 public class OnActivityResultInheritanceTest {
     @Test
     public void testOnActivityResult() {
@@ -102,6 +104,7 @@ public class OnActivityResultInheritanceTest {
         );
         //@formatter:on
 
-        assertEquals(actualSource, expectedSourceBase, expectedSourceTest, expectedSourceAnotherTest);
+        assertAbout(javaSource()).that(actualSource).compilesWithoutError();
+        assertAbout(javaSource()).that(actualSource).processedWith(new OnActivityResultProcessor()).compilesWithoutError().and().generatesSources(expectedSourceBase, expectedSourceTest, expectedSourceAnotherTest);
     }
 }
