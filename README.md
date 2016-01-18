@@ -21,8 +21,8 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 
 dependencies {
-    compile 'com.vanniktech:onactivityresult:0.1.0'
-    apt 'com.vanniktech:onactivityresult-compiler:0.1.0'
+    compile 'com.vanniktech:onactivityresult:0.2.0'
+    apt 'com.vanniktech:onactivityresult-compiler:0.2.0'
 }
 ```
 
