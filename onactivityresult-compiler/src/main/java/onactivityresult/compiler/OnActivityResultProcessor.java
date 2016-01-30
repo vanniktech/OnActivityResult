@@ -137,7 +137,8 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
                 final ExecutableElement executableElement = (ExecutableElement) element;
 
-                this.checkFieldModifiers(executableElement, annotation, Modifier.PRIVATE, Modifier.STATIC);
+                this.checkModifiers(executableElement.getEnclosingElement(), annotation, "classes", Modifier.PRIVATE);
+                this.checkModifiers(executableElement, annotation, "methods", Modifier.PRIVATE, Modifier.STATIC);
                 this.checkAnnotationMethods(executableElement);
 
                 final ParameterList parameters = this.getParametersForMethod(executableElement, annotation, annotatedParameters);
@@ -277,12 +278,12 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         }
     }
 
-    private void checkFieldModifiers(final Element element, final Class<? extends Annotation> annotation, final Modifier... modifiers) throws OnActivityResultProcessingException {
+    private void checkModifiers(final Element element, final Class<? extends Annotation> annotation, final String scope, final Modifier... modifiers) throws OnActivityResultProcessingException {
         final Set<Modifier> elementModifiers = element.getModifiers();
 
         for (final Modifier modifier : modifiers) {
             if (elementModifiers.contains(modifier)) {
-                throw new OnActivityResultProcessingException(element, "@%s methods must not be %s", annotation.getSimpleName(), StringUtils.getList(" or ", modifiers));
+                throw new OnActivityResultProcessingException(element, "@%s " + scope + " must not be %s", annotation.getSimpleName(), StringUtils.getList(" or ", modifiers));
             }
         }
     }

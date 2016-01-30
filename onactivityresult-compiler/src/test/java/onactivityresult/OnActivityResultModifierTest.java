@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
+@SuppressWarnings("checkstyle:magicnumber")
 public class OnActivityResultModifierTest {
     @Test
     public void testPrivateOnActivityResultMemberMethodShouldLetTheProcessorFail() {
@@ -29,6 +30,78 @@ public class OnActivityResultModifierTest {
             "@OnActivityResult(requestCode = 3) public static void myOnActivityResult() {}"
         ).failsWithErrorMessage("@OnActivityResult methods must not be private or static. (test.TestActivity.myOnActivityResult)", 1);
         //@formatter:on
+    }
+
+    @Test
+    public void testPrivateClassWithAnnotatedOnActivityResultMethodShouldLetTheProcessorFail() {
+        //@formatter:off
+        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
+                "package test;",
+
+                "import onactivityresult.OnActivityResult;",
+
+                "public class TestActivity {",
+                    "private static class PrivateClass {",
+                        "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                    "}",
+                "}")
+        );
+        //@formatter:on
+
+        assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).failsToCompile().withErrorContaining("@OnActivityResult classes must not be private. (test.TestActivity.PrivateClass)").in(source).onLine(4);
+    }
+
+    @Test
+    public void testProtectedClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
+        //@formatter:off
+        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
+                "package test;",
+
+                "import onactivityresult.OnActivityResult;",
+
+                "public class TestActivity {",
+                    "protected static class PrivateClass {",
+                        "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                    "}",
+                "}")
+        );
+        //@formatter:on
+
+        assertThatSucceeds(source);
+    }
+
+    @Test
+    public void testPackageClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
+        //@formatter:off
+        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
+                "package test;",
+
+                "import onactivityresult.OnActivityResult;",
+
+                "class TestActivity {",
+                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                "}")
+        );
+        //@formatter:on
+
+        assertThatSucceeds(source);
+    }
+
+    @Test
+    public void testFinalClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
+        //@formatter:off
+        final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
+                "package test;",
+
+                "import onactivityresult.OnActivityResult;",
+
+                "public final class TestActivity {",
+                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                "}")
+        );
+        //@formatter:on
+
+        assertThatSucceeds(source);
     }
 
     @Test
