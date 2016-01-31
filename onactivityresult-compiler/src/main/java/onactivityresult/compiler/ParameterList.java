@@ -6,11 +6,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-final class ParameterList {
-    private final Collection<Parameter> list;
+final class ParameterList implements Iterable<Parameter> {
 
-    private boolean                needsIntentData;
-    private Parameter.PreCondition intentDataPrecondition;
+    private final Collection<Parameter> list;
 
     ParameterList() {
         list = new ArrayList<>();
@@ -19,11 +17,6 @@ final class ParameterList {
     void add(final Parameter parameter) {
         if (parameter != null) {
             list.add(parameter);
-
-            if (parameter.isIntentData()) {
-                needsIntentData = true;
-                intentDataPrecondition = parameter.getPreCondition();
-            }
         }
     }
 
@@ -53,11 +46,8 @@ final class ParameterList {
         return stringBuilder.toString();
     }
 
-    boolean needsIntentData() {
-        return needsIntentData;
-    }
-
-    public Parameter.PreCondition getIntentDataPrecondition() {
-        return intentDataPrecondition;
+    @Override
+    public Iterator<Parameter> iterator() {
+        return list.iterator();
     }
 }

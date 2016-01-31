@@ -26,6 +26,15 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 
+import onactivityresult.ExtraBoolean;
+import onactivityresult.ExtraByte;
+import onactivityresult.ExtraChar;
+import onactivityresult.ExtraDouble;
+import onactivityresult.ExtraFloat;
+import onactivityresult.ExtraInt;
+import onactivityresult.ExtraLong;
+import onactivityresult.ExtraShort;
+import onactivityresult.ExtraString;
 import onactivityresult.IntentData;
 import onactivityresult.OnActivityResult;
 
@@ -35,19 +44,18 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeVariableName;
 
 @AutoService(Processor.class)
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({ "PMD.GodClass", "PMD.ExcessiveImports" })
 public class OnActivityResultProcessor extends AbstractProcessor {
-    static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
+    static final String         ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
 
-    private static final String FQN_ANDROID_INTENT = "android.content.Intent";
-    private static final String FQN_ANDROID_URI    = "android.net.Uri";
+    private static final String FQN_ANDROID_INTENT           = "android.content.Intent";
 
-    private static final int RESULT_CANCELED   = 0;
-    private static final int RESULT_OK         = -1;
-    private static final int RESULT_FIRST_USER = 1;
+    private static final int    RESULT_CANCELED              = 0;
+    private static final int    RESULT_OK                    = -1;
+    private static final int    RESULT_FIRST_USER            = 1;
 
-    private Filer    filer;
-    private Elements elementUtils;
+    private Filer               filer;
+    private Elements            elementUtils;
 
     @Override
     public void init(final ProcessingEnvironment environment) {
@@ -65,6 +73,15 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
         supportedAnnotations.add(OnActivityResult.class.getCanonicalName());
         supportedAnnotations.add(IntentData.class.getCanonicalName());
+        supportedAnnotations.add(ExtraBoolean.class.getCanonicalName());
+        supportedAnnotations.add(ExtraByte.class.getCanonicalName());
+        supportedAnnotations.add(ExtraChar.class.getCanonicalName());
+        supportedAnnotations.add(ExtraDouble.class.getCanonicalName());
+        supportedAnnotations.add(ExtraFloat.class.getCanonicalName());
+        supportedAnnotations.add(ExtraInt.class.getCanonicalName());
+        supportedAnnotations.add(ExtraLong.class.getCanonicalName());
+        supportedAnnotations.add(ExtraShort.class.getCanonicalName());
+        supportedAnnotations.add(ExtraString.class.getCanonicalName());
 
         return supportedAnnotations;
     }
@@ -90,30 +107,39 @@ public class OnActivityResultProcessor extends AbstractProcessor {
     private AnnotatedMethodParameters getAnnotatedMethodParameters(final RoundEnvironment environment) {
         final AnnotatedMethodParameters annotatedParameters = new AnnotatedMethodParameters();
 
-        this.getIntentDataMethodParameters(environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.BOOLEAN, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.BYTE, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.CHAR, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.DOUBLE, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.FLOAT, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.INT, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.LONG, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.SHORT, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.STRING, environment, annotatedParameters);
+        this.processAnnotatedParameters(AnnotatedParameter.INTENT_DATA, environment, annotatedParameters);
 
         return annotatedParameters;
     }
 
-    private void getIntentDataMethodParameters(final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
-        final Class<IntentData> annotation = IntentData.class;
-        final Set<? extends Element> intentDatas = environment.getElementsAnnotatedWith(annotation);
+    private void processAnnotatedParameters(final AnnotatedParameter annotatedParameter, final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
+        final Class<? extends Annotation> annotation = annotatedParameter.getAnnotation();
+        final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
 
-        for (final Element intentData : intentDatas) {
-            if (!SuperficialValidation.validateElement(intentData)) {
+        for (final Element parameter : parameters) {
+            if (!SuperficialValidation.validateElement(parameter)) {
                 continue;
             }
 
             try {
-                final Element enclosingElement = intentData.getEnclosingElement();
+                final Element enclosingElement = parameter.getEnclosingElement();
 
-                if (!Utils.isParameter(intentData)) {
+                if (!Utils.isParameter(parameter)) {
                     throw new OnActivityResultProcessingException(enclosingElement, "@%s annotation must be on a method parameter", annotation.getSimpleName());
-                } else if (!intentData.asType().toString().equals(FQN_ANDROID_URI)) {
-                    throw new OnActivityResultProcessingException(enclosingElement, "@%s parameters must be of type %s", annotation.getSimpleName(), FQN_ANDROID_URI);
+                } else if (!annotatedParameter.asType().equals(TypeVariableName.get(parameter.asType()))) {
+                    throw new OnActivityResultProcessingException(enclosingElement, "@%s parameters must be of type %s", annotation.getSimpleName(), annotatedParameter.asType().toString());
                 } else {
                     final ExecutableElement executableElement = (ExecutableElement) enclosingElement;
-                    annotatedParameters.put(executableElement, annotation, Parameter.createIntentData());
+                    annotatedParameters.put(executableElement, (VariableElement) parameter, annotatedParameter.createParameter(parameter));
                 }
             } catch (final OnActivityResultProcessingException e) {
                 e.printError(processingEnv);
@@ -161,15 +187,10 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
         if (methodParametersSize > 0) {
             for (final VariableElement methodParameter : methodParameters) {
-                final IntentData intentDataAnnotation = methodParameter.getAnnotation(IntentData.class);
+                final Parameter annotatedParameter = annotatedParameters.get(executableElement, methodParameter);
 
-                if (intentDataAnnotation != null) {
-                    final Parameter parameter = annotatedParameters.get(executableElement, IntentData.class);
-
-                    if (parameter != null) {
-                        parameter.setPreCondition(Parameter.PreCondition.from(methodParameter.getAnnotationMirrors()));
-                        parameters.add(parameter);
-                    }
+                if (annotatedParameter != null) {
+                    parameters.add(annotatedParameter);
                 } else {
                     parameters.add(this.getParameterTypeFromVariableElement(methodParameter));
                 }
