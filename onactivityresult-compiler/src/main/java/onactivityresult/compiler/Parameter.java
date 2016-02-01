@@ -9,31 +9,46 @@ final class Parameter {
     static final String INTENT      = "intent";
     static final String INTENT_DATA = "intentData";
 
-    private PreCondition mPrecondition = PreCondition.DEFAULT;
+    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName) {
+        return new Parameter(simpleName, annotatedParameter, null);
+    }
 
     static Parameter createResultCode() {
-        return new Parameter(RESULT_CODE, false);
+        return new Parameter(RESULT_CODE, null, null);
     }
 
     static Parameter createIntent() {
-        return new Parameter(INTENT, false);
+        return new Parameter(INTENT, null, null);
     }
 
-    static Parameter createIntentData() {
-        return new Parameter(INTENT_DATA, true);
+    static Parameter createIntentData(final PreCondition preCondition) {
+        return new Parameter(INTENT_DATA, AnnotatedParameter.INTENT_DATA, preCondition);
     }
 
-    private final String name;
+    private final String            name;
+    public final AnnotatedParameter annotatedParameter;
+    public final PreCondition       preCondition;
 
-    private final boolean isIntentData;
-
-    private Parameter(final String name, final boolean isIntentData) {
+    private Parameter(final String name, final AnnotatedParameter annotatedParameter, final PreCondition preCondition) {
         this.name = name;
-        this.isIntentData = isIntentData;
+        this.annotatedParameter = annotatedParameter;
+        this.preCondition = preCondition == null ? PreCondition.DEFAULT : preCondition;
     }
 
     String getName() {
-        return name + mPrecondition.getSuffix();
+        if (annotatedParameter != null) {
+            if (annotatedParameter == AnnotatedParameter.INTENT_DATA) {
+                return name + preCondition.getSuffix();
+            }
+
+            return name + "Extra";
+        }
+
+        return name;
+    }
+
+    String getKey() {
+        return name;
     }
 
     @Override
@@ -47,25 +62,15 @@ final class Parameter {
         }
 
         final Parameter parameter = (Parameter) o;
-
-        return !(name != null ? !name.equals(parameter.name) : parameter.name != null);
+        return name != null ? name.equals(parameter.name) : parameter.name == null && annotatedParameter == parameter.annotatedParameter && preCondition == parameter.preCondition;
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
-    }
-
-    boolean isIntentData() {
-        return isIntentData;
-    }
-
-    public PreCondition getPreCondition() {
-        return mPrecondition;
-    }
-
-    public void setPreCondition(final PreCondition preCondition) {
-        mPrecondition = preCondition;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (annotatedParameter != null ? annotatedParameter.hashCode() : 0);
+        result = 31 * result + preCondition.hashCode();
+        return result;
     }
 
     enum PreCondition {

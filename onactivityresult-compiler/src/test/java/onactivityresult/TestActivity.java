@@ -13,12 +13,12 @@ import onactivityresult.compiler.OnActivityResultProcessor;
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
-public final class TestActivity {
+final class TestActivity {
     public static Builder create() {
         return new Builder();
     }
 
-    private static String stringArrayToString(final String... code) {
+    static String stringArrayToString(final String... code) {
         final StringBuilder sb = new StringBuilder();
 
         for (final String s : code) {
@@ -37,30 +37,85 @@ public final class TestActivity {
         private boolean hasIntent;
         private boolean hasActivity;
 
+        private boolean hasExtraBoolean;
+        private boolean hasExtraByte;
+        private boolean hasExtraChar;
+        private boolean hasExtraDouble;
+        private boolean hasExtraFloat;
+        private boolean hasExtraInt;
+        private boolean hasExtraLong;
+        private boolean hasExtraShort;
+        private boolean hasExtraString;
+
         private Builder() {}
 
         public Builder hasIntentData() {
-            this.hasIntentData = true;
+            hasIntentData = true;
             return this;
         }
 
         public Builder hasActivity() {
-            this.hasActivity = true;
+            hasActivity = true;
             return this;
         }
 
         public Builder hasIntent() {
-            this.hasIntent = true;
+            hasIntent = true;
             return this;
         }
 
         public Builder hasNullable() {
-            this.hasNullable = true;
+            hasNullable = true;
+            return this;
+        }
+
+        public Builder hasExtraBoolean() {
+            hasExtraBoolean = true;
+            return this;
+        }
+
+        public Builder hasExtraByte() {
+            hasExtraByte = true;
+            return this;
+        }
+
+        public Builder hasExtraChar() {
+            hasExtraChar = true;
+            return this;
+        }
+
+        public Builder hasExtraDouble() {
+            hasExtraDouble = true;
+            return this;
+        }
+
+        public Builder hasExtraFloat() {
+            hasExtraFloat = true;
+            return this;
+        }
+
+        public Builder hasExtraInt() {
+            hasExtraInt = true;
+            return this;
+        }
+
+        public Builder hasExtraLong() {
+            hasExtraLong = true;
+            return this;
+        }
+
+        public Builder hasExtraShort() {
+            hasExtraShort = true;
+            return this;
+        }
+
+        public Builder hasExtraString() {
+            hasExtraString = true;
             return this;
         }
 
         public Builder hasNotNull() {
-            this.hasNotNull = true;
+            hasNotNull = true;
             return this;
         }
 
@@ -70,25 +125,62 @@ public final class TestActivity {
             code.add("package test;");
             code.add("import onactivityresult.OnActivityResult;");
 
-            if (this.hasIntentData) {
+            if (hasIntentData) {
                 code.add("import android.net.Uri;");
                 code.add("import onactivityresult.IntentData;");
             }
 
-            if (this.hasNullable) {
+            if (hasNullable) {
                 code.add("import org.jetbrains.annotations.Nullable;");
             }
 
-            if (this.hasNotNull) {
+            if (hasNotNull) {
                 code.add("import org.jetbrains.annotations.NotNull;");
             }
 
-            if (this.hasActivity) {
+            if (hasActivity) {
                 code.add("import android.app.Activity;");
             }
 
-            if (this.hasIntent) {
+            if (hasIntent) {
                 code.add("import android.content.Intent;");
+            }
+
+            if (hasExtraBoolean) {
+                code.add("import onactivityresult.ExtraBoolean;");
+            }
+
+            if (hasExtraByte) {
+                code.add("import onactivityresult.ExtraByte;");
+            }
+
+            if (hasExtraChar) {
+                code.add("import onactivityresult.ExtraChar;");
+            }
+
+            if (hasExtraDouble) {
+                code.add("import onactivityresult.ExtraDouble;");
+            }
+
+            if (hasExtraFloat) {
+                code.add("import onactivityresult.ExtraFloat;");
+            }
+
+            if (hasExtraInt) {
+                code.add("import onactivityresult.ExtraInt;");
+            }
+
+            if (hasExtraLong) {
+                code.add("import onactivityresult.ExtraLong;");
+            }
+
+            if (hasExtraShort) {
+                code.add("import onactivityresult.ExtraShort;");
+            }
+
+            if (hasExtraString) {
+                code.add("import onactivityresult.ExtraString;");
+                code.add("import java.lang.String;");
             }
 
             code.add("public class TestActivity {");
@@ -98,7 +190,8 @@ public final class TestActivity {
             code.add(stringArrayToString(functions));
             code.add("}");
 
-            return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), this.hasIntentData, this.hasNullable || this.hasNotNull || this.hasIntentData, headLines);
+            final boolean needsIntentHelper = hasNullable || hasNotNull || hasIntentData || hasExtraBoolean || hasExtraByte || hasExtraChar || hasExtraDouble || hasExtraFloat || hasExtraInt || hasExtraLong || hasExtraShort || hasExtraString;
+            return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, hasExtraString, headLines);
         }
     }
 
@@ -106,13 +199,15 @@ public final class TestActivity {
         private final JavaFileObject source;
         private final boolean        needsIntentHelper;
         private final boolean        hasIntentData;
+        private final boolean        hasString;
         private final int            headLines;
 
-        public Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines) {
+        Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final boolean hasString, final int headLines) {
             this.source = source;
             this.needsIntentHelper = needsIntentHelper;
             this.hasIntentData = hasIntentData;
             this.headLines = headLines;
+            this.hasString = hasString;
         }
 
         public void generatesBody(final String... code) {
@@ -122,10 +217,10 @@ public final class TestActivity {
                     "package test;",
     
                     "import android.content.Intent;",
-                    this.hasIntentData ? "import android.net.Uri;" : "",
-    
+                    hasIntentData ? "import android.net.Uri;" : "",
                     "import java.lang.Override;",
-                    this.hasIntentData || this.needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
+                    hasString ? "import java.lang.String;" : "",
+                    hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
     
                     "public class TestActivity$$OnActivityResult<T extends TestActivity> implements IOnActivityResult<T> {",
@@ -137,18 +232,18 @@ public final class TestActivity {
             );
             //@formatter:on
 
-            assertAbout(javaSource()).that(this.source).compilesWithoutError();
-            assertAbout(javaSource()).that(this.source).processedWith(new OnActivityResultProcessor()).compilesWithoutError().and().generatesSources(generation);
+            assertAbout(javaSource()).that(source).compilesWithoutError();
+            assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).compilesWithoutError().and().generatesSources(generation);
         }
 
         public void succeeds() {
-            assertAbout(javaSource()).that(this.source).compilesWithoutError();
-            assertAbout(javaSource()).that(this.source).processedWith(new OnActivityResultProcessor()).compilesWithoutError();
+            assertAbout(javaSource()).that(source).compilesWithoutError();
+            assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).compilesWithoutError();
         }
 
         public void failsWithErrorMessage(final String errorMessage, final int lineNumber) {
-            assertAbout(javaSource()).that(this.source).compilesWithoutError();
-            assertAbout(javaSource()).that(this.source).processedWith(new OnActivityResultProcessor()).failsToCompile().withErrorContaining(errorMessage).in(this.source).onLine(this.headLines + lineNumber);
+            assertAbout(javaSource()).that(source).compilesWithoutError();
+            assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).failsToCompile().withErrorContaining(errorMessage).in(source).onLine(headLines + lineNumber);
         }
     }
 }

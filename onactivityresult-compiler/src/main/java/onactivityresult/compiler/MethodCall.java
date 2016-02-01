@@ -17,19 +17,11 @@ final class MethodCall {
         return method.getSimpleName().toString();
     }
 
-    String getParameters() {
-        return parameters.toString();
-    }
-
-    boolean needsIntentData() {
-        return parameters.needsIntentData();
-    }
-
-    Parameter.PreCondition getIntentDataPrecondition() {
-        return parameters.getIntentDataPrecondition();
-    }
-
     ResultCodes getResultCodes() {
         return resultCodes;
+    }
+
+    public ParameterList getParameterList() {
+        return parameters;
     }
 }

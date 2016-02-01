@@ -1,5 +1,9 @@
 package com.vanniktech.onactivityresult.sample;
 
+import onactivityresult.ActivityResult;
+import onactivityresult.IntentData;
+import onactivityresult.OnActivityResult;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,14 +16,11 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import onactivityresult.ActivityResult;
-import onactivityresult.IntentData;
-import onactivityresult.OnActivityResult;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_CODE_TEST_ACTIVITY   = 3;
-    private static final int REQUEST_CODE_PICK_IMAGE      = 4;
-    private static final int REQUEST_CODE_TEST_2_ACTIVITY = 5;
+    private static final int    REQUEST_CODE_TEST_ACTIVITY   = 3;
+    private static final int    REQUEST_CODE_PICK_IMAGE      = 4;
+    private static final int    REQUEST_CODE_TEST_2_ACTIVITY = 5;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 

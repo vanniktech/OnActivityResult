@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * parameters of a {@link OnActivityResult} method can be annotated to get the {@link android.content.Intent#getData()} of the intent<br>
+ * parameters of a {@link OnActivityResult} annotated method can be annotated to get the {@link android.content.Intent#getData()} of the intent<br>
  * Example:<br>
  * <p>
  * <code>

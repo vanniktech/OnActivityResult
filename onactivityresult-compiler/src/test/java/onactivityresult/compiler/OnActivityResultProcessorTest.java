@@ -1,13 +1,13 @@
 package onactivityresult.compiler;
 
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Set;
 
 import javax.lang.model.SourceVersion;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class OnActivityResultProcessorTest {
     @Test
@@ -16,7 +16,20 @@ public class OnActivityResultProcessorTest {
         final Set<String> supportedAnnotationTypes = onActivityResultProcessor.getSupportedAnnotationTypes();
         final String[] strings = supportedAnnotationTypes.toArray(new String[supportedAnnotationTypes.size()]);
 
-        final String[] expected = new String[] { "onactivityresult.IntentData", "onactivityresult.OnActivityResult" };
+        final String[] expected = new String[] {
+            "onactivityresult.ExtraByte",
+            "onactivityresult.ExtraLong",
+            "onactivityresult.IntentData",
+            "onactivityresult.ExtraDouble",
+            "onactivityresult.ExtraString",
+            "onactivityresult.ExtraFloat",
+            "onactivityresult.ExtraChar",
+            "onactivityresult.ExtraBoolean",
+            "onactivityresult.OnActivityResult",
+            "onactivityresult.ExtraInt",
+            "onactivityresult.ExtraShort",
+        };
+
         assertArrayEquals(expected, strings);
     }
 

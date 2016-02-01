@@ -31,6 +31,15 @@ import java.lang.annotation.Target;
  * In addition to that other parameter annotations are supported like:<br>
  * <ul>
  * <li>{@link IntentData} {@link android.net.Uri}</li>
+ * <li>{@link ExtraBoolean} {@link boolean}</li>
+ * <li>{@link ExtraByte} {@link byte}</li>
+ * <li>{@link ExtraChar} {@link char}</li>
+ * <li>{@link ExtraDouble} {@link double}</li>
+ * <li>{@link ExtraFloat} {@link float}</li>
+ * <li>{@link ExtraInt} {@link int}</li>
+ * <li>{@link ExtraLong} {@link long}</li>
+ * <li>{@link ExtraShort} {@link short}</li>
+ * <li>{@link ExtraString} {@link java.lang.String}</li>
  * </ul>
  *
  * @since 0.1.0

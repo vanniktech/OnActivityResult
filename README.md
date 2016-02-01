@@ -66,31 +66,49 @@ void onActivityResultPickImage(final int resultCode, final Intent intent) { /* D
 
 Various parameters are supported:
 
+##### Since 0.1.0
+
 * `none`
 * `int`
 * `Intent`
 * `int, Intent`
 * `Intent, int`
 
-Where int parameters will get the resultCode and Intent parameters will get the Intent. Note: Each annotated method shall only have one int and / or Intent variable.
+Where int parameters will get the resultCode and Intent parameters will get the Intent.
+
+**Note: Each annotated method shall only have one int and / or Intent variable.**
 
 In addition to that other parameter annotations are supported like:
 
-* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) `Uri uri`. Since 0.2.0
+##### Since 0.2.0
 
-See more examples [here](./onactivityresult-sample/src/main/java/com/vanniktech/onactivityresult/sample/MainActivity.java
-).
+* [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) `Uri uri`.
+
+##### Since 0.3.0
+
+* [@ExtraBoolean](onactivityresult-annotations/src/main/java/onactivityresult/ExtraBoolean.java) `boolean booleanVar`.
+* [@ExtraByte](onactivityresult-annotations/src/main/java/onactivityresult/ExtraByte.java) `byte byteVar`.
+* [@ExtraChar](onactivityresult-annotations/src/main/java/onactivityresult/ExtraChar.java) `char charVar`.
+* [@ExtraDouble](onactivityresult-annotations/src/main/java/onactivityresult/ExtraDouble.java) `double doubleVar`.
+* [@ExtraFloat](onactivityresult-annotations/src/main/java/onactivityresult/ExtraFloat.java) `float floatVar`.
+* [@ExtraInt](onactivityresult-annotations/src/main/java/onactivityresult/ExtraInt.java) `int intVar`.
+* [@ExtraLong](onactivityresult-annotations/src/main/java/onactivityresult/ExtraLong.java) `long longVar`.
+* [@ExtraShort](onactivityresult-annotations/src/main/java/onactivityresult/ExtraShort.java) `short shortVar`.
+* [@ExtraString](onactivityresult-annotations/src/main/java/onactivityresult/ExtraString.java) `String stringVar`.
+
+Some examples can be found [here](./onactivityresult-sample/src/main/java/com/vanniktech/onactivityresult/sample/MainActivity.java).
 
 ## Advantages over [AfterMath](https://github.com/MichaelEvans/Aftermath)
 
 * Gives you compile error(s) when using invalid RequestCode
-* Annotated method does not require resultCode & Intent to be present. It'll work with every combination (no params, resultCode, Intent, resultCode & Intent, Intent & resultCode)
+* Annotated method does not require resultCode & Intent to be present. It'll work with every combination (no params, resultCode, Intent, resultCode & Intent, Intent & resultCode). In addition also all custom parameter annotations can be used.
 * The annotations are on mavenCentral
 * More detailed error messages
 * Almost 100% unit test coverage
 * Inheritance support
 * [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation with @NonNull & @Nullable support. Since 0.2.0
 * Specify resultCodes with e.g. `resultCodes = { Activity.RESULT_OK }`. Since 0.2.0
+* [@ExtraBoolean](onactivityresult-annotations/src/main/java/onactivityresult/ExtraBoolean.java), [@ExtraByte](onactivityresult-annotations/src/main/java/onactivityresult/ExtraByte.java), [@ExtraChar](onactivityresult-annotations/src/main/java/onactivityresult/ExtraChar.java), [@ExtraDouble](onactivityresult-annotations/src/main/java/onactivityresult/ExtraDouble.java), [@ExtraFloat](onactivityresult-annotations/src/main/java/onactivityresult/ExtraFloat.java), [@ExtraInt](onactivityresult-annotations/src/main/java/onactivityresult/ExtraInt.java), [@ExtraLong](onactivityresult-annotations/src/main/java/onactivityresult/ExtraLong.java), [@ExtraShort](onactivityresult-annotations/src/main/java/onactivityresult/ExtraShort.java), [@ExtraString](onactivityresult-annotations/src/main/java/onactivityresult/ExtraString.java) annotations. Since 0.3.0
 
 ## Thanks
 
