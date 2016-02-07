@@ -5,13 +5,13 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Collections;
 
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
-
-import org.junit.Test;
 
 import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 

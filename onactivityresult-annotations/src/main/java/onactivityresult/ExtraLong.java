@@ -18,7 +18,6 @@ import java.lang.annotation.Target;
  * </code>
  * </p>
  * <br>
- * defaultValue: 0L<br>
  * extra name: same as parameter <br>
  * NOTE: In this case it would be extraLong<br>
  *
@@ -26,4 +25,10 @@ import java.lang.annotation.Target;
  */
 @Retention(CLASS)
 @Target(PARAMETER)
-public @interface ExtraLong {}
+public @interface ExtraLong {
+    /**
+     * @return the set default value if the extra is not set on the intent
+     * @since 0.3.0
+     */
+    long defaultValue() default 0;
+}

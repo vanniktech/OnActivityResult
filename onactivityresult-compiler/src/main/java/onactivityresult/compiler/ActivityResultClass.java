@@ -198,31 +198,31 @@ final class ActivityResultClass {
                     result.addStatement("final $T $L = $T.getIntentData$L($L)", URI, parameter.getName(), INTENT_HELPER, parameter.preCondition.getSuffix(), Parameter.INTENT);
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BOOLEAN == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getBooleanExtra($L, $S, false)", boolean.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getBooleanExtra($L, $S, $L)", boolean.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BYTE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getByteExtra($L, $S, (byte) 0)", byte.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getByteExtra($L, $S, (byte) $L)", byte.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.CHAR == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getCharExtra($L, $S, (char) 0)", char.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getCharExtra($L, $S, (char) $L)", char.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.DOUBLE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getDoubleExtra($L, $S, 0.d)", double.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getDoubleExtra($L, $S, $L)", double.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.FLOAT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getFloatExtra($L, $S, 0.f)", float.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getFloatExtra($L, $S, $Lf)", float.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.INT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getIntExtra($L, $S, 0)", int.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getIntExtra($L, $S, $L)", int.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.LONG == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getLongExtra($L, $S, 0L)", long.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getLongExtra($L, $S, $LL)", long.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.SHORT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getShortExtra($L, $S, (short) 0)", short.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getShortExtra($L, $S, (short) $L)", short.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.STRING == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getStringExtra($L, $S, null)", String.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey());
+                    result.addStatement("final $T $L = $T.getStringExtra($L, $S, $S)", String.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 }
             }

@@ -10,8 +10,48 @@ public class OnActivityResultExtraIntParameterTest {
             "@OnActivityResult(requestCode = 3) public void test(@ExtraInt final int test) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final int testExtra = IntentHelper.getIntExtra(intent, \"test\", 0);",
-                "t.test(testExtra);",
+                "final int testIntExtra_48 = IntentHelper.getIntExtra(intent, \"test\", 0);",
+                "t.test(testIntExtra_48);",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
+    public void testExtraIntDefaultValue() {
+        //@formatter:off
+        TestActivity.create().hasExtraInt().build(
+            "@OnActivityResult(requestCode = 3) public void test(@ExtraInt(defaultValue = 1) final int test) {}"
+        ).generatesBody(
+            "if (requestCode == 3) {",
+                "final int testIntExtra_49 = IntentHelper.getIntExtra(intent, \"test\", 1);",
+                "t.test(testIntExtra_49);",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
+    public void testExtraIntDefaultValueOnDifferentMethods() {
+        //@formatter:off
+        TestActivity.create().hasExtraInt().build(
+            "@OnActivityResult(requestCode = 3) public void foobar(@ExtraInt final int test) {}",
+            "@OnActivityResult(requestCode = 3) public void foo(@ExtraInt(defaultValue = 1) final int test) {}",
+            "@OnActivityResult(requestCode = 3) public void bar(@ExtraInt(defaultValue = 2) final int test) {}",
+            "@OnActivityResult(requestCode = 3) public void neg(@ExtraInt(defaultValue = -3) final int test) {}"
+        ).generatesBody(
+            "if (requestCode == 3) {",
+                "final int testIntExtra_48 = IntentHelper.getIntExtra(intent, \"test\", 0);",
+                "t.foobar(testIntExtra_48);",
+
+                "final int testIntExtra_49 = IntentHelper.getIntExtra(intent, \"test\", 1);",
+                "t.foo(testIntExtra_49);",
+
+                "final int testIntExtra_50 = IntentHelper.getIntExtra(intent, \"test\", 2);",
+                "t.bar(testIntExtra_50);",
+
+                "final int testIntExtra_1446 = IntentHelper.getIntExtra(intent, \"test\", -3);",
+                "t.neg(testIntExtra_1446);",
             "}"
         );
         //@formatter:on
@@ -24,9 +64,9 @@ public class OnActivityResultExtraIntParameterTest {
             "@OnActivityResult(requestCode = 3) public void test(@ExtraInt final int foo, @ExtraInt final int bar) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final int fooExtra = IntentHelper.getIntExtra(intent, \"foo\", 0);",
-                "final int barExtra = IntentHelper.getIntExtra(intent, \"bar\", 0);",
-                "t.test(fooExtra, barExtra);",
+                "final int fooIntExtra_48 = IntentHelper.getIntExtra(intent, \"foo\", 0);",
+                "final int barIntExtra_48 = IntentHelper.getIntExtra(intent, \"bar\", 0);",
+                "t.test(fooIntExtra_48, barIntExtra_48);",
             "}"
         );
         //@formatter:on
@@ -40,9 +80,9 @@ public class OnActivityResultExtraIntParameterTest {
             "@OnActivityResult(requestCode = 5) public void bar(@ExtraInt final int value) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final int valueExtra = IntentHelper.getIntExtra(intent, \"value\", 0);",
-                "t.foo(valueExtra);",
-                "t.bar(valueExtra);",
+                "final int valueIntExtra_48 = IntentHelper.getIntExtra(intent, \"value\", 0);",
+                "t.foo(valueIntExtra_48);",
+                "t.bar(valueIntExtra_48);",
             "}"
         );
         //@formatter:on
@@ -56,11 +96,11 @@ public class OnActivityResultExtraIntParameterTest {
             "@OnActivityResult(requestCode = 5) public void bar(@ExtraInt final int test, @ExtraInt final int foo) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final int testExtra = IntentHelper.getIntExtra(intent, \"test\", 0);",
-                "t.foo(testExtra);",
+                "final int testIntExtra_48 = IntentHelper.getIntExtra(intent, \"test\", 0);",
+                "t.foo(testIntExtra_48);",
                 
-                "final int fooExtra = IntentHelper.getIntExtra(intent, \"foo\", 0);",
-                "t.bar(testExtra, fooExtra);",
+                "final int fooIntExtra_48 = IntentHelper.getIntExtra(intent, \"foo\", 0);",
+                "t.bar(testIntExtra_48, fooIntExtra_48);",
             "}"
         );
         //@formatter:on

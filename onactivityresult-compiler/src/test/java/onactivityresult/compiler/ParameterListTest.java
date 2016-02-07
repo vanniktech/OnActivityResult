@@ -1,8 +1,8 @@
 package onactivityresult.compiler;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class ParameterListTest {
     @Test

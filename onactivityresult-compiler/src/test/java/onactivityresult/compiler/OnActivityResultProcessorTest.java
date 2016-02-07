@@ -3,11 +3,11 @@ package onactivityresult.compiler;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import java.util.Set;
 
 import javax.lang.model.SourceVersion;
-
-import org.junit.Test;
 
 public class OnActivityResultProcessorTest {
     @Test

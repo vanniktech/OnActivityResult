@@ -9,7 +9,7 @@ import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 public class ParameterTest {
     @Test
     public void testConstructorConfirmsParameters() {
-        PrivateConstructorChecker.forClass(Parameter.class).expectedWithParameters(String.class, AnnotatedParameter.class, Parameter.PreCondition.class).check();
+        PrivateConstructorChecker.forClass(Parameter.class).expectedWithParameters(String.class, AnnotatedParameter.class, Parameter.PreCondition.class, String.class).check();
     }
 
     @Test

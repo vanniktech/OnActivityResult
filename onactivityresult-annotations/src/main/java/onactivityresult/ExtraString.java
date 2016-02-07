@@ -18,7 +18,6 @@ import java.lang.annotation.Target;
  * </code>
  * </p>
  * <br>
- * defaultValue: null<br>
  * extra name: same as parameter <br>
  * NOTE: In this case it would be extraString<br>
  *
@@ -26,4 +25,10 @@ import java.lang.annotation.Target;
  */
 @Retention(CLASS)
 @Target(PARAMETER)
-public @interface ExtraString {}
+public @interface ExtraString {
+    /**
+     * @return the set default value if the extra is not set on the intent
+     * @since 0.3.0
+     */
+    String defaultValue() default "";
+}

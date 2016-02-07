@@ -1,6 +1,8 @@
 package onactivityresult.compiler;
 
-import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
@@ -8,9 +10,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
 public class UtilsTest {
     @Test

@@ -1,6 +1,7 @@
 package onactivityresult.compiler;
 
 import java.lang.annotation.Annotation;
+import java.util.Locale;
 
 import javax.lang.model.element.Element;
 
@@ -22,6 +23,13 @@ import com.squareup.javapoet.TypeVariableName;
 public enum AnnotatedParameter {
     BOOLEAN {
         @Override
+        Parameter createParameter(final Element element) {
+            final ExtraBoolean annotation = element.getAnnotation(ExtraBoolean.class);
+            final boolean defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
+        @Override
         TypeName asType() {
             return TypeVariableName.BOOLEAN;
         }
@@ -32,6 +40,13 @@ public enum AnnotatedParameter {
         }
     },
     BYTE {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ExtraByte annotation = element.getAnnotation(ExtraByte.class);
+            final byte defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
         @Override
         TypeName asType() {
             return TypeVariableName.BYTE;
@@ -44,6 +59,13 @@ public enum AnnotatedParameter {
     },
     CHAR {
         @Override
+        Parameter createParameter(final Element element) {
+            final ExtraChar annotation = element.getAnnotation(ExtraChar.class);
+            final char defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf((int) defaultValue));
+        }
+
+        @Override
         TypeName asType() {
             return TypeVariableName.CHAR;
         }
@@ -54,6 +76,13 @@ public enum AnnotatedParameter {
         }
     },
     DOUBLE {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ExtraDouble annotation = element.getAnnotation(ExtraDouble.class);
+            final double defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
         @Override
         TypeName asType() {
             return TypeVariableName.DOUBLE;
@@ -66,6 +95,13 @@ public enum AnnotatedParameter {
     },
     FLOAT {
         @Override
+        Parameter createParameter(final Element element) {
+            final ExtraFloat annotation = element.getAnnotation(ExtraFloat.class);
+            final float defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
+        @Override
         TypeName asType() {
             return TypeVariableName.FLOAT;
         }
@@ -76,6 +112,13 @@ public enum AnnotatedParameter {
         }
     },
     INT {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ExtraInt annotation = element.getAnnotation(ExtraInt.class);
+            final int defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
         @Override
         TypeName asType() {
             return TypeVariableName.INT;
@@ -88,6 +131,13 @@ public enum AnnotatedParameter {
     },
     LONG {
         @Override
+        Parameter createParameter(final Element element) {
+            final ExtraLong annotation = element.getAnnotation(ExtraLong.class);
+            final long defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
+        @Override
         TypeName asType() {
             return TypeVariableName.LONG;
         }
@@ -98,6 +148,13 @@ public enum AnnotatedParameter {
         }
     },
     SHORT {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ExtraShort annotation = element.getAnnotation(ExtraShort.class);
+            final short defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+        }
+
         @Override
         TypeName asType() {
             return TypeVariableName.SHORT;
@@ -110,6 +167,13 @@ public enum AnnotatedParameter {
     },
     STRING {
         @Override
+        Parameter createParameter(final Element element) {
+            final ExtraString annotation = element.getAnnotation(ExtraString.class);
+            final String defaultValue = annotation.defaultValue();
+            return Parameter.create(this, element.getSimpleName().toString(), defaultValue);
+        }
+
+        @Override
         TypeName asType() {
             return ClassName.get(String.class);
         }
@@ -121,6 +185,12 @@ public enum AnnotatedParameter {
     },
     INTENT_DATA {
         @Override
+        Parameter createParameter(final Element element) {
+            final Parameter.PreCondition preCondition = Parameter.PreCondition.from(element.getAnnotationMirrors());
+            return Parameter.createIntentData(preCondition);
+        }
+
+        @Override
         TypeName asType() {
             return ClassName.get("android.net", "Uri");
         }
@@ -129,19 +199,16 @@ public enum AnnotatedParameter {
         Class<? extends Annotation> getAnnotation() {
             return IntentData.class;
         }
-
-        @Override
-        Parameter createParameter(final Element element) {
-            final Parameter.PreCondition preCondition = Parameter.PreCondition.from(element.getAnnotationMirrors());
-            return Parameter.createIntentData(preCondition);
-        }
     };
 
-    Parameter createParameter(final Element element) {
-        return Parameter.create(this, element.getSimpleName().toString());
-    }
+    abstract Parameter createParameter(final Element element);
 
     abstract TypeName asType();
 
     abstract Class<? extends Annotation> getAnnotation();
+
+    public String readableName() {
+        final String name = this.name();
+        return name.charAt(0) + name.substring(1).toLowerCase(Locale.US);
+    }
 }
