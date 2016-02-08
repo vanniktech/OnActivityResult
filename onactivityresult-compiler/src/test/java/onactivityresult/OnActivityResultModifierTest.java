@@ -3,11 +3,11 @@ package onactivityresult;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
+import org.junit.Test;
+
 import javax.tools.JavaFileObject;
 
 import onactivityresult.compiler.OnActivityResultProcessor;
-
-import org.junit.Test;
 
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;

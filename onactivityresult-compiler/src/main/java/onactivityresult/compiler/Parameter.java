@@ -9,30 +9,32 @@ final class Parameter {
     static final String INTENT      = "intent";
     static final String INTENT_DATA = "intentData";
 
-    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName) {
-        return new Parameter(simpleName, annotatedParameter, null);
+    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final String defaultValue) {
+        return new Parameter(simpleName, annotatedParameter, null, defaultValue);
     }
 
     static Parameter createResultCode() {
-        return new Parameter(RESULT_CODE, null, null);
+        return new Parameter(RESULT_CODE, null, null, null);
     }
 
     static Parameter createIntent() {
-        return new Parameter(INTENT, null, null);
+        return new Parameter(INTENT, null, null, null);
     }
 
     static Parameter createIntentData(final PreCondition preCondition) {
-        return new Parameter(INTENT_DATA, AnnotatedParameter.INTENT_DATA, preCondition);
+        return new Parameter(INTENT_DATA, AnnotatedParameter.INTENT_DATA, preCondition, null);
     }
 
     private final String            name;
+    private final String            defaultValue;
     public final AnnotatedParameter annotatedParameter;
     public final PreCondition       preCondition;
 
-    private Parameter(final String name, final AnnotatedParameter annotatedParameter, final PreCondition preCondition) {
+    private Parameter(final String name, final AnnotatedParameter annotatedParameter, final PreCondition preCondition, final String defaultValue) {
         this.name = name;
         this.annotatedParameter = annotatedParameter;
         this.preCondition = preCondition == null ? PreCondition.DEFAULT : preCondition;
+        this.defaultValue = defaultValue;
     }
 
     String getName() {
@@ -41,7 +43,9 @@ final class Parameter {
                 return name + preCondition.getSuffix();
             }
 
-            return name + "Extra";
+            final int hashCode = defaultValue.hashCode();
+            final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
+            return name + annotatedParameter.readableName() + "Extra_" + identifier;
         }
 
         return name;
@@ -49,6 +53,10 @@ final class Parameter {
 
     String getKey() {
         return name;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
     @Override
@@ -62,12 +70,13 @@ final class Parameter {
         }
 
         final Parameter parameter = (Parameter) o;
-        return name != null ? name.equals(parameter.name) : parameter.name == null && annotatedParameter == parameter.annotatedParameter && preCondition == parameter.preCondition;
+        return name != null ? name.equals(parameter.name) : parameter.name == null && (defaultValue != null ? defaultValue.equals(parameter.defaultValue) : parameter.defaultValue == null && annotatedParameter == parameter.annotatedParameter && preCondition == parameter.preCondition);
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
         result = 31 * result + (annotatedParameter != null ? annotatedParameter.hashCode() : 0);
         result = 31 * result + preCondition.hashCode();
         return result;
