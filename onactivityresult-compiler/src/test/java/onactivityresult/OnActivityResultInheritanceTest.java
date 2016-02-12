@@ -44,7 +44,6 @@ public class OnActivityResultInheritanceTest {
                 "package test;",
 
                 "import android.content.Intent;",
-                "import java.lang.Override;",
                 "import onactivityresult.internal.IOnActivityResult;",
                
                 "public class BaseActivity$$OnActivityResult<T extends BaseActivity> implements IOnActivityResult<T> {",
@@ -64,7 +63,6 @@ public class OnActivityResultInheritanceTest {
                 "package test;",
 
                 "import android.content.Intent;",
-                "import java.lang.Override;",
 
                 "public class TestActivity$$OnActivityResult<T extends TestActivity> extends BaseActivity$$OnActivityResult<T> {",
                     "@Override",
@@ -87,7 +85,6 @@ public class OnActivityResultInheritanceTest {
                 "package test;",
 
                 "import android.content.Intent;",
-                "import java.lang.Override;",
 
                 "public class AnotherTestActivity$$OnActivityResult<T extends AnotherTestActivity> extends TestActivity$$OnActivityResult<T> {",
                     "@Override",

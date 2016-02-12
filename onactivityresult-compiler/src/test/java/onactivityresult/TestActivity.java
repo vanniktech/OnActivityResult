@@ -191,7 +191,7 @@ final class TestActivity {
             code.add("}");
 
             final boolean needsIntentHelper = hasNullable || hasNotNull || hasIntentData || hasExtraBoolean || hasExtraByte || hasExtraChar || hasExtraDouble || hasExtraFloat || hasExtraInt || hasExtraLong || hasExtraShort || hasExtraString;
-            return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, hasExtraString, headLines);
+            return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
         }
     }
 
@@ -199,15 +199,13 @@ final class TestActivity {
         private final JavaFileObject source;
         private final boolean        needsIntentHelper;
         private final boolean        hasIntentData;
-        private final boolean        hasString;
         private final int            headLines;
 
-        Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final boolean hasString, final int headLines) {
+        Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines) {
             this.source = source;
             this.needsIntentHelper = needsIntentHelper;
             this.hasIntentData = hasIntentData;
             this.headLines = headLines;
-            this.hasString = hasString;
         }
 
         public void generatesBody(final String... code) {
@@ -218,8 +216,6 @@ final class TestActivity {
     
                     "import android.content.Intent;",
                     hasIntentData ? "import android.net.Uri;" : "",
-                    "import java.lang.Override;",
-                    hasString ? "import java.lang.String;" : "",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
     
