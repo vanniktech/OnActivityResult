@@ -110,7 +110,7 @@ final class ActivityResultClass {
             }
 
             final Map<ResultCodes, List<MethodCall>> methodCallsForRequestCode = this.getSortedMethodCallsGroupedByResultCodesFor(requestCode);
-            this.addMethodCalls(result, methodCallsForRequestCode);
+            this.addMethodCallsForResultCodes(result, methodCallsForRequestCode);
         }
 
         result.endControlFlow();
@@ -139,7 +139,7 @@ final class ActivityResultClass {
         return sortedMethodCallsGroupedByResultCodes;
     }
 
-    private void addMethodCalls(final MethodSpec.Builder result, final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes) {
+    private void addMethodCallsForResultCodes(final MethodSpec.Builder result, final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes) {
         final Set<Parameter> existingParameters = new HashSet<>();
         boolean isFirstResultCodeIfStatement = true;
 
@@ -173,13 +173,7 @@ final class ActivityResultClass {
                 existingParameters.clear();
             }
 
-            for (final MethodCall methodCall : methodCalls) {
-                final ParameterList parameterList = methodCall.getParameterList();
-
-                this.addNecessaryParameters(result, existingParameters, parameterList);
-
-                result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodCall.getMethodName(), parameterList.toString());
-            }
+            this.addMethodCalls(result, existingParameters, methodCalls);
 
             final boolean isLast = !it.hasNext();
 
@@ -189,11 +183,21 @@ final class ActivityResultClass {
         }
     }
 
-    private void addNecessaryParameters(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {
-        for (final Parameter parameter : parameterList) {
-            final boolean notPresent = !existingParameters.contains(parameter);
+    private void addMethodCalls(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final List<MethodCall> methodCalls) {
+        for (final MethodCall methodCall : methodCalls) {
+            final ParameterList parameterList = methodCall.getParameterList();
 
-            if (notPresent) {
+            this.addNecessaryParameterVariables(result, existingParameters, parameterList);
+
+            result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodCall.getMethodName(), parameterList.toString());
+        }
+    }
+
+    private void addNecessaryParameterVariables(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {
+        for (final Parameter parameter : parameterList) {
+            final boolean isNotPresent = !existingParameters.contains(parameter);
+
+            if (isNotPresent) {
                 if (AnnotatedParameter.INTENT_DATA == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getIntentData$L($L)", URI, parameter.getName(), INTENT_HELPER, parameter.preCondition.getSuffix(), Parameter.INTENT);
                     existingParameters.add(parameter);

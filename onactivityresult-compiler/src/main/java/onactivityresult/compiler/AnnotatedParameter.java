@@ -25,7 +25,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraBoolean annotation = element.getAnnotation(ExtraBoolean.class);
-            final boolean defaultValue = annotation.defaultValue();
+            final boolean defaultValue = annotation != null && annotation.defaultValue();
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -43,7 +43,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraByte annotation = element.getAnnotation(ExtraByte.class);
-            final byte defaultValue = annotation.defaultValue();
+            final byte defaultValue = annotation != null ? annotation.defaultValue() : 0;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -61,7 +61,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraChar annotation = element.getAnnotation(ExtraChar.class);
-            final char defaultValue = annotation.defaultValue();
+            final char defaultValue = annotation != null ? annotation.defaultValue() : 0;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf((int) defaultValue));
         }
 
@@ -79,7 +79,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraDouble annotation = element.getAnnotation(ExtraDouble.class);
-            final double defaultValue = annotation.defaultValue();
+            final double defaultValue = annotation != null ? annotation.defaultValue() : 0d;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -97,7 +97,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraFloat annotation = element.getAnnotation(ExtraFloat.class);
-            final float defaultValue = annotation.defaultValue();
+            final float defaultValue = annotation != null ? annotation.defaultValue() : 0.f;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -115,7 +115,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraInt annotation = element.getAnnotation(ExtraInt.class);
-            final int defaultValue = annotation.defaultValue();
+            final int defaultValue = annotation != null ? annotation.defaultValue() : 0;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -133,7 +133,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraLong annotation = element.getAnnotation(ExtraLong.class);
-            final long defaultValue = annotation.defaultValue();
+            final long defaultValue = annotation != null ? annotation.defaultValue() : 0L;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -151,7 +151,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraShort annotation = element.getAnnotation(ExtraShort.class);
-            final short defaultValue = annotation.defaultValue();
+            final short defaultValue = annotation != null ? annotation.defaultValue() : 0;
             return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
         }
 
@@ -169,7 +169,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraString annotation = element.getAnnotation(ExtraString.class);
-            final String defaultValue = annotation.defaultValue();
+            final String defaultValue = annotation != null ? annotation.defaultValue() : "";
             return Parameter.create(this, element.getSimpleName().toString(), defaultValue);
         }
 

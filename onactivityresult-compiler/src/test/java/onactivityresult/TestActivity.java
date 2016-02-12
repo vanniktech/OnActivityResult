@@ -1,7 +1,7 @@
 package onactivityresult;
 
-import static com.google.common.truth.Truth.assertAbout;
-import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
+import com.google.common.base.Joiner;
+import com.google.testing.compile.JavaFileObjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.tools.JavaFileObject;
 
 import onactivityresult.compiler.OnActivityResultProcessor;
 
-import com.google.common.base.Joiner;
-import com.google.testing.compile.JavaFileObjects;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 final class TestActivity {
     public static Builder create() {
@@ -37,6 +37,7 @@ final class TestActivity {
         private boolean hasIntent;
         private boolean hasActivity;
 
+        private boolean hasExtra;
         private boolean hasExtraBoolean;
         private boolean hasExtraByte;
         private boolean hasExtraChar;
@@ -46,6 +47,8 @@ final class TestActivity {
         private boolean hasExtraLong;
         private boolean hasExtraShort;
         private boolean hasExtraString;
+
+        private final List<String> imports = new ArrayList<>();
 
         private Builder() {}
 
@@ -66,6 +69,11 @@ final class TestActivity {
 
         public Builder hasNullable() {
             hasNullable = true;
+            return this;
+        }
+
+        public Builder hasExtra() {
+            hasExtra = true;
             return this;
         }
 
@@ -146,6 +154,10 @@ final class TestActivity {
                 code.add("import android.content.Intent;");
             }
 
+            if (hasExtra) {
+                code.add("import onactivityresult.Extra;");
+            }
+
             if (hasExtraBoolean) {
                 code.add("import onactivityresult.ExtraBoolean;");
             }
@@ -183,6 +195,10 @@ final class TestActivity {
                 code.add("import java.lang.String;");
             }
 
+            for (final String name : imports) {
+                code.add("import " + name + ";");
+            }
+
             code.add("public class TestActivity {");
 
             final int headLines = code.size();
@@ -190,8 +206,13 @@ final class TestActivity {
             code.add(stringArrayToString(functions));
             code.add("}");
 
-            final boolean needsIntentHelper = hasNullable || hasNotNull || hasIntentData || hasExtraBoolean || hasExtraByte || hasExtraChar || hasExtraDouble || hasExtraFloat || hasExtraInt || hasExtraLong || hasExtraShort || hasExtraString;
+            final boolean needsIntentHelper = hasExtra || hasNullable || hasNotNull || hasIntentData || hasExtraBoolean || hasExtraByte || hasExtraChar || hasExtraDouble || hasExtraFloat || hasExtraInt || hasExtraLong || hasExtraShort || hasExtraString;
             return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
+        }
+
+        Builder addImport(final String name) {
+            imports.add(name);
+            return this;
         }
     }
 
