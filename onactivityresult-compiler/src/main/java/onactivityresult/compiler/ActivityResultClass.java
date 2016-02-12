@@ -67,7 +67,7 @@ final class ActivityResultClass {
 
         result.addMethod(this.createOnResultMethod());
 
-        return JavaFile.builder(classPackage, result.build()).addFileComment("Generated code from OnActivityResult. Do not modify!").build();
+        return JavaFile.builder(classPackage, result.build()).skipJavaLangImports(true).addFileComment("Generated code from OnActivityResult. Do not modify!").build();
     }
 
     void add(final MethodCall element, final RequestCode requestCode) {
