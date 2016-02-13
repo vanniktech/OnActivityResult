@@ -89,7 +89,7 @@ public class OnActivityResultExtraShortParameterTest {
     }
 
     @Test
-    public void testExtraShortSameRequestCodeDifferentExtraInts() {
+    public void testExtraShortSameRequestCodeDifferentExtraShorts() {
         //@formatter:off
         TestActivity.create().hasExtraShort().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraShort final short test) {}",

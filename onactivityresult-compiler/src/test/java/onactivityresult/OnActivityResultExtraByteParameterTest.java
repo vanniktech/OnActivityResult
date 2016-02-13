@@ -89,7 +89,7 @@ public class OnActivityResultExtraByteParameterTest {
     }
 
     @Test
-    public void testExtraByteSameRequestCodeDifferentExtraInts() {
+    public void testExtraByteSameRequestCodeDifferentExtraBytes() {
         //@formatter:off
         TestActivity.create().hasExtraByte().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraByte final byte test) {}",
