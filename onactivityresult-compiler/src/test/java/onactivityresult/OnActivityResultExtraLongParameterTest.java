@@ -89,7 +89,7 @@ public class OnActivityResultExtraLongParameterTest {
     }
 
     @Test
-    public void testExtraLongSameRequestCodeDifferentExtraInts() {
+    public void testExtraLongSameRequestCodeDifferentExtraLongs() {
         //@formatter:off
         TestActivity.create().hasExtraLong().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraLong final long test) {}",

@@ -84,7 +84,7 @@ public class OnActivityResultExtraBooleanParameterTest {
     }
 
     @Test
-    public void testExtraBooleanSameRequestCodeDifferentExtraInts() {
+    public void testExtraBooleanSameRequestCodeDifferentExtraBooleans() {
         //@formatter:off
         TestActivity.create().hasExtraBoolean().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraBoolean final boolean test) {}",

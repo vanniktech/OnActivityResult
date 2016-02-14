@@ -89,7 +89,7 @@ public class OnActivityResultExtraFloatParameterTest {
     }
 
     @Test
-    public void testExtraFloatSameRequestCodeDifferentExtraInts() {
+    public void testExtraFloatSameRequestCodeDifferentExtraFloats() {
         //@formatter:off
         TestActivity.create().hasExtraFloat().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraFloat final float test) {}",

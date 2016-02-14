@@ -89,7 +89,7 @@ public class OnActivityResultExtraDoubleParameterTest {
     }
 
     @Test
-    public void testExtraDoubleSameRequestCodeDifferentExtraInts() {
+    public void testExtraDoubleSameRequestCodeDifferentExtraDoubles() {
         //@formatter:off
         TestActivity.create().hasExtraDouble().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraDouble final double test) {}",

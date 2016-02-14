@@ -85,7 +85,7 @@ public class OnActivityResultExtraStringParameterTest {
     }
 
     @Test
-    public void testExtraStringSameRequestCodeDifferentExtraInts() {
+    public void testExtraStringSameRequestCodeDifferentExtraStrings() {
         //@formatter:off
         TestActivity.create().hasExtraString().build(
             "@OnActivityResult(requestCode = 5) public void foo(@ExtraString final String test) {}",
