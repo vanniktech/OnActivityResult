@@ -1,6 +1,10 @@
 package onactivityresult.compiler;
 
-import static javax.tools.Diagnostic.Kind.ERROR;
+import com.google.auto.common.SuperficialValidation;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -26,6 +30,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 
+import onactivityresult.Extra;
 import onactivityresult.ExtraBoolean;
 import onactivityresult.ExtraByte;
 import onactivityresult.ExtraChar;
@@ -38,10 +43,7 @@ import onactivityresult.ExtraString;
 import onactivityresult.IntentData;
 import onactivityresult.OnActivityResult;
 
-import com.google.auto.common.SuperficialValidation;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeVariableName;
+import static javax.tools.Diagnostic.Kind.ERROR;
 
 @AutoService(Processor.class)
 @SuppressWarnings({ "PMD.GodClass", "PMD.ExcessiveImports" })
@@ -82,6 +84,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         supportedAnnotations.add(ExtraLong.class.getCanonicalName());
         supportedAnnotations.add(ExtraShort.class.getCanonicalName());
         supportedAnnotations.add(ExtraString.class.getCanonicalName());
+        supportedAnnotations.add(Extra.class.getCanonicalName());
 
         return supportedAnnotations;
     }
@@ -107,6 +110,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
     private AnnotatedMethodParameters getAnnotatedMethodParameters(final RoundEnvironment environment) {
         final AnnotatedMethodParameters annotatedParameters = new AnnotatedMethodParameters();
 
+        this.processAnnotatedExtraParameters(environment, annotatedParameters);
         this.processAnnotatedParameters(AnnotatedParameter.BOOLEAN, environment, annotatedParameters);
         this.processAnnotatedParameters(AnnotatedParameter.BYTE, environment, annotatedParameters);
         this.processAnnotatedParameters(AnnotatedParameter.CHAR, environment, annotatedParameters);
@@ -121,6 +125,45 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         return annotatedParameters;
     }
 
+    private void processAnnotatedExtraParameters(final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
+        final Class<? extends Annotation> annotation = Extra.class;
+        final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
+
+        for (final Element parameter : parameters) {
+            if (!SuperficialValidation.validateElement(parameter)) {
+                continue;
+            }
+
+            try {
+                final Element method = parameter.getEnclosingElement();
+
+                if (!Utils.isParameter(parameter)) {
+                    throw new OnActivityResultProcessingException(method, "@%s annotation must be on a method parameter", annotation.getSimpleName());
+                }
+
+                boolean didFindMatch = false;
+                final AnnotatedParameter[] supportedAnnotatedParameters = AnnotatedParameter.values();
+
+                for (final AnnotatedParameter annotatedParameter : supportedAnnotatedParameters) {
+                    final TypeName parameterType = TypeVariableName.get(parameter.asType());
+
+                    if (annotatedParameter.asType().equals(parameterType)) {
+                        final ExecutableElement executableElement = (ExecutableElement) method;
+                        annotatedParameters.put(executableElement, (VariableElement) parameter, annotatedParameter.createParameter(parameter));
+                        didFindMatch = true;
+                        break;
+                    }
+                }
+
+                if (!didFindMatch) {
+                    throw new OnActivityResultProcessingException(method, "@%s parameter does not support type %s", annotation.getSimpleName(), parameter.asType().toString());
+                }
+            } catch (final OnActivityResultProcessingException e) {
+                e.printError(processingEnv);
+            }
+        }
+    }
+
     private void processAnnotatedParameters(final AnnotatedParameter annotatedParameter, final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
         final Class<? extends Annotation> annotation = annotatedParameter.getAnnotation();
         final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
@@ -131,14 +174,14 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             }
 
             try {
-                final Element enclosingElement = parameter.getEnclosingElement();
+                final Element method = parameter.getEnclosingElement();
 
                 if (!Utils.isParameter(parameter)) {
-                    throw new OnActivityResultProcessingException(enclosingElement, "@%s annotation must be on a method parameter", annotation.getSimpleName());
+                    throw new OnActivityResultProcessingException(method, "@%s annotation must be on a method parameter", annotation.getSimpleName());
                 } else if (!annotatedParameter.asType().equals(TypeVariableName.get(parameter.asType()))) {
-                    throw new OnActivityResultProcessingException(enclosingElement, "@%s parameters must be of type %s", annotation.getSimpleName(), annotatedParameter.asType().toString());
+                    throw new OnActivityResultProcessingException(method, "@%s parameters must be of type %s", annotation.getSimpleName(), annotatedParameter.asType().toString());
                 } else {
-                    final ExecutableElement executableElement = (ExecutableElement) enclosingElement;
+                    final ExecutableElement executableElement = (ExecutableElement) method;
                     annotatedParameters.put(executableElement, (VariableElement) parameter, annotatedParameter.createParameter(parameter));
                 }
             } catch (final OnActivityResultProcessingException e) {

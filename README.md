@@ -86,6 +86,7 @@ In addition to that other parameter annotations are supported like:
 
 ##### Since 0.3.0
 
+* [@Extra](onactivityresult-annotations/src/main/java/onactivityresult/Extra.java) `type var`.
 * [@ExtraBoolean](onactivityresult-annotations/src/main/java/onactivityresult/ExtraBoolean.java) `boolean booleanVar`.
 * [@ExtraByte](onactivityresult-annotations/src/main/java/onactivityresult/ExtraByte.java) `byte byteVar`.
 * [@ExtraChar](onactivityresult-annotations/src/main/java/onactivityresult/ExtraChar.java) `char charVar`.
@@ -108,7 +109,7 @@ Some examples can be found [here](./onactivityresult-sample/src/main/java/com/va
 * Inheritance support
 * [@IntentData](onactivityresult-annotations/src/main/java/onactivityresult/IntentData.java) annotation with @NonNull & @Nullable support. Since 0.2.0
 * Specify resultCodes with e.g. `resultCodes = { Activity.RESULT_OK }`. Since 0.2.0
-* [@ExtraBoolean](onactivityresult-annotations/src/main/java/onactivityresult/ExtraBoolean.java), [@ExtraByte](onactivityresult-annotations/src/main/java/onactivityresult/ExtraByte.java), [@ExtraChar](onactivityresult-annotations/src/main/java/onactivityresult/ExtraChar.java), [@ExtraDouble](onactivityresult-annotations/src/main/java/onactivityresult/ExtraDouble.java), [@ExtraFloat](onactivityresult-annotations/src/main/java/onactivityresult/ExtraFloat.java), [@ExtraInt](onactivityresult-annotations/src/main/java/onactivityresult/ExtraInt.java), [@ExtraLong](onactivityresult-annotations/src/main/java/onactivityresult/ExtraLong.java), [@ExtraShort](onactivityresult-annotations/src/main/java/onactivityresult/ExtraShort.java), [@ExtraString](onactivityresult-annotations/src/main/java/onactivityresult/ExtraString.java) annotations. Since 0.3.0
+* [@Extra](onactivityresult-annotations/src/main/java/onactivityresult/Extra.java), [@ExtraBoolean](onactivityresult-annotations/src/main/java/onactivityresult/ExtraBoolean.java), [@ExtraByte](onactivityresult-annotations/src/main/java/onactivityresult/ExtraByte.java), [@ExtraChar](onactivityresult-annotations/src/main/java/onactivityresult/ExtraChar.java), [@ExtraDouble](onactivityresult-annotations/src/main/java/onactivityresult/ExtraDouble.java), [@ExtraFloat](onactivityresult-annotations/src/main/java/onactivityresult/ExtraFloat.java), [@ExtraInt](onactivityresult-annotations/src/main/java/onactivityresult/ExtraInt.java), [@ExtraLong](onactivityresult-annotations/src/main/java/onactivityresult/ExtraLong.java), [@ExtraShort](onactivityresult-annotations/src/main/java/onactivityresult/ExtraShort.java), [@ExtraString](onactivityresult-annotations/src/main/java/onactivityresult/ExtraString.java) annotations. Since 0.3.0
 
 ## Thanks
 

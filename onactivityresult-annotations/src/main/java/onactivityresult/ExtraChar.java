@@ -20,6 +20,9 @@ import java.lang.annotation.Target;
  * <br>
  * extra name: same as parameter <br>
  * NOTE: In this case it would be extraChar<br>
+ * <br>
+ * NOTE: If you don't care about the {@link ExtraChar#defaultValue()} you can also use the {@link Extra} annotation<br>
+ * <br>
  *
  * @since 0.3.0
  */

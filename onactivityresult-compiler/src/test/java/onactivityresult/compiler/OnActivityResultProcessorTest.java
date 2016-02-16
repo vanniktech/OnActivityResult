@@ -24,6 +24,7 @@ public class OnActivityResultProcessorTest {
             "onactivityresult.ExtraString",
             "onactivityresult.ExtraFloat",
             "onactivityresult.ExtraChar",
+            "onactivityresult.Extra",
             "onactivityresult.ExtraBoolean",
             "onactivityresult.OnActivityResult",
             "onactivityresult.ExtraInt",
