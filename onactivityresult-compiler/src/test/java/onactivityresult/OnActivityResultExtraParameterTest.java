@@ -7,6 +7,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 
 @RunWith(Parameterized.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultExtraParameterTest {
     @Parameterized.Parameters(name = "Type {0}")
     public static Iterable<Object[]> data() {
@@ -183,7 +184,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     private String getVariableName(final String origin) {
-        return origin + camelCaseType() + "Extra" + defaultIdentifier + "";
+        return origin + camelCaseType() + "Extra" + defaultIdentifier;
     }
 
     private String camelCaseType() {

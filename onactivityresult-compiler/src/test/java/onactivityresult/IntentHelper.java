@@ -3,7 +3,7 @@ package onactivityresult;
 import android.content.Intent;
 import android.net.Uri;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "PMD.AvoidDuplicateLiterals" })
 public final class IntentHelper {
     public static Uri getIntentData(final Intent intent) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");

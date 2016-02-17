@@ -12,6 +12,7 @@ import onactivityresult.compiler.OnActivityResultProcessor;
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultInheritanceTest {
     @Test
     public void testOnActivityResult() {

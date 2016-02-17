@@ -2,6 +2,7 @@ package onactivityresult;
 
 import org.junit.Test;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultExtraShortParameterTest {
     @Test
     public void testExtraShort() {
