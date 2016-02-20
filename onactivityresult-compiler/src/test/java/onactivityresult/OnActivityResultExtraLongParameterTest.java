@@ -2,6 +2,7 @@ package onactivityresult;
 
 import org.junit.Test;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultExtraLongParameterTest {
     @Test
     public void testExtraLong() {

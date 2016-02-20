@@ -58,13 +58,6 @@ android {
             }
         }
     }
-
-    lintOptions {
-        warningsAsErrors true
-        abortOnError true
-        textReport true
-        textOutput 'stdout'
-    }
 }
 
 dependencies {

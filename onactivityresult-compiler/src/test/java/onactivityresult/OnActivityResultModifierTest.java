@@ -12,7 +12,7 @@ import onactivityresult.compiler.OnActivityResultProcessor;
 import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
-@SuppressWarnings("checkstyle:magicnumber")
+@SuppressWarnings({ "checkstyle:magicnumber", "PMD.AvoidDuplicateLiterals" })
 public class OnActivityResultModifierTest {
     @Test
     public void testPrivateOnActivityResultMemberMethodShouldLetTheProcessorFail() {
