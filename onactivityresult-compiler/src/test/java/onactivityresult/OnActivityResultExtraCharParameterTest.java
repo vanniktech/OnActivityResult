@@ -13,6 +13,8 @@ public class OnActivityResultExtraCharParameterTest {
             "if (requestCode == 3) {",
                 "final char testCharExtra_48 = IntentHelper.getCharExtra(intent, \"test\", (char) 0);",
                 "t.test(testCharExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraCharParameterTest {
             "if (requestCode == 3) {",
                 "final char testCharExtra_49 = IntentHelper.getCharExtra(intent, \"test\", (char) 1);",
                 "t.test(testCharExtra_49);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -49,6 +53,8 @@ public class OnActivityResultExtraCharParameterTest {
 
                 "final char testCharExtra_50 = IntentHelper.getCharExtra(intent, \"test\", (char) 2);",
                 "t.bar(testCharExtra_50);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -64,6 +70,8 @@ public class OnActivityResultExtraCharParameterTest {
                 "final char fooCharExtra_48 = IntentHelper.getCharExtra(intent, \"foo\", (char) 0);",
                 "final char barCharExtra_48 = IntentHelper.getCharExtra(intent, \"bar\", (char) 0);",
                 "t.test(fooCharExtra_48, barCharExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -80,6 +88,8 @@ public class OnActivityResultExtraCharParameterTest {
                 "final char valueCharExtra_48 = IntentHelper.getCharExtra(intent, \"value\", (char) 0);",
                 "t.foo(valueCharExtra_48);",
                 "t.bar(valueCharExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -98,6 +108,8 @@ public class OnActivityResultExtraCharParameterTest {
                 
                 "final char fooCharExtra_48 = IntentHelper.getCharExtra(intent, \"foo\", (char) 0);",
                 "t.bar(testCharExtra_48, fooCharExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

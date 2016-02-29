@@ -22,6 +22,8 @@ public class OnActivityResultIntentDataTest {
             "if (requestCode == 3) {",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.test(intentData);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -36,6 +38,8 @@ public class OnActivityResultIntentDataTest {
             "if (requestCode == 3) {",
                 "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                 "t.test(intentDataNullable);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -50,6 +54,8 @@ public class OnActivityResultIntentDataTest {
             "if (requestCode == 3) {",
                 "final Uri intentDataNonNull = IntentHelper.getIntentDataNonNull(intent);",
                 "t.test(intentDataNonNull);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -70,6 +76,8 @@ public class OnActivityResultIntentDataTest {
                 "t.abc(intentDataNonNull);",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.foo(intentData);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -96,6 +104,8 @@ public class OnActivityResultIntentDataTest {
                 "final Uri intentDataNonNull = IntentHelper.getIntentDataNonNull(intent);",
                 "t.fooNotNull(intentDataNonNull);",
                 "t.barNotNull(intentDataNonNull);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -112,12 +122,18 @@ public class OnActivityResultIntentDataTest {
             "if (requestCode == 10) {",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.bar(intentData);",
+
+                "didHandle = true;",
             "} else if (requestCode == 11) {",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.foo(intentData, resultCode);",
+
+                "didHandle = true;",
             "} else if (requestCode == 12) {",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.abc(intent, resultCode, intentData);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -132,6 +148,8 @@ public class OnActivityResultIntentDataTest {
             "if (requestCode == 3) {",
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.test(intentData, resultCode, intent);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

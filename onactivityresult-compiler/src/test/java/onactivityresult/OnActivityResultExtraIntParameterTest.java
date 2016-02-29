@@ -13,6 +13,8 @@ public class OnActivityResultExtraIntParameterTest {
             "if (requestCode == 3) {",
                 "final int testIntExtra_48 = IntentHelper.getIntExtra(intent, \"test\", 0);",
                 "t.test(testIntExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraIntParameterTest {
             "if (requestCode == 3) {",
                 "final int testIntExtra_49 = IntentHelper.getIntExtra(intent, \"test\", 1);",
                 "t.test(testIntExtra_49);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -53,6 +57,8 @@ public class OnActivityResultExtraIntParameterTest {
 
                 "final int testIntExtra_1446 = IntentHelper.getIntExtra(intent, \"test\", -3);",
                 "t.neg(testIntExtra_1446);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -68,6 +74,8 @@ public class OnActivityResultExtraIntParameterTest {
                 "final int fooIntExtra_48 = IntentHelper.getIntExtra(intent, \"foo\", 0);",
                 "final int barIntExtra_48 = IntentHelper.getIntExtra(intent, \"bar\", 0);",
                 "t.test(fooIntExtra_48, barIntExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -84,6 +92,8 @@ public class OnActivityResultExtraIntParameterTest {
                 "final int valueIntExtra_48 = IntentHelper.getIntExtra(intent, \"value\", 0);",
                 "t.foo(valueIntExtra_48);",
                 "t.bar(valueIntExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -102,6 +112,8 @@ public class OnActivityResultExtraIntParameterTest {
                 
                 "final int fooIntExtra_48 = IntentHelper.getIntExtra(intent, \"foo\", 0);",
                 "t.bar(testIntExtra_48, fooIntExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

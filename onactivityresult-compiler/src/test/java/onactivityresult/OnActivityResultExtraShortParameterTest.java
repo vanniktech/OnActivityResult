@@ -13,6 +13,8 @@ public class OnActivityResultExtraShortParameterTest {
             "if (requestCode == 3) {",
                 "final short testShortExtra_48 = IntentHelper.getShortExtra(intent, \"test\", (short) 0);",
                 "t.test(testShortExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraShortParameterTest {
             "if (requestCode == 3) {",
                 "final short testShortExtra_49 = IntentHelper.getShortExtra(intent, \"test\", (short) 1);",
                 "t.test(testShortExtra_49);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -53,6 +57,8 @@ public class OnActivityResultExtraShortParameterTest {
 
                 "final short testShortExtra_1446 = IntentHelper.getShortExtra(intent, \"test\", (short) -3);",
                 "t.neg(testShortExtra_1446);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -68,6 +74,8 @@ public class OnActivityResultExtraShortParameterTest {
                 "final short fooShortExtra_48 = IntentHelper.getShortExtra(intent, \"foo\", (short) 0);",
                 "final short barShortExtra_48 = IntentHelper.getShortExtra(intent, \"bar\", (short) 0);",
                 "t.test(fooShortExtra_48, barShortExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -84,6 +92,8 @@ public class OnActivityResultExtraShortParameterTest {
                 "final short valueShortExtra_48 = IntentHelper.getShortExtra(intent, \"value\", (short) 0);",
                 "t.foo(valueShortExtra_48);",
                 "t.bar(valueShortExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -102,6 +112,8 @@ public class OnActivityResultExtraShortParameterTest {
                 
                 "final short fooShortExtra_48 = IntentHelper.getShortExtra(intent, \"foo\", (short) 0);",
                 "t.bar(testShortExtra_48, fooShortExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

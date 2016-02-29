@@ -27,6 +27,7 @@ final class ActivityResultClass {
 
     private static final String                 REQUEST_CODE_PARAMETER_NAME = "requestCode";
     private static final String                 ON_RESULT_METHOD_NAME       = "onResult";
+    private static final String                 DID_HANDLE_VARIABLE         = "didHandle";
 
     private static final ClassName              ACTIVITY_ON_RESULT          = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName              INTENT                      = ClassName.get("android.content", "Intent");
@@ -79,6 +80,7 @@ final class ActivityResultClass {
         result.addParameter(TypeVariableName.get(TYPE_VARIABLE_NAME), TARGET_VARIABLE_NAME, FINAL);
         result.addParameter(int.class, REQUEST_CODE_PARAMETER_NAME, FINAL);
         result.addParameter(int.class, Parameter.RESULT_CODE, FINAL).addParameter(INTENT, Parameter.INTENT, FINAL);
+        result.returns(boolean.class);
 
         this.createOnResultMethodBody(result);
 
@@ -86,13 +88,15 @@ final class ActivityResultClass {
     }
 
     private void createOnResultMethodBody(final MethodSpec.Builder result) {
-        this.addSuperCallIfNecessary(result);
+        this.addSuperCallIfNecessaryAndResultVariable(result);
         this.addRequestCodeControlFlows(result);
     }
 
-    private void addSuperCallIfNecessary(final MethodSpec.Builder result) {
+    private void addSuperCallIfNecessaryAndResultVariable(final MethodSpec.Builder result) {
         if (superActivityResultClass != null) {
-            result.addStatement("super.$L($L, $L, $L, $L)", ON_RESULT_METHOD_NAME, TARGET_VARIABLE_NAME, REQUEST_CODE_PARAMETER_NAME, Parameter.RESULT_CODE, Parameter.INTENT);
+            result.addStatement("$T $L = super.$L($L, $L, $L, $L)", boolean.class, DID_HANDLE_VARIABLE, ON_RESULT_METHOD_NAME, TARGET_VARIABLE_NAME, REQUEST_CODE_PARAMETER_NAME, Parameter.RESULT_CODE, Parameter.INTENT);
+        } else {
+            result.addStatement("$T $L = false", boolean.class, DID_HANDLE_VARIABLE);
         }
     }
 
@@ -114,6 +118,8 @@ final class ActivityResultClass {
         }
 
         result.endControlFlow();
+
+        result.addStatement("return $L", DID_HANDLE_VARIABLE);
     }
 
     private Map<ResultCodes, List<MethodCall>> getSortedMethodCallsGroupedByResultCodesFor(final RequestCode requestCode) {
@@ -191,6 +197,8 @@ final class ActivityResultClass {
 
             result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodCall.getMethodName(), parameterList.toString());
         }
+
+        result.addStatement("$L = true", DID_HANDLE_VARIABLE);
     }
 
     private void addNecessaryParameterVariables(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {

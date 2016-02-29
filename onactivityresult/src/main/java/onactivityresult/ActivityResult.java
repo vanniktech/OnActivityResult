@@ -1,10 +1,10 @@
 package onactivityresult;
 
+import onactivityresult.internal.IOnActivityResult;
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import onactivityresult.internal.IOnActivityResult;
 
 public final class ActivityResult {
     private static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
@@ -36,7 +36,11 @@ public final class ActivityResult {
             mIntent = intent;
         }
 
-        public <T> void into(@NonNull final T object) {
+        /**
+         * @param object with annotated {@link OnActivityResult} methods which will be called depending on the given parameters
+         * @return whether or not a function was called for the given parameters
+         */
+        public <T> boolean into(@NonNull final T object) {
             final IOnActivityResult<Object> onActivityResult;
 
             try {
@@ -49,7 +53,7 @@ public final class ActivityResult {
                 throw new ActivityResultRuntimeException("Exception when handling IOnActivityResult " + instantiationException.getMessage(), instantiationException);
             }
 
-            onActivityResult.onResult(object, mRequestCode, mResultCode, mIntent);
+            return onActivityResult.onResult(object, mRequestCode, mResultCode, mIntent);
         }
     }
 

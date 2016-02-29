@@ -13,6 +13,8 @@ public class OnActivityResultResultCodesTest {
             "if (requestCode == 3) {",
                 "if (resultCode == 0 || resultCode == 1) {",
                     "t.test();",
+
+                    "didHandle = true;",
                 "}",
             "}"
         );
@@ -29,8 +31,12 @@ public class OnActivityResultResultCodesTest {
             "if (requestCode == 10) {",
                 "if (resultCode == 1) {",
                     "t.foo();",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 0 || resultCode == -1) {",
                     "t.bar();",
+
+                    "didHandle = true;",
                 "}",
             "}"
         );
@@ -48,6 +54,8 @@ public class OnActivityResultResultCodesTest {
                 "if (resultCode == 1) {",
                     "t.bar();",
                     "t.foo();",
+
+                    "didHandle = true;",
                 "}",
             "}"
         );
@@ -65,14 +73,20 @@ public class OnActivityResultResultCodesTest {
             "if (requestCode == 10) {",
                 "if (resultCode == 1) {",
                     "t.bar();",
+
+                    "didHandle = true;",
                 "}",
             "} else if (requestCode == 11) {",
                 "if (resultCode == 0) {",
                     "t.foo();",
+
+                    "didHandle = true;",
                 "}",
             "} else if (requestCode == 12) {",
                 "if (resultCode == -1) {",
                     "t.abc();",
+
+                    "didHandle = true;",
                 "}",
             "}"
         );
@@ -90,10 +104,14 @@ public class OnActivityResultResultCodesTest {
                 "if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.bar(intent, intentData);",
+
+                    "didHandle = true;",
                 "}",
 
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.foo(intent, resultCode, intentData);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

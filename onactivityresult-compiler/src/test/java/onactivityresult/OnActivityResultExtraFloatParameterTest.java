@@ -13,6 +13,8 @@ public class OnActivityResultExtraFloatParameterTest {
             "if (requestCode == 3) {",
                 "final float testFloatExtra_47602 = IntentHelper.getFloatExtra(intent, \"test\", 0.0f);",
                 "t.test(testFloatExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraFloatParameterTest {
             "if (requestCode == 3) {",
                 "final float testFloatExtra_48563 = IntentHelper.getFloatExtra(intent, \"test\", 1.0f);",
                 "t.test(testFloatExtra_48563);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -53,6 +57,8 @@ public class OnActivityResultExtraFloatParameterTest {
 
                 "final float testFloatExtra_1391080 = IntentHelper.getFloatExtra(intent, \"test\", -3.0f);",
                 "t.neg(testFloatExtra_1391080);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -68,6 +74,8 @@ public class OnActivityResultExtraFloatParameterTest {
                 "final float fooFloatExtra_47602 = IntentHelper.getFloatExtra(intent, \"foo\", 0.0f);",
                 "final float barFloatExtra_47602 = IntentHelper.getFloatExtra(intent, \"bar\", 0.0f);",
                 "t.test(fooFloatExtra_47602, barFloatExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -84,6 +92,8 @@ public class OnActivityResultExtraFloatParameterTest {
                 "final float valueFloatExtra_47602 = IntentHelper.getFloatExtra(intent, \"value\", 0.0f);",
                 "t.foo(valueFloatExtra_47602);",
                 "t.bar(valueFloatExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -102,6 +112,8 @@ public class OnActivityResultExtraFloatParameterTest {
                 
                 "final float fooFloatExtra_47602 = IntentHelper.getFloatExtra(intent, \"foo\", 0.0f);",
                 "t.bar(testFloatExtra_47602, fooFloatExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

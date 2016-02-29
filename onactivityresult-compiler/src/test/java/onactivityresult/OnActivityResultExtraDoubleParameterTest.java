@@ -13,6 +13,8 @@ public class OnActivityResultExtraDoubleParameterTest {
             "if (requestCode == 3) {",
                 "final double testDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"test\", 0d);",
                 "t.test(testDoubleExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraDoubleParameterTest {
             "if (requestCode == 3) {",
                 "final double testDoubleExtra_48563 = IntentHelper.getDoubleExtra(intent, \"test\", 1d);",
                 "t.test(testDoubleExtra_48563);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -53,6 +57,8 @@ public class OnActivityResultExtraDoubleParameterTest {
 
                 "final double testDoubleExtra_1391080 = IntentHelper.getDoubleExtra(intent, \"test\", -3d);",
                 "t.neg(testDoubleExtra_1391080);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -68,6 +74,8 @@ public class OnActivityResultExtraDoubleParameterTest {
                 "final double fooDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"foo\", 0d);",
                 "final double barDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"bar\", 0d);",
                 "t.test(fooDoubleExtra_47602, barDoubleExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -84,6 +92,8 @@ public class OnActivityResultExtraDoubleParameterTest {
                 "final double valueDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"value\", 0d);",
                 "t.foo(valueDoubleExtra_47602);",
                 "t.bar(valueDoubleExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -102,6 +112,8 @@ public class OnActivityResultExtraDoubleParameterTest {
                 
                 "final double fooDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"foo\", 0d);",
                 "t.bar(testDoubleExtra_47602, fooDoubleExtra_47602);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
