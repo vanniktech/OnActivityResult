@@ -242,8 +242,10 @@ final class TestActivity {
     
                     "public class TestActivity$$OnActivityResult<T extends TestActivity> implements IOnActivityResult<T> {",
                         "@Override",
-                        "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                        "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                            "boolean didHandle = false;",
                             stringArrayToString(code),
+                            "return didHandle;",
                         "}",
                     "}")
             );

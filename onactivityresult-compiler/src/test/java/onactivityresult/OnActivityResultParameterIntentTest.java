@@ -2,6 +2,7 @@ package onactivityresult;
 
 import org.junit.Test;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultParameterIntentTest {
     @Test
     public void testOnActivityResult() {
@@ -11,6 +12,8 @@ public class OnActivityResultParameterIntentTest {
         ).generatesBody(
             "if (requestCode == 3) {",
                 "t.test(intent);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -26,6 +29,8 @@ public class OnActivityResultParameterIntentTest {
             "if (requestCode == 10) {",
                 "t.bar(intent);",
                 "t.foo(intent);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -41,10 +46,16 @@ public class OnActivityResultParameterIntentTest {
         ).generatesBody(
             "if (requestCode == 10) {",
                 "t.bar(intent);",
+
+                "didHandle = true;",
             "} else if (requestCode == 11) {",
                 "t.foo(intent);",
+
+                "didHandle = true;",
             "} else if (requestCode == 12) {",
                 "t.abc(intent);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

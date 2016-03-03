@@ -13,6 +13,8 @@ public class OnActivityResultExtraLongParameterTest {
             "if (requestCode == 3) {",
                 "final long testLongExtra_48 = IntentHelper.getLongExtra(intent, \"test\", 0L);",
                 "t.test(testLongExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraLongParameterTest {
             "if (requestCode == 3) {",
                 "final long testLongExtra_49 = IntentHelper.getLongExtra(intent, \"test\", 1L);",
                 "t.test(testLongExtra_49);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -53,6 +57,8 @@ public class OnActivityResultExtraLongParameterTest {
 
                 "final long testLongExtra_1446 = IntentHelper.getLongExtra(intent, \"test\", -3L);",
                 "t.neg(testLongExtra_1446);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -68,6 +74,8 @@ public class OnActivityResultExtraLongParameterTest {
                 "final long fooLongExtra_48 = IntentHelper.getLongExtra(intent, \"foo\", 0L);",
                 "final long barLongExtra_48 = IntentHelper.getLongExtra(intent, \"bar\", 0L);",
                 "t.test(fooLongExtra_48, barLongExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -84,6 +92,8 @@ public class OnActivityResultExtraLongParameterTest {
                 "final long valueLongExtra_48 = IntentHelper.getLongExtra(intent, \"value\", 0L);",
                 "t.foo(valueLongExtra_48);",
                 "t.bar(valueLongExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -102,6 +112,8 @@ public class OnActivityResultExtraLongParameterTest {
                 
                 "final long fooLongExtra_48 = IntentHelper.getLongExtra(intent, \"foo\", 0L);",
                 "t.bar(testLongExtra_48, fooLongExtra_48);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

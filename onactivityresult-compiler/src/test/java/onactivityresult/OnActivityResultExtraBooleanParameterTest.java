@@ -13,6 +13,8 @@ public class OnActivityResultExtraBooleanParameterTest {
             "if (requestCode == 3) {",
                 "final boolean testBooleanExtra_97196323 = IntentHelper.getBooleanExtra(intent, \"test\", false);",
                 "t.test(testBooleanExtra_97196323);",
+                
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraBooleanParameterTest {
             "if (requestCode == 3) {",
                 "final boolean testBooleanExtra_3569038 = IntentHelper.getBooleanExtra(intent, \"test\", true);",
                 "t.test(testBooleanExtra_3569038);",
+                
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -48,6 +52,8 @@ public class OnActivityResultExtraBooleanParameterTest {
 
                 "final boolean testBooleanExtra_3569038 = IntentHelper.getBooleanExtra(intent, \"test\", true);",
                 "t.bar(testBooleanExtra_3569038);",
+                
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -63,6 +69,8 @@ public class OnActivityResultExtraBooleanParameterTest {
                 "final boolean fooBooleanExtra_97196323 = IntentHelper.getBooleanExtra(intent, \"foo\", false);",
                 "final boolean barBooleanExtra_97196323 = IntentHelper.getBooleanExtra(intent, \"bar\", false);",
                 "t.test(fooBooleanExtra_97196323, barBooleanExtra_97196323);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -79,6 +87,8 @@ public class OnActivityResultExtraBooleanParameterTest {
                 "final boolean valueBooleanExtra_97196323 = IntentHelper.getBooleanExtra(intent, \"value\", false);",
                 "t.foo(valueBooleanExtra_97196323);",
                 "t.bar(valueBooleanExtra_97196323);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -97,6 +107,8 @@ public class OnActivityResultExtraBooleanParameterTest {
                 
                 "final boolean fooBooleanExtra_97196323 = IntentHelper.getBooleanExtra(intent, \"foo\", false);",
                 "t.bar(testBooleanExtra_97196323, fooBooleanExtra_97196323);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

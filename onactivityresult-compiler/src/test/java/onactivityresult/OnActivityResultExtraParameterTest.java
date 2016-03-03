@@ -39,6 +39,8 @@ public class OnActivityResultExtraParameterTest {
             "if (requestCode == 3) {",
                 getExtractVariableStatement("test"),
                 callFunction("test", "test"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -51,11 +53,13 @@ public class OnActivityResultExtraParameterTest {
                 "@OnActivityResult(requestCode = 3) public void extra(@Extra final " + type + " test) {}",
                 "@OnActivityResult(requestCode = 3) public void specificExtra(@Extra" + camelCaseType() + " final " + type + " test) {}"
         ).generatesBody(
-                "if (requestCode == 3) {",
+            "if (requestCode == 3) {",
                 getExtractVariableStatement("test"),
                 callFunction("extra", "test"),
                 callFunction("specificExtra", "test"),
-                "}"
+
+                "didHandle = true;",
+            "}"
         );
         //@formatter:on
     }
@@ -70,6 +74,8 @@ public class OnActivityResultExtraParameterTest {
                 getExtractVariableStatement("foo"),
                 getExtractVariableStatement("bar"),
                 callFunction("test", "foo", "bar"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -86,6 +92,8 @@ public class OnActivityResultExtraParameterTest {
                 getExtractVariableStatement("test"),
                 callFunction("foo","test"),
                 callFunction("bar","test"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -101,9 +109,13 @@ public class OnActivityResultExtraParameterTest {
             "if (requestCode == 5) {",
                 getExtractVariableStatement("test"),
                 callFunction("foo","test"),
+
+                "didHandle = true;",
             "} else if (requestCode == 6) {",
                 getExtractVariableStatement("test"),
                 callFunction("bar","test"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -122,6 +134,8 @@ public class OnActivityResultExtraParameterTest {
 
                 getExtractVariableStatement("foo"),
                 callFunction("test", "test", "foo"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -141,6 +155,8 @@ public class OnActivityResultExtraParameterTest {
 
                     getExtractVariableStatement("foo"),
                     callFunction("test", "test", "foo"),
+
+                    "didHandle = true;",
                 "}",
             "}"
         );
@@ -160,12 +176,18 @@ public class OnActivityResultExtraParameterTest {
                     getExtractVariableStatement("test"),
                     getExtractVariableStatement("foo"),
                     callFunction("test", "test", "foo"),
+
+                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     getExtractVariableStatement("test"),
                     callFunction("foo","test"),
+
+                    "didHandle = true;",
                 "}",
                 getExtractVariableStatement("foo"),
                 callFunction("test", "foo"),
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

@@ -4,5 +4,5 @@ import android.content.Intent;
 
 /** just a stub **/
 public interface IOnActivityResult<T> {
-    void onResult(final T t, final int requestCode, final int resultCode, final Intent intent);
+    boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent);
 }

@@ -2,6 +2,7 @@ package onactivityresult;
 
 import org.junit.Test;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultParameterlessTest {
     @Test
     public void testOnActivityResult() {
@@ -11,6 +12,8 @@ public class OnActivityResultParameterlessTest {
         ).generatesBody(
             "if (requestCode == 3) {",
                 "t.test();",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -26,6 +29,8 @@ public class OnActivityResultParameterlessTest {
             "if (requestCode == 10) {",
                 "t.bar();",
                 "t.foo();",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -41,10 +46,16 @@ public class OnActivityResultParameterlessTest {
         ).generatesBody(
             "if (requestCode == 10) {",
                 "t.bar();",
+
+                "didHandle = true;",
             "} else if (requestCode == 11) {",
                 "t.foo();",
+
+                "didHandle = true;",
             "} else if (requestCode == 12) {",
                 "t.abc();",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

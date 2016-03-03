@@ -13,6 +13,8 @@ public class OnActivityResultExtraStringParameterTest {
             "if (requestCode == 3) {",
                 "final String testStringExtra_0 = IntentHelper.getStringExtra(intent, \"test\", \"\");",
                 "t.test(testStringExtra_0);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -27,6 +29,8 @@ public class OnActivityResultExtraStringParameterTest {
             "if (requestCode == 3) {",
                 "final String testStringExtra_N659125328 = IntentHelper.getStringExtra(intent, \"test\", \"defaultValue\");",
                 "t.test(testStringExtra_N659125328);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -49,6 +53,8 @@ public class OnActivityResultExtraStringParameterTest {
 
                 "final String testStringExtra_N1424385949 = IntentHelper.getStringExtra(intent, \"test\", \"abcdef\");",
                 "t.bar(testStringExtra_N1424385949);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -64,6 +70,8 @@ public class OnActivityResultExtraStringParameterTest {
                 "final String fooStringExtra_0 = IntentHelper.getStringExtra(intent, \"foo\", \"\");",
                 "final String barStringExtra_0 = IntentHelper.getStringExtra(intent, \"bar\", \"\");",
                 "t.test(fooStringExtra_0, barStringExtra_0);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -80,6 +88,8 @@ public class OnActivityResultExtraStringParameterTest {
                 "final String valueStringExtra_0 = IntentHelper.getStringExtra(intent, \"value\", \"\");",
                 "t.foo(valueStringExtra_0);",
                 "t.bar(valueStringExtra_0);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on
@@ -98,6 +108,8 @@ public class OnActivityResultExtraStringParameterTest {
                 
                 "final String fooStringExtra_0 = IntentHelper.getStringExtra(intent, \"foo\", \"\");",
                 "t.bar(testStringExtra_0, fooStringExtra_0);",
+
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

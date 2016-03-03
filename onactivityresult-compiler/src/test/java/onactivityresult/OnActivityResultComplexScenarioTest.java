@@ -33,58 +33,87 @@ public class OnActivityResultComplexScenarioTest {
             "if (requestCode == 3) {",
                 "if (resultCode == 1) {",
                     "t.three(intent);",
+
+                    "didHandle = true;",
                 "} else if (resultCode == -1 || resultCode == 0) {",
                     " final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.three(intent, intentData);",
+
+                    "didHandle = true;",
                 "}",
             "} else if (requestCode == 5) {",
                 "if (resultCode == -1) {",
                     "t.five();",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 0) {",
                     "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                     "t.five(intentDataNullable);",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     "final Uri intentDataNonNull = IntentHelper.getIntentDataNonNull(intent);",
                     "t.five(resultCode, intentDataNonNull);",
+
+                    "didHandle = true;",
                 "}",
             "} else if (requestCode == 6) {",
                 "if (resultCode == 0) {",
                     "final Uri intentDataNonNull = IntentHelper.getIntentDataNonNull(intent);",
                     "t.sixB(intentDataNonNull);",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.sixC(intentData);",
+
+                    "didHandle = true;",
                 "}",
 
                 "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                 "t.sixA(intentDataNullable);",
+
+                "didHandle = true;",
             "} else if (requestCode == 7) {",
                 "if (resultCode == -1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.seven(intentData);",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.seven(intent, intentData);",
+
+                    "didHandle = true;",
                 "}",
 
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
                 "t.seven(intent, resultCode, intentData);",
+
+                "didHandle = true;",
             "} else if (requestCode == 8) {",
                 "if (resultCode == 0) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.eight(intentData);",
+
+                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.eight(intent, intentData);",
+
+                    "didHandle = true;",
                 "}",
 
                 "final Uri intentDataNullable = IntentHelper.getIntentDataNullable(intent);",
                 "t.eight(intent, resultCode, intentDataNullable);",
+
+                "didHandle = true;",
             "} else if (requestCode == 9) {",
                 "if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.nine(intentData, intent);",
                     "t.nine(intentData);",
+                    "didHandle = true;",
                 "}",
             "}"
         );

@@ -49,10 +49,16 @@ public class OnActivityResultInheritanceTest {
                
                 "public class BaseActivity$$OnActivityResult<T extends BaseActivity> implements IOnActivityResult<T> {",
                     "@Override",
-                    "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                        "boolean didHandle = false;",
+
                         "if (requestCode == 3) {",
                             "t.test();",
+
+                            "didHandle = true;",
                         "}",
+
+                        "return didHandle;",
                     "}",
                 "}")
         );
@@ -67,14 +73,20 @@ public class OnActivityResultInheritanceTest {
 
                 "public class TestActivity$$OnActivityResult<T extends TestActivity> extends BaseActivity$$OnActivityResult<T> {",
                     "@Override",
-                    "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
-                        "super.onResult(t, requestCode, resultCode, intent);",
+                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                        "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
 
                         "if (requestCode == 3) {",
                             "t.foo();",
+
+                            "didHandle = true;",
                         "} else if (requestCode == 4) {",
                             "t.bar();",
+
+                            "didHandle = true;",
                         "}",
+
+                        "return didHandle;",
                     "}",
                 "}")
         );
@@ -89,14 +101,20 @@ public class OnActivityResultInheritanceTest {
 
                 "public class AnotherTestActivity$$OnActivityResult<T extends AnotherTestActivity> extends TestActivity$$OnActivityResult<T> {",
                     "@Override",
-                    "public void onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
-                        "super.onResult(t, requestCode, resultCode, intent);",
+                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                        "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
 
                         "if (requestCode == 4) {",
                             "t.bar();",
+
+                            "didHandle = true;",
                         "} else if (requestCode == 5) {",
                             "t.abc();",
+
+                            "didHandle = true;",
                         "}",
+
+                        "return didHandle;",
                     "}",
                 "}")
         );

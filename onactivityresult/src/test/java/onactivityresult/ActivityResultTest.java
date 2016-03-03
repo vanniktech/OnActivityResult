@@ -50,7 +50,7 @@ public class ActivityResultTest {
 
     public static class OnResult$$OnActivityResult implements IOnActivityResult<OnResult> {
         @Override
-        public void onResult(final OnResult onResult, final int requestCode, final int resultCode, final Intent intent) {
+        public boolean onResult(final OnResult onResult, final int requestCode, final int resultCode, final Intent intent) {
             throw new RuntimeException("OnResult was called: " + requestCode + ", " + resultCode + ", " + intent);
         }
     }
@@ -71,7 +71,7 @@ public class ActivityResultTest {
         private OnResultPrivateObject$$OnActivityResult() {}
 
         @Override
-        public void onResult(final OnResultPrivateObject extractingObjectTimeProvider, final int requestCode, final int resultCode, final Intent intent) {
+        public boolean onResult(final OnResultPrivateObject extractingObjectTimeProvider, final int requestCode, final int resultCode, final Intent intent) {
             throw new RuntimeException("Extract was called");
         }
     }
