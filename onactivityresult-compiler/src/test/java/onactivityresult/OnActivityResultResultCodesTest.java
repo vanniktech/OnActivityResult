@@ -104,8 +104,6 @@ public class OnActivityResultResultCodesTest {
                 "if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.bar(intent, intentData);",
-
-                    "didHandle = true;",
                 "}",
 
                 "final Uri intentData = IntentHelper.getIntentData(intent);",
