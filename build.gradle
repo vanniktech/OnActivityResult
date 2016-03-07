@@ -47,7 +47,6 @@ ext {
     supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
     supportDesign = "com.android.support:design:$supportLibraryVersion"
 
-    findbugsannotations = 'com.google.code.findbugs:annotations:3.0.1'
     butterknife = 'com.jakewharton:butterknife:7.0.1'
 
     google = [
@@ -60,11 +59,7 @@ ext {
             junit             : 'junit:junit:4.12',
             mockito           : 'org.mockito:mockito-core:2.0.42-beta',
             robolectric       : 'org.robolectric:robolectric:3.0',
-            reflections       : 'org.reflections:reflections:0.9.10',
-            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0',
-            robolectricExludes: [
-                    'commons-logging', 'httpclient'
-            ]
+            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0'
     ]
 
     square = [
