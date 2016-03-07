@@ -176,13 +176,9 @@ public class OnActivityResultExtraParameterTest {
                     getExtractVariableStatement("test"),
                     getExtractVariableStatement("foo"),
                     callFunction("test", "test", "foo"),
-
-                    "didHandle = true;",
                 "} else if (resultCode == 1) {",
                     getExtractVariableStatement("test"),
                     callFunction("foo","test"),
-
-                    "didHandle = true;",
                 "}",
                 getExtractVariableStatement("foo"),
                 callFunction("test", "foo"),

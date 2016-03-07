@@ -149,7 +149,11 @@ final class ActivityResultClass {
         final Set<Parameter> existingParameters = new HashSet<>();
         boolean isFirstResultCodeIfStatement = true;
 
-        final Iterator<Map.Entry<ResultCodes, List<MethodCall>>> it = sortedMethodCallsGroupedByResultCodes.entrySet().iterator();
+        final Set<Map.Entry<ResultCodes, List<MethodCall>>> entries = sortedMethodCallsGroupedByResultCodes.entrySet();
+
+        final Iterator<Map.Entry<ResultCodes, List<MethodCall>>> it = entries.iterator();
+
+        final boolean hasOnlyResultCodeFilters = this.hasOnlyResultCodeFilters(entries);
 
         while (it.hasNext()) {
             final Map.Entry<ResultCodes, List<MethodCall>> resultCodesListEntry = it.next();
@@ -181,12 +185,28 @@ final class ActivityResultClass {
 
             this.addMethodCalls(result, existingParameters, methodCalls);
 
+            if (hasOnlyResultCodeFilters || !hasResultCodeFilter) {
+                result.addStatement("$L = true", DID_HANDLE_VARIABLE);
+            }
+
             final boolean isLast = !it.hasNext();
 
             if (isLast && !isMethodCallWithoutResultCodeAfterMethodCallWithResultCode && !isFirstResultCodeIfStatement) {
                 result.endControlFlow();
             }
         }
+    }
+
+    private boolean hasOnlyResultCodeFilters(final Set<Map.Entry<ResultCodes, List<MethodCall>>> entries) {
+        for (final Map.Entry<ResultCodes, List<MethodCall>> resultCodesListEntry : entries) {
+            final ResultCodes resultCodes = resultCodesListEntry.getKey();
+
+            if (resultCodes.size() == 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void addMethodCalls(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final List<MethodCall> methodCalls) {
@@ -197,8 +217,6 @@ final class ActivityResultClass {
 
             result.addStatement("$L.$L($L)", TARGET_VARIABLE_NAME, methodCall.getMethodName(), parameterList.toString());
         }
-
-        result.addStatement("$L = true", DID_HANDLE_VARIABLE);
     }
 
     private void addNecessaryParameterVariables(final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {
