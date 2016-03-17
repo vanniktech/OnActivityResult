@@ -17,7 +17,6 @@ android {
 
     dexOptions {
         preDexLibraries = rootProject.ext.shouldPreDex
-        dexInProcess = rootProject.ext.shouldDexInProcess
     }
 
     buildTypes {
