@@ -9,12 +9,36 @@ import android.support.annotation.Nullable;
 public final class ActivityResult {
     private static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
 
+    @NonNull
     static IOnActivityResult<Object> createOnActivityResultClassFor(final Object object) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        final Class<?> target = object.getClass();
-        final String targetClassName = target.getName();
-        final Class<?> activityResultClass = Class.forName(targetClassName + ACTIVITY_RESULT_CLASS_SUFFIX);
-        // noinspection unchecked
-        return (IOnActivityResult<Object>) activityResultClass.newInstance();
+        final IOnActivityResult<Object> activityResultForClass = findActivityResultForClass(object.getClass());
+
+        if (activityResultForClass == null) {
+            throw new ClassNotFoundException();
+        }
+
+        return activityResultForClass;
+    }
+
+    @Nullable
+    private static IOnActivityResult<Object> findActivityResultForClass(final Class<?> clazz) throws IllegalAccessException, InstantiationException {
+        final String className = clazz.getName();
+
+        if (className.startsWith("android.") || className.startsWith("java.")) {
+            return null;
+        }
+
+        IOnActivityResult<Object> viewBinder;
+
+        try {
+            final Class<?> viewBindingClass = Class.forName(className + ACTIVITY_RESULT_CLASS_SUFFIX);
+            // noinspection unchecked
+            viewBinder = (IOnActivityResult<Object>) viewBindingClass.newInstance();
+        } catch (final ClassNotFoundException e) {
+            viewBinder = findActivityResultForClass(clazz.getSuperclass());
+        }
+
+        return viewBinder;
     }
 
     public static OnResult onResult(final int requestCode, final int resultCode, @Nullable final Intent intent) {
