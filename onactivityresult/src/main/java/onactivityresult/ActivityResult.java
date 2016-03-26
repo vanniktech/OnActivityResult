@@ -1,5 +1,8 @@
 package onactivityresult;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import onactivityresult.internal.IOnActivityResult;
 
 import android.content.Intent;
@@ -8,6 +11,8 @@ import android.support.annotation.Nullable;
 
 public final class ActivityResult {
     private static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
+
+    static final Map<Class<?>, IOnActivityResult<Object>> ON_ACTIVITY_RESULTS = new LinkedHashMap<>();
 
     @NonNull
     static IOnActivityResult<Object> createOnActivityResultClassFor(final Object object) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -22,23 +27,31 @@ public final class ActivityResult {
 
     @Nullable
     private static IOnActivityResult<Object> findActivityResultForClass(final Class<?> clazz) throws IllegalAccessException, InstantiationException {
+        final IOnActivityResult<Object> cachedOnActivityResult = ON_ACTIVITY_RESULTS.get(clazz);
+
+        if (cachedOnActivityResult != null) {
+            return cachedOnActivityResult;
+        }
+
         final String className = clazz.getName();
 
         if (className.startsWith("android.") || className.startsWith("java.")) {
             return null;
         }
 
-        IOnActivityResult<Object> viewBinder;
+        IOnActivityResult<Object> onActivityResult;
 
         try {
-            final Class<?> viewBindingClass = Class.forName(className + ACTIVITY_RESULT_CLASS_SUFFIX);
+            final Class<?> onActivityResultClass = Class.forName(className + ACTIVITY_RESULT_CLASS_SUFFIX);
             // noinspection unchecked
-            viewBinder = (IOnActivityResult<Object>) viewBindingClass.newInstance();
+            onActivityResult = (IOnActivityResult<Object>) onActivityResultClass.newInstance();
         } catch (final ClassNotFoundException e) {
-            viewBinder = findActivityResultForClass(clazz.getSuperclass());
+            onActivityResult = findActivityResultForClass(clazz.getSuperclass());
         }
 
-        return viewBinder;
+        ON_ACTIVITY_RESULTS.put(clazz, onActivityResult);
+
+        return onActivityResult;
     }
 
     public static OnResult onResult(final int requestCode, final int resultCode, @Nullable final Intent intent) {
