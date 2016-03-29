@@ -1,7 +1,12 @@
 # Change Log
 
-Version 0.4.0 *(In development)*
+Version 0.4.0 *(2016-03-29)*
 --------------------------------
+
+- Cache OnActivityResult Classes to use only one reflection call per class [\#39](https://github.com/vanniktech/OnActivityResult/pull/39) ([vanniktech](https://github.com/vanniktech))
+- Fix bug when only parent class had @OnActivityResult annotation [\#37](https://github.com/vanniktech/OnActivityResult/pull/37) ([vanniktech](https://github.com/vanniktech))
+- Avoid setting didHandle when it's not needed [\#32](https://github.com/vanniktech/OnActivityResult/pull/32) ([vanniktech](https://github.com/vanniktech))
+- OnActivityResult now returns boolean whether things were handled or not [\#31](https://github.com/vanniktech/OnActivityResult/pull/31) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.3.0 *(2016-02-27)*
 --------------------------------
