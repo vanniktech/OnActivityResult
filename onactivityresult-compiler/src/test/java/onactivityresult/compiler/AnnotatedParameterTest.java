@@ -1,8 +1,8 @@
 package onactivityresult.compiler;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class AnnotatedParameterTest {
     @Test
@@ -16,6 +16,7 @@ public class AnnotatedParameterTest {
         assertEquals("Long", AnnotatedParameter.LONG.readableName());
         assertEquals("Short", AnnotatedParameter.SHORT.readableName());
         assertEquals("String", AnnotatedParameter.STRING.readableName());
-        assertEquals("Intent_data", AnnotatedParameter.INTENT_DATA.readableName());
+        assertEquals("IntentData", AnnotatedParameter.INTENT_DATA.readableName());
+        assertEquals("CharSequence", AnnotatedParameter.CHAR_SEQUENCE.readableName());
     }
 }

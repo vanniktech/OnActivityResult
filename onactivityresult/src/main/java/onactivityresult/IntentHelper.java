@@ -60,6 +60,11 @@ public final class IntentHelper {
         return intent.getLongExtra(key, defaultValue);
     }
 
+    public static CharSequence getCharSequenceExtra(final Intent intent, final String key, final CharSequence defaultValue) {
+        final CharSequence extra = intent.getCharSequenceExtra(key);
+        return extra != null ? extra : defaultValue;
+    }
+
     private static <T> T checkNotNull(final T t, final String message) {
         if (t == null) {
             throw new IllegalArgumentException(message);
