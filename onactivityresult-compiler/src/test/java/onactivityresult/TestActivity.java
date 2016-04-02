@@ -221,12 +221,18 @@ final class TestActivity {
         private final boolean        needsIntentHelper;
         private final boolean        hasIntentData;
         private final int            headLines;
+        private boolean              needsBundle;
 
         Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines) {
             this.source = source;
             this.needsIntentHelper = needsIntentHelper;
             this.hasIntentData = hasIntentData;
             this.headLines = headLines;
+        }
+
+        Source needsBundle() {
+            needsBundle = true;
+            return this;
         }
 
         public void generatesBody(final String... code) {
@@ -236,6 +242,7 @@ final class TestActivity {
                     "package test;",
     
                     "import android.content.Intent;",
+                    needsBundle ? "import android.os.Bundle;" : "",
                     hasIntentData ? "import android.net.Uri;" : "",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",

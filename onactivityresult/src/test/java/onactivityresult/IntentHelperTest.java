@@ -2,6 +2,7 @@ package onactivityresult;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
@@ -199,5 +200,26 @@ public class IntentHelperTest {
     @Test
     public void testGetCharSequenceExtraValue() {
         assertEquals("awesome", IntentHelper.getCharSequenceExtra(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesome"), "myCharSequenceKey", "default"));
+    }
+
+    @Test
+    public void testGetBundleExtra() {
+        final Intent intent = mock(Intent.class);
+        IntentHelper.getBundleExtra(intent, "BundleExtra", null);
+        verify(intent).getBundleExtra("BundleExtra");
+        verifyNoMoreInteractions(intent);
+    }
+
+    @Test
+    public void testGetBundleExtraDefaultValue() {
+        final Bundle defaultValue = new Bundle();
+        assertEquals(defaultValue, IntentHelper.getBundleExtra(new Intent(), "myBundleKey", defaultValue));
+    }
+
+    @Test
+    public void testGetBundleExtraValue() {
+        final Bundle bundle = new Bundle();
+        bundle.putString("test", "1234");
+        assertEquals(bundle, IntentHelper.getBundleExtra(new Intent().putExtra("myBundleKey", bundle), "myBundleKey", null));
     }
 }

@@ -2,6 +2,7 @@ package onactivityresult;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -62,6 +63,11 @@ public final class IntentHelper {
 
     public static CharSequence getCharSequenceExtra(final Intent intent, final String key, final CharSequence defaultValue) {
         final CharSequence extra = intent.getCharSequenceExtra(key);
+        return extra != null ? extra : defaultValue;
+    }
+
+    public static Bundle getBundleExtra(final Intent intent, final String key, final Bundle defaultValue) {
+        final Bundle extra = intent.getBundleExtra(key);
         return extra != null ? extra : defaultValue;
     }
 

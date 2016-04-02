@@ -2,6 +2,7 @@ package onactivityresult;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 @SuppressWarnings({ "unused", "PMD.AvoidDuplicateLiterals" })
 public final class IntentHelper {
@@ -54,6 +55,10 @@ public final class IntentHelper {
     }
 
     public static CharSequence getCharSequenceExtra(final Intent intent, final String key, final CharSequence defaultValue) {
+        throw new UnsupportedOperationException("Just a stub for testing purposes");
+    }
+
+    public static Bundle getBundleExtra(final Intent intent, final String key, final Bundle defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
