@@ -53,6 +53,10 @@ public final class IntentHelper {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
+    public static CharSequence getCharSequenceExtra(final Intent intent, final String key, final CharSequence defaultValue) {
+        throw new UnsupportedOperationException("Just a stub for testing purposes");
+    }
+
     private IntentHelper() {
         throw new AssertionError("No instances.");
     }

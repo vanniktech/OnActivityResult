@@ -1,25 +1,26 @@
 package onactivityresult;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import android.content.Intent;
+import android.net.Uri;
+
+import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
-import android.content.Intent;
-import android.net.Uri;
-
-import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @SuppressWarnings("checkstyle:magicnumber")
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class IntentHelperTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
@@ -104,7 +105,7 @@ public class IntentHelperTest {
     public void testGetStringExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getStringExtra(intent, "StringExtra", null);
-        verify(intent, times(1)).getStringExtra("StringExtra");
+        verify(intent).getStringExtra("StringExtra");
         verifyNoMoreInteractions(intent);
     }
 
@@ -122,7 +123,7 @@ public class IntentHelperTest {
     public void testGetIntExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getIntExtra(intent, "IntExtra", -1);
-        verify(intent, times(1)).getIntExtra("IntExtra", -1);
+        verify(intent).getIntExtra("IntExtra", -1);
         verifyNoMoreInteractions(intent);
     }
 
@@ -130,7 +131,7 @@ public class IntentHelperTest {
     public void testGetFloatExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getFloatExtra(intent, "FloatExtra", -1.f);
-        verify(intent, times(1)).getFloatExtra("FloatExtra", -1.f);
+        verify(intent).getFloatExtra("FloatExtra", -1.f);
         verifyNoMoreInteractions(intent);
     }
 
@@ -138,7 +139,7 @@ public class IntentHelperTest {
     public void testGetByteExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getByteExtra(intent, "ByteExtra", (byte) 4);
-        verify(intent, times(1)).getByteExtra("ByteExtra", (byte) 4);
+        verify(intent).getByteExtra("ByteExtra", (byte) 4);
         verifyNoMoreInteractions(intent);
     }
 
@@ -146,7 +147,7 @@ public class IntentHelperTest {
     public void testGetBooleanExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getBooleanExtra(intent, "BooleanExtra", true);
-        verify(intent, times(1)).getBooleanExtra("BooleanExtra", true);
+        verify(intent).getBooleanExtra("BooleanExtra", true);
         verifyNoMoreInteractions(intent);
     }
 
@@ -154,7 +155,7 @@ public class IntentHelperTest {
     public void testGetDoubleExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getDoubleExtra(intent, "DoubleExtra", -1.d);
-        verify(intent, times(1)).getDoubleExtra("DoubleExtra", -1.d);
+        verify(intent).getDoubleExtra("DoubleExtra", -1.d);
         verifyNoMoreInteractions(intent);
     }
 
@@ -162,7 +163,7 @@ public class IntentHelperTest {
     public void testGetShortExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getShortExtra(intent, "ShortExtra", (short) 1);
-        verify(intent, times(1)).getShortExtra("ShortExtra", (short) 1);
+        verify(intent).getShortExtra("ShortExtra", (short) 1);
         verifyNoMoreInteractions(intent);
     }
 
@@ -170,7 +171,7 @@ public class IntentHelperTest {
     public void testGetCharExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getCharExtra(intent, "CharExtra", (char) 65);
-        verify(intent, times(1)).getCharExtra("CharExtra", (char) 65);
+        verify(intent).getCharExtra("CharExtra", (char) 65);
         verifyNoMoreInteractions(intent);
     }
 
@@ -178,7 +179,25 @@ public class IntentHelperTest {
     public void testGetLongExtra() {
         final Intent intent = mock(Intent.class);
         IntentHelper.getLongExtra(intent, "LongExtra", -1L);
-        verify(intent, times(1)).getLongExtra("LongExtra", -1L);
+        verify(intent).getLongExtra("LongExtra", -1L);
         verifyNoMoreInteractions(intent);
+    }
+
+    @Test
+    public void testGetCharSequenceExtra() {
+        final Intent intent = mock(Intent.class);
+        IntentHelper.getCharSequenceExtra(intent, "CharSequenceExtra", null);
+        verify(intent).getCharSequenceExtra("CharSequenceExtra");
+        verifyNoMoreInteractions(intent);
+    }
+
+    @Test
+    public void testGetCharSequenceExtraDefaultValue() {
+        assertEquals("default", IntentHelper.getCharSequenceExtra(new Intent(), "myCharSequenceKey", "default"));
+    }
+
+    @Test
+    public void testGetCharSequenceExtraValue() {
+        assertEquals("awesome", IntentHelper.getCharSequenceExtra(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesome"), "myCharSequenceKey", "default"));
     }
 }

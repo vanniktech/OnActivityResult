@@ -1,7 +1,11 @@
 package onactivityresult.compiler;
 
-import static javax.lang.model.element.Modifier.FINAL;
-import static javax.lang.model.element.Modifier.PUBLIC;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeVariableName;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,12 +18,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.PUBLIC;
 
 final class ActivityResultClass {
     private static final String                 TARGET_VARIABLE_NAME        = "t";
@@ -253,6 +253,9 @@ final class ActivityResultClass {
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.STRING == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getStringExtra($L, $S, $S)", String.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    existingParameters.add(parameter);
+                } else if (AnnotatedParameter.CHAR_SEQUENCE == parameter.annotatedParameter) {
+                    result.addStatement("final $T $L = $T.getCharSequenceExtra($L, $S, $L)", CharSequence.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 }
             }
