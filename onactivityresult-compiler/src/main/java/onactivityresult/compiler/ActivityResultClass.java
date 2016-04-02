@@ -32,6 +32,7 @@ final class ActivityResultClass {
     private static final ClassName              ACTIVITY_ON_RESULT          = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName              INTENT                      = ClassName.get("android.content", "Intent");
     private static final ClassName              URI                         = ClassName.get("android.net", "Uri");
+    private static final ClassName              BUNDLE                      = ClassName.get("android.os", "Bundle");
     private static final ClassName              INTENT_HELPER               = ClassName.get("onactivityresult", "IntentHelper");
 
     private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR      = new Comparator<MethodCall>() {
@@ -256,6 +257,9 @@ final class ActivityResultClass {
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.CHAR_SEQUENCE == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getCharSequenceExtra($L, $S, $L)", CharSequence.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    existingParameters.add(parameter);
+                } else if (AnnotatedParameter.BUNDLE == parameter.annotatedParameter) {
+                    result.addStatement("final $T $L = $T.getBundleExtra($L, $S, $L)", BUNDLE, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 }
             }

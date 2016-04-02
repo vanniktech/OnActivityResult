@@ -100,6 +100,12 @@ public enum AnnotatedParameter {
             return Parameter.create(this, element.getSimpleName().toString(), "null");
         }
     },
+    BUNDLE(Extra.class, ClassName.get("android.os", "Bundle")) {
+        @Override
+        Parameter createParameter(final Element element) {
+            return Parameter.create(this, element.getSimpleName().toString(), "null");
+        }
+    },
     INTENT_DATA(IntentData.class, ClassName.get("android.net", "Uri")) {
         @Override
         Parameter createParameter(final Element element) {
