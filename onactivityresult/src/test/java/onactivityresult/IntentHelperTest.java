@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.io.Serializable;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -221,5 +223,25 @@ public class IntentHelperTest {
         final Bundle bundle = new Bundle();
         bundle.putString("test", "1234");
         assertEquals(bundle, IntentHelper.getBundleExtra(new Intent().putExtra("myBundleKey", bundle), "myBundleKey", null));
+    }
+
+    @Test
+    public void testGetSerializableExtra() {
+        final Intent intent = mock(Intent.class);
+        IntentHelper.getSerializableExtra(intent, "SerializableExtra", null);
+        verify(intent).getSerializableExtra("SerializableExtra");
+        verifyNoMoreInteractions(intent);
+    }
+
+    @Test
+    public void testGetSerializableExtraDefaultValue() {
+        final Serializable defaultValue = mock(Serializable.class);
+        assertEquals(defaultValue, IntentHelper.getSerializableExtra(new Intent(), "mySerializableKey", defaultValue));
+    }
+
+    @Test
+    public void testGetSerializableExtraValue() {
+        final Serializable serializable = mock(Serializable.class);
+        assertEquals(serializable, IntentHelper.getSerializableExtra(new Intent().putExtra("mySerializableKey", serializable), "mySerializableKey", null));
     }
 }

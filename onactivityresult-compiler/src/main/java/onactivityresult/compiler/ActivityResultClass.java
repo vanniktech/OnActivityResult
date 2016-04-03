@@ -7,6 +7,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -260,6 +261,9 @@ final class ActivityResultClass {
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BUNDLE == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getBundleExtra($L, $S, $L)", BUNDLE, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    existingParameters.add(parameter);
+                } else if (AnnotatedParameter.SERIALIZABLE == parameter.annotatedParameter) {
+                    result.addStatement("final $T $L = $T.getSerializableExtra($L, $S, $L)", Serializable.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 }
             }
