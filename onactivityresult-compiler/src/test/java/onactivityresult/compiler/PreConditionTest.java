@@ -29,6 +29,8 @@ public class PreConditionTest {
 
     @Test
     public void testDefault() {
+        assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.<AnnotationMirror>emptyList()));
+        assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("OnActivityResult"))));
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.OnActivityResult"))));
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.IntentData"))));
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.Documented"))));
