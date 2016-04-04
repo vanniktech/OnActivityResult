@@ -13,6 +13,8 @@ import org.robolectric.annotation.Config;
 
 import onactivityresult.internal.IOnActivityResult;
 
+import static org.junit.Assert.assertEquals;
+
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 @SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.AvoidDollarSigns", "checkstyle:typename", "checkstyle:innertypelast", "PMD.JUnitTestsShouldIncludeAssert", "PMD.AvoidThrowingRawExceptionTypes" })
@@ -96,4 +98,21 @@ public class ActivityResultTest {
     }
 
     public static class Child extends Parent {}
+
+    @Test
+    public void returnValueOfResult() {
+        final ActivityResult.OnResult onResult = ActivityResult.onResult(1, 2, null);
+        final Result result = new Result();
+
+        assertEquals(true, onResult.into(result));
+    }
+
+    public static class Result {}
+
+    public static class Result$$OnActivityResult implements IOnActivityResult<Result> {
+        @Override
+        public boolean onResult(final Result onResult, final int requestCode, final int resultCode, final Intent intent) {
+            return true;
+        }
+    }
 }

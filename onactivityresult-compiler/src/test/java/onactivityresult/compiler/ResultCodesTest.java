@@ -27,7 +27,12 @@ public class ResultCodesTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.EqualsNull")
     public void testEquals() {
+        final ResultCodes same = new ResultCodes(-1);
+        //noinspection EqualsWithItself
+        assertEquals(true, same.equals(same));
+
         assertEquals(true, new ResultCodes(-1).equals(new ResultCodes(-1)));
         assertEquals(true, new ResultCodes(0).equals(new ResultCodes(0)));
         assertEquals(true, new ResultCodes(1).equals(new ResultCodes(1)));
@@ -37,6 +42,12 @@ public class ResultCodesTest {
         assertEquals(false, new ResultCodes(1, 2).equals(new ResultCodes(0)));
         assertEquals(false, new ResultCodes(-1).equals(new ResultCodes(0)));
         assertEquals(false, new ResultCodes(0).equals(new ResultCodes(1)));
+
+        //noinspection ObjectEqualsNull
+        assertEquals(false, new ResultCodes(0).equals(null));
+
+        //noinspection EqualsBetweenInconvertibleTypes
+        assertEquals(false, new ResultCodes(0).equals("0"));
     }
 
     @Test
