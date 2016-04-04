@@ -1,5 +1,6 @@
 package onactivityresult.compiler;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.Locale;
 
@@ -101,6 +102,12 @@ public enum AnnotatedParameter {
         }
     },
     BUNDLE(Extra.class, ClassName.get("android.os", "Bundle")) {
+        @Override
+        Parameter createParameter(final Element element) {
+            return Parameter.create(this, element.getSimpleName().toString(), "null");
+        }
+    },
+    SERIALIZABLE(Extra.class, ClassName.get(Serializable.class)) {
         @Override
         Parameter createParameter(final Element element) {
             return Parameter.create(this, element.getSimpleName().toString(), "null");

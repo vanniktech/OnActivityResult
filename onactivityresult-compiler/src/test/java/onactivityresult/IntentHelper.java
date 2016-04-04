@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import java.io.Serializable;
+
 @SuppressWarnings({ "unused", "PMD.AvoidDuplicateLiterals" })
 public final class IntentHelper {
     public static Uri getIntentData(final Intent intent) {
@@ -59,6 +61,10 @@ public final class IntentHelper {
     }
 
     public static Bundle getBundleExtra(final Intent intent, final String key, final Bundle defaultValue) {
+        throw new UnsupportedOperationException("Just a stub for testing purposes");
+    }
+
+    public static Serializable getSerializableExtra(final Intent intent, final String key, final Serializable defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 

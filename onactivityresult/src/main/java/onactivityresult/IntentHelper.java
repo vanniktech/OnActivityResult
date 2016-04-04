@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.io.Serializable;
+
 public final class IntentHelper {
     @NonNull
     public static Uri getIntentData(final Intent intent) {
@@ -68,6 +70,11 @@ public final class IntentHelper {
 
     public static Bundle getBundleExtra(final Intent intent, final String key, final Bundle defaultValue) {
         final Bundle extra = intent.getBundleExtra(key);
+        return extra != null ? extra : defaultValue;
+    }
+
+    public static Serializable getSerializableExtra(final Intent intent, final String key, final Serializable defaultValue) {
+        final Serializable extra = intent.getSerializableExtra(key);
         return extra != null ? extra : defaultValue;
     }
 

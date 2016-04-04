@@ -222,6 +222,7 @@ final class TestActivity {
         private final boolean        hasIntentData;
         private final int            headLines;
         private boolean              needsBundle;
+        private boolean              needsSerializable;
 
         Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines) {
             this.source = source;
@@ -235,6 +236,11 @@ final class TestActivity {
             return this;
         }
 
+        Source needsSerializable() {
+            needsSerializable = true;
+            return this;
+        }
+
         public void generatesBody(final String... code) {
             //@formatter:off
             final JavaFileObject generation = JavaFileObjects.forSourceString("test/TestActivity$$OnActivityResult", Joiner.on('\n').join(
@@ -243,6 +249,7 @@ final class TestActivity {
     
                     "import android.content.Intent;",
                     needsBundle ? "import android.os.Bundle;" : "",
+                    needsSerializable ? "import java.io.Serializable;" : "",
                     hasIntentData ? "import android.net.Uri;" : "",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
