@@ -2,7 +2,7 @@ package onactivityresult;
 
 import org.junit.Test;
 
-public class InvalidRequestCodeTest {
+public class OnActivityResultInvalidRequestCodeTest {
     @Test
     public void testOnActivityResultRequestCodeMinus1ShouldLetTheProcessorFail() {
         //@formatter:off

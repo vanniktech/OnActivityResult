@@ -7,7 +7,7 @@ public class OnActivityResultComplexScenarioTest {
     @Test
     public void testComplexScenario() {
         //@formatter:off
-        TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().build(
+        TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().hasExtra().build(
             "@OnActivityResult(requestCode = 3, resultCodes = { -1, 0 }) public void three(final Intent intent, @IntentData final Uri uri) {}",
             "@OnActivityResult(requestCode = 3, resultCodes = { 1 }) public void three(final Intent intent) {}",
 
@@ -28,7 +28,9 @@ public class OnActivityResultComplexScenarioTest {
             "@OnActivityResult(requestCode = 8) public void eight(final Intent intent, final int resultCode, @Nullable @IntentData final Uri uri) {}",
 
             "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri, final Intent intent) {}",
-            "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri) {}"
+            "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri) {}",
+
+            "@OnActivityResult(requestCode = 10, resultCodes = { 1 }) public void ten(@IntentData final Uri uri, @Extra final int extraInt, @Extra final double extraDouble, final int resultCode) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
                 "if (resultCode == 1) {",
@@ -101,6 +103,14 @@ public class OnActivityResultComplexScenarioTest {
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
                     "t.nine(intentData, intent);",
                     "t.nine(intentData);",
+                    "didHandle = true;",
+                "}",
+            "} else if (requestCode == 10) {",
+                "if (resultCode == 1) {",
+                    "final Uri intentData = IntentHelper.getIntentData(intent);",
+                    "final int extraIntIntExtra_48 = IntentHelper.getIntExtra(intent, \"extraInt\", 0);",
+                    "final double extraDoubleDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"extraDouble\", 0.0);",
+                    "t.ten(intentData, extraIntIntExtra_48, extraDoubleDoubleExtra_47602, resultCode);",
                     "didHandle = true;",
                 "}",
             "}"
