@@ -36,15 +36,15 @@ public class OnActivityResultModifierTest {
     public void testPrivateClassWithAnnotatedOnActivityResultMethodShouldLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class TestActivity {",
-                    "private static class PrivateClass {",
-                        "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
-                    "}",
-                "}")
+            "public class TestActivity {",
+                "private static class PrivateClass {",
+                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                "}",
+            "}")
         );
         //@formatter:on
 
@@ -55,15 +55,15 @@ public class OnActivityResultModifierTest {
     public void testProtectedClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class TestActivity {",
-                    "protected static class PrivateClass {",
-                        "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
-                    "}",
-                "}")
+            "public class TestActivity {",
+                "protected static class PrivateClass {",
+                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+                "}",
+            "}")
         );
         //@formatter:on
 
@@ -74,13 +74,13 @@ public class OnActivityResultModifierTest {
     public void testPackageClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
-                "}")
+            "class TestActivity {",
+                "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+            "}")
         );
         //@formatter:on
 
@@ -91,13 +91,13 @@ public class OnActivityResultModifierTest {
     public void testFinalClassWithAnnotatedOnActivityResultMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public final class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
-                "}")
+            "public final class TestActivity {",
+                "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+            "}")
         );
         //@formatter:on
 
@@ -108,13 +108,13 @@ public class OnActivityResultModifierTest {
     public void testFinalOnActivityResultMemberMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
-                "}")
+            "public class TestActivity {",
+                "@OnActivityResult(requestCode = 3) public final void myOnActivityResult() {}",
+            "}")
         );
         //@formatter:on
 
@@ -125,13 +125,13 @@ public class OnActivityResultModifierTest {
     public void testAbstractOnActivityResultMemberMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public abstract class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) public abstract void myOnActivityResult();",
-                "}")
+            "public abstract class TestActivity {",
+                "@OnActivityResult(requestCode = 3) public abstract void myOnActivityResult();",
+            "}")
         );
         //@formatter:on
 
@@ -142,13 +142,13 @@ public class OnActivityResultModifierTest {
     public void testProtectedOnActivityResultMemberMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) protected void myOnActivityResult() {}",
-                "}")
+            "public class TestActivity {",
+                "@OnActivityResult(requestCode = 3) protected void myOnActivityResult() {}",
+            "}")
         );
         //@formatter:on
 
@@ -159,13 +159,13 @@ public class OnActivityResultModifierTest {
     public void testPackageOnActivityResultMemberMethodShouldNotLetTheProcessorFail() {
         //@formatter:off
         final JavaFileObject source = JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class TestActivity {",
-                    "@OnActivityResult(requestCode = 3) void myOnActivityResult() {}",
-                "}")
+            "public class TestActivity {",
+                "@OnActivityResult(requestCode = 3) void myOnActivityResult() {}",
+            "}")
         );
         //@formatter:on
 

@@ -65,5 +65,4 @@ public class OnActivityResultInvalidParametersTest {
         ).failsWithErrorMessage("@OnActivityResult methods do not support the following parameter(s) - (Double, Intent). (test.TestActivity.myOnActivityResult)", 1);
         //@formatter:on
     }
-
 }

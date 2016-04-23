@@ -18,105 +18,105 @@ public class OnActivityResultInheritanceTest {
     public void testOnActivityResult() {
         //@formatter:off
         final JavaFileObject actualSource = JavaFileObjects.forSourceString("test/BaseActivity", Joiner.on('\n').join(
-                "package test;",
+            "package test;",
 
-                "import onactivityresult.OnActivityResult;",
+            "import onactivityresult.OnActivityResult;",
 
-                "public class BaseActivity {",
-                    "@OnActivityResult(requestCode = 3) public void test() {}",
-                "}",
+            "public class BaseActivity {",
+                "@OnActivityResult(requestCode = 3) public void test() {}",
+            "}",
 
-                "class TestActivity extends BaseActivity {",
-                    "@OnActivityResult(requestCode = 3) public void foo() {}",
-                    "@OnActivityResult(requestCode = 4) public void bar() {}",
-                "}",
+            "class TestActivity extends BaseActivity {",
+                "@OnActivityResult(requestCode = 3) public void foo() {}",
+                "@OnActivityResult(requestCode = 4) public void bar() {}",
+            "}",
 
-                "class AnotherTestActivity extends TestActivity {",
-                    "@OnActivityResult(requestCode = 4) public void bar() {}",
-                    "@OnActivityResult(requestCode = 5) public void abc() {}",
-                "}"
-                )
+            "class AnotherTestActivity extends TestActivity {",
+                "@OnActivityResult(requestCode = 4) public void bar() {}",
+                "@OnActivityResult(requestCode = 5) public void abc() {}",
+            "}"
+            )
         );
         //@formatter:on
 
         //@formatter:off
         final JavaFileObject expectedSourceBase = JavaFileObjects.forSourceString("test/BaseActivity$$OnActivityResult", Joiner.on('\n').join(
-                "// Generated code from OnActivityResult. Do not modify!",
-                "package test;",
+            "// Generated code from OnActivityResult. Do not modify!",
+            "package test;",
 
-                "import android.content.Intent;",
-                "import onactivityresult.internal.IOnActivityResult;",
-               
-                "public class BaseActivity$$OnActivityResult<T extends BaseActivity> implements IOnActivityResult<T> {",
-                    "@Override",
-                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
-                        "boolean didHandle = false;",
+            "import android.content.Intent;",
+            "import onactivityresult.internal.IOnActivityResult;",
 
-                        "if (requestCode == 3) {",
-                            "t.test();",
+            "public class BaseActivity$$OnActivityResult<T extends BaseActivity> implements IOnActivityResult<T> {",
+                "@Override",
+                "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                    "boolean didHandle = false;",
 
-                            "didHandle = true;",
-                        "}",
+                    "if (requestCode == 3) {",
+                        "t.test();",
 
-                        "return didHandle;",
+                        "didHandle = true;",
                     "}",
-                "}")
+
+                    "return didHandle;",
+                "}",
+            "}")
         );
         //@formatter:on
 
         //@formatter:off
         final JavaFileObject expectedSourceTest = JavaFileObjects.forSourceString("test/TestActivity$$OnActivityResult", Joiner.on('\n').join(
-                "// Generated code from OnActivityResult. Do not modify!",
-                "package test;",
+            "// Generated code from OnActivityResult. Do not modify!",
+            "package test;",
 
-                "import android.content.Intent;",
+            "import android.content.Intent;",
 
-                "public class TestActivity$$OnActivityResult<T extends TestActivity> extends BaseActivity$$OnActivityResult<T> {",
-                    "@Override",
-                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
-                        "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
+            "public class TestActivity$$OnActivityResult<T extends TestActivity> extends BaseActivity$$OnActivityResult<T> {",
+                "@Override",
+                "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                    "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
 
-                        "if (requestCode == 3) {",
-                            "t.foo();",
+                    "if (requestCode == 3) {",
+                        "t.foo();",
 
-                            "didHandle = true;",
-                        "} else if (requestCode == 4) {",
-                            "t.bar();",
+                        "didHandle = true;",
+                    "} else if (requestCode == 4) {",
+                        "t.bar();",
 
-                            "didHandle = true;",
-                        "}",
-
-                        "return didHandle;",
+                        "didHandle = true;",
                     "}",
-                "}")
+
+                    "return didHandle;",
+                "}",
+            "}")
         );
         //@formatter:on
 
         //@formatter:off
         final JavaFileObject expectedSourceAnotherTest = JavaFileObjects.forSourceString("test/AnotherTestActivity$$OnActivityResult", Joiner.on('\n').join(
-                "// Generated code from OnActivityResult. Do not modify!",
-                "package test;",
+            "// Generated code from OnActivityResult. Do not modify!",
+            "package test;",
 
-                "import android.content.Intent;",
+            "import android.content.Intent;",
 
-                "public class AnotherTestActivity$$OnActivityResult<T extends AnotherTestActivity> extends TestActivity$$OnActivityResult<T> {",
-                    "@Override",
-                    "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
-                        "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
+            "public class AnotherTestActivity$$OnActivityResult<T extends AnotherTestActivity> extends TestActivity$$OnActivityResult<T> {",
+                "@Override",
+                "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
+                    "boolean didHandle = super.onResult(t, requestCode, resultCode, intent);",
 
-                        "if (requestCode == 4) {",
-                            "t.bar();",
+                    "if (requestCode == 4) {",
+                        "t.bar();",
 
-                            "didHandle = true;",
-                        "} else if (requestCode == 5) {",
-                            "t.abc();",
+                        "didHandle = true;",
+                    "} else if (requestCode == 5) {",
+                        "t.abc();",
 
-                            "didHandle = true;",
-                        "}",
-
-                        "return didHandle;",
+                        "didHandle = true;",
                     "}",
-                "}")
+
+                    "return didHandle;",
+                "}",
+            "}")
         );
         //@formatter:on
 
