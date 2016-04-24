@@ -38,17 +38,9 @@ final class TestActivity {
         private boolean hasActivity;
 
         private boolean hasExtra;
-        private boolean hasExtraBoolean;
-        private boolean hasExtraByte;
-        private boolean hasExtraChar;
-        private boolean hasExtraDouble;
-        private boolean hasExtraFloat;
-        private boolean hasExtraInt;
-        private boolean hasExtraLong;
-        private boolean hasExtraShort;
-        private boolean hasExtraString;
 
         private final List<String> imports = new ArrayList<>();
+        private boolean needsIntentHelper;
 
         private Builder() {}
 
@@ -74,51 +66,6 @@ final class TestActivity {
 
         public Builder hasExtra() {
             hasExtra = true;
-            return this;
-        }
-
-        public Builder hasExtraBoolean() {
-            hasExtraBoolean = true;
-            return this;
-        }
-
-        public Builder hasExtraByte() {
-            hasExtraByte = true;
-            return this;
-        }
-
-        public Builder hasExtraChar() {
-            hasExtraChar = true;
-            return this;
-        }
-
-        public Builder hasExtraDouble() {
-            hasExtraDouble = true;
-            return this;
-        }
-
-        public Builder hasExtraFloat() {
-            hasExtraFloat = true;
-            return this;
-        }
-
-        public Builder hasExtraInt() {
-            hasExtraInt = true;
-            return this;
-        }
-
-        public Builder hasExtraLong() {
-            hasExtraLong = true;
-            return this;
-        }
-
-        public Builder hasExtraShort() {
-            hasExtraShort = true;
-            return this;
-        }
-
-        public Builder hasExtraString() {
-            hasExtraString = true;
             return this;
         }
 
@@ -158,45 +105,10 @@ final class TestActivity {
                 code.add("import onactivityresult.Extra;");
             }
 
-            if (hasExtraBoolean) {
-                code.add("import onactivityresult.ExtraBoolean;");
-            }
-
-            if (hasExtraByte) {
-                code.add("import onactivityresult.ExtraByte;");
-            }
-
-            if (hasExtraChar) {
-                code.add("import onactivityresult.ExtraChar;");
-            }
-
-            if (hasExtraDouble) {
-                code.add("import onactivityresult.ExtraDouble;");
-            }
-
-            if (hasExtraFloat) {
-                code.add("import onactivityresult.ExtraFloat;");
-            }
-
-            if (hasExtraInt) {
-                code.add("import onactivityresult.ExtraInt;");
-            }
-
-            if (hasExtraLong) {
-                code.add("import onactivityresult.ExtraLong;");
-            }
-
-            if (hasExtraShort) {
-                code.add("import onactivityresult.ExtraShort;");
-            }
-
-            if (hasExtraString) {
-                code.add("import onactivityresult.ExtraString;");
-                code.add("import java.lang.String;");
-            }
-
             for (final String name : imports) {
-                code.add("import " + name + ";");
+                if (name.length() > 0) {
+                    code.add("import " + name + ";");
+                }
             }
 
             code.add("public class TestActivity {");
@@ -206,11 +118,12 @@ final class TestActivity {
             code.add(stringArrayToString(functions));
             code.add("}");
 
-            final boolean needsIntentHelper = hasExtra || hasNullable || hasNotNull || hasIntentData || hasExtraBoolean || hasExtraByte || hasExtraChar || hasExtraDouble || hasExtraFloat || hasExtraInt || hasExtraLong || hasExtraShort || hasExtraString;
+            final boolean needsIntentHelper = this.needsIntentHelper || hasExtra || hasNullable || hasNotNull || hasIntentData;
             return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
         }
 
         Builder addImport(final String name) {
+            needsIntentHelper = name.contains("onactivityresult.Extra");
             imports.add(name);
             return this;
         }
@@ -246,8 +159,8 @@ final class TestActivity {
             final JavaFileObject generation = JavaFileObjects.forSourceString("test/TestActivity$$OnActivityResult", Joiner.on('\n').join(
                     "// Generated code from OnActivityResult. Do not modify!",
                     "package test;",
-    
                     "import android.content.Intent;",
+
                     needsBundle ? "import android.os.Bundle;" : "",
                     needsSerializable ? "import java.io.Serializable;" : "",
                     hasIntentData ? "import android.net.Uri;" : "",

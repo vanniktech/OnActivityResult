@@ -5,7 +5,7 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultResultCodesTest {
     @Test
-    public void testOnActivityResult() {
+    public void resultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 3, resultCodes = { 0, 1 }) public void test() {}"
@@ -22,7 +22,7 @@ public class OnActivityResultResultCodesTest {
     }
 
     @Test
-    public void testOnActivityResultSameRequestCode() {
+    public void resultCodesSameRequestCode() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 10, resultCodes = { 0, -1 }) public void bar() {}",
@@ -44,7 +44,7 @@ public class OnActivityResultResultCodesTest {
     }
 
     @Test
-    public void testOnActivityResultSameRequestCodeAndResultCodes() {
+    public void resultCodesSameRequestCodeAndResultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 10, resultCodes = { 1 }) public void bar() {}",
@@ -63,7 +63,7 @@ public class OnActivityResultResultCodesTest {
     }
 
     @Test
-    public void testOnActivityResultDifferentRequestCode() {
+    public void resultCodesDifferentRequestCode() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 10, resultCodes = { 1 }) public void bar() {}",
@@ -94,21 +94,17 @@ public class OnActivityResultResultCodesTest {
     }
 
     @Test
-    public void testOnActivityResultRequestCodesAndNonRequestCodes() {
+    public void resultCodesRequestCodesAndNonRequestCodes() {
         //@formatter:off
-        TestActivity.create().hasIntent().hasIntentData().build(
-            "@OnActivityResult(requestCode = 4) public void foo(final Intent intent, final int resultCode, @IntentData final Uri uri) {}",
-            "@OnActivityResult(requestCode = 4, resultCodes = { 1 }) public void bar(final Intent intent, @IntentData final Uri uri) {}"
+        TestActivity.create().build(
+            "@OnActivityResult(requestCode = 4) public void foo() {}",
+            "@OnActivityResult(requestCode = 4, resultCodes = { 1 }) public void bar() {}"
         ).generatesBody(
             "if (requestCode == 4) {",
                 "if (resultCode == 1) {",
-                    "final Uri intentData = IntentHelper.getIntentData(intent);",
-                    "t.bar(intent, intentData);",
+                    "t.bar();",
                 "}",
-
-                "final Uri intentData = IntentHelper.getIntentData(intent);",
-                "t.foo(intent, resultCode, intentData);",
-
+                "t.foo();",
                 "didHandle = true;",
             "}"
         );

@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class OnActivityResultResultCodesValidationTest {
     @Test
-    public void testNegativeInvalidFilterResultCodesShouldLetProcessorFail() {
+    public void testNegativeInvalidFilterResultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 1, resultCodes = {-2}) void myOnActivityResult() { }"
@@ -13,7 +13,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testPositiveInvalidFilterResultCodesShouldLetProcessorFail() {
+    public void testPositiveInvalidFilterResultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 1, resultCodes = {2}) void myOnActivityResult() { }"

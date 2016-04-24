@@ -5,7 +5,7 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultIntentDataTest {
     @Test
-    public void testOnActivityResultIntentDataOnWrongType() {
+    public void intentDataOnWrongType() {
         //@formatter:off
         TestActivity.create().hasIntentData().build(
             "@OnActivityResult(requestCode = 3) public void test(@IntentData final int uri) {}"
@@ -14,7 +14,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultOnlyIntentData() {
+    public void onlyIntentData() {
         //@formatter:off
         TestActivity.create().hasIntentData().build(
             "@OnActivityResult(requestCode = 3) public void test(@IntentData final Uri uri) {}"
@@ -30,7 +30,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultNullableIntentData() {
+    public void nullableIntentData() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasNullable().build(
             "@OnActivityResult(requestCode = 3) public void test(@Nullable @IntentData final Uri uri) {}"
@@ -46,7 +46,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultNotNullIntentData() {
+    public void notNullIntentData() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasNotNull().build(
             "@OnActivityResult(requestCode = 3) public void test(@NotNull @IntentData final Uri uri) {}"
@@ -62,7 +62,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultNullableNonNullAndDefaultIntentDataWithSameRequestCode() {
+    public void nullableNonNullAndDefaultIntentDataWithSameRequestCode() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasNullable().hasNotNull().build(
             "@OnActivityResult(requestCode = 3) public void bar(@Nullable @IntentData final Uri uri) {}",
@@ -84,7 +84,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultOnlyIntentDataDefaultNullAbleAndNonNullSameRequestCode() {
+    public void onlyIntentDataDefaultNullAbleAndNonNullSameRequestCode() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasNullable().hasNotNull().build(
             "@OnActivityResult(requestCode = 3) public void foo(@IntentData final Uri uri) {}",
@@ -112,7 +112,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultOnlyIntentDataDifferentRequestCode() {
+    public void onlyIntentDataDifferentRequestCode() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasIntent().build(
             "@OnActivityResult(requestCode = 10) public void bar(@IntentData final Uri uri) {}",
@@ -140,7 +140,7 @@ public class OnActivityResultIntentDataTest {
     }
 
     @Test
-    public void testOnActivityResultIntentDataResultCodeAndIntent() {
+    public void intentDataResultCodeAndIntent() {
         //@formatter:off
         TestActivity.create().hasIntentData().hasIntent().build(
             "@OnActivityResult(requestCode = 3) public void test(@IntentData final Uri uri, final int resultCode, final Intent intent) {}"

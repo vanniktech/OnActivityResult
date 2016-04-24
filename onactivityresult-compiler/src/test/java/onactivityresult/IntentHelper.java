@@ -20,51 +20,51 @@ public final class IntentHelper {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static String getStringExtra(final Intent intent, final String key, final String defaultValue) {
+    public static String getExtraString(final Intent intent, final String key, final String defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static int getIntExtra(final Intent intent, final String key, final int defaultValue) {
+    public static int getExtraInt(final Intent intent, final String key, final int defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static boolean getBooleanExtra(final Intent intent, final String key, final boolean defaultValue) {
+    public static boolean getExtraBoolean(final Intent intent, final String key, final boolean defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static float getFloatExtra(final Intent intent, final String key, final float defaultValue) {
+    public static float getExtraFloat(final Intent intent, final String key, final float defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static double getDoubleExtra(final Intent intent, final String key, final double defaultValue) {
+    public static double getExtraDouble(final Intent intent, final String key, final double defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static byte getByteExtra(final Intent intent, final String key, final byte defaultValue) {
+    public static byte getExtraByte(final Intent intent, final String key, final byte defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static short getShortExtra(final Intent intent, final String key, final short defaultValue) {
+    public static short getExtraShort(final Intent intent, final String key, final short defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static char getCharExtra(final Intent intent, final String key, final char defaultValue) {
+    public static char getExtraChar(final Intent intent, final String key, final char defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static long getLongExtra(final Intent intent, final String key, final long defaultValue) {
+    public static long getExtraLong(final Intent intent, final String key, final long defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static CharSequence getCharSequenceExtra(final Intent intent, final String key, final CharSequence defaultValue) {
+    public static CharSequence getExtraCharSequence(final Intent intent, final String key, final CharSequence defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static Bundle getBundleExtra(final Intent intent, final String key, final Bundle defaultValue) {
+    public static Bundle getExtraBundle(final Intent intent, final String key, final Bundle defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static Serializable getSerializableExtra(final Intent intent, final String key, final Serializable defaultValue) {
+    public static Serializable getExtraSerializable(final Intent intent, final String key, final Serializable defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 

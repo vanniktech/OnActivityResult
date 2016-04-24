@@ -45,7 +45,7 @@ final class Parameter {
 
             final int hashCode = defaultValue.hashCode();
             final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
-            return name + annotatedParameter.readableName() + "Extra_" + identifier;
+            return name + "Extra" + annotatedParameter.readableName() + "_" + identifier;
         }
 
         return name;
