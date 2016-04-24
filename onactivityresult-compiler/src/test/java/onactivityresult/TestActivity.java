@@ -56,21 +56,25 @@ final class TestActivity {
 
         public Builder hasIntent() {
             hasIntent = true;
+            needsIntentHelper = true;
             return this;
         }
 
         public Builder hasNullable() {
             hasNullable = true;
+            needsIntentHelper = true;
             return this;
         }
 
         public Builder hasExtra() {
             hasExtra = true;
+            needsIntentHelper = true;
             return this;
         }
 
         public Builder hasNotNull() {
             hasNotNull = true;
+            needsIntentHelper = true;
             return this;
         }
 
@@ -118,12 +122,14 @@ final class TestActivity {
             code.add(stringArrayToString(functions));
             code.add("}");
 
-            final boolean needsIntentHelper = this.needsIntentHelper || hasExtra || hasNullable || hasNotNull || hasIntentData;
             return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
         }
 
         Builder addImport(final String name) {
-            needsIntentHelper = name.contains("onactivityresult.Extra");
+            if (name.startsWith("onactivityresult.Extra")) {
+                needsIntentHelper = true;
+            }
+
             imports.add(name);
             return this;
         }

@@ -150,8 +150,6 @@ public class OnActivityResultExtraParameters {
         STRING(ExtraString.class, String.class, "", "\"\"", "defaultValue", "\"defaultValue\"");
         //@formatter:on
 
-        // TODO: make less configurable
-
         final Class<? extends Annotation> annotation;
         final Class<?> type;
         final String defaultValue;
