@@ -56,7 +56,6 @@ final class TestActivity {
 
         public Builder hasIntent() {
             hasIntent = true;
-            needsIntentHelper = true;
             return this;
         }
 
