@@ -198,11 +198,11 @@ public class OnActivityResultExtraParameterTest {
     }
 
     private String getExtractVariableStatement(final String name) {
-        return "final " + type + " " + getVariableName(name) + " = IntentHelper.get" + camelCaseType() + "Extra(intent, \"" + name + "\", " + defaultValue + ");";
+        return "final " + type + " " + getVariableName(name) + " = IntentHelper.getExtra" + camelCaseType() + "(intent, \"" + name + "\", " + defaultValue + ");";
     }
 
     private String getVariableName(final String origin) {
-        return origin + camelCaseType() + "Extra" + defaultIdentifier;
+        return origin + "Extra" + camelCaseType() + defaultIdentifier;
     }
 
     private String camelCaseType() {

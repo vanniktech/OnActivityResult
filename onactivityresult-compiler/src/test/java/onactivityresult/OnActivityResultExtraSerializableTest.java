@@ -3,16 +3,16 @@ package onactivityresult;
 import org.junit.Test;
 
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public class OnActivityResultExtraSerializableParameterTest {
+public class OnActivityResultExtraSerializableTest {
     @Test
-    public void testExtraSerializable() {
+    public void extra() {
         //@formatter:off
         TestActivity.create().hasExtra().addImport("java.io.Serializable").build(
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Serializable test) {}"
         ).needsSerializable().generatesBody(
             "if (requestCode == 3) {",
-                "final Serializable testSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"test\", null);",
-                "t.test(testSerializableExtra_3392903);",
+                "final Serializable testExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.test(testExtraSerializable_3392903);",
 
                 "didHandle = true;",
             "}"
@@ -21,15 +21,15 @@ public class OnActivityResultExtraSerializableParameterTest {
     }
 
     @Test
-    public void testExtraSerializables() {
+    public void extras() {
         //@formatter:off
         TestActivity.create().hasExtra().addImport("java.io.Serializable").build(
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Serializable foo, @Extra final Serializable bar) {}"
         ).needsSerializable().generatesBody(
             "if (requestCode == 3) {",
-                "final Serializable fooSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"foo\", null);",
-                "final Serializable barSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"bar\", null);",
-                "t.test(fooSerializableExtra_3392903, barSerializableExtra_3392903);",
+                "final Serializable fooExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"foo\", null);",
+                "final Serializable barExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"bar\", null);",
+                "t.test(fooExtraSerializable_3392903, barExtraSerializable_3392903);",
 
                 "didHandle = true;",
             "}"
@@ -38,16 +38,16 @@ public class OnActivityResultExtraSerializableParameterTest {
     }
 
     @Test
-    public void testExtraSerializableSameRequestCode() {
+    public void extraSameRequestCode() {
         //@formatter:off
         TestActivity.create().hasExtra().addImport("java.io.Serializable").build(
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final Serializable value) {}",
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Serializable value) {}"
         ).needsSerializable().generatesBody(
             "if (requestCode == 5) {",
-                "final Serializable valueSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"value\", null);",
-                "t.foo(valueSerializableExtra_3392903);",
-                "t.bar(valueSerializableExtra_3392903);",
+                "final Serializable valueExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"value\", null);",
+                "t.foo(valueExtraSerializable_3392903);",
+                "t.bar(valueExtraSerializable_3392903);",
 
                 "didHandle = true;",
             "}"
@@ -56,18 +56,18 @@ public class OnActivityResultExtraSerializableParameterTest {
     }
 
     @Test
-    public void testExtraSerializableSameRequestCodeDifferentExtraSerializables() {
+    public void extraSameRequestCodeDifferentExtras() {
         //@formatter:off
         TestActivity.create().hasExtra().addImport("java.io.Serializable").build(
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final Serializable test) {}",
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Serializable test, @Extra final Serializable foo) {}"
         ).needsSerializable().generatesBody(
             "if (requestCode == 5) {",
-                "final Serializable testSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"test\", null);",
-                "t.foo(testSerializableExtra_3392903);",
-                
-                "final Serializable fooSerializableExtra_3392903 = IntentHelper.getSerializableExtra(intent, \"foo\", null);",
-                "t.bar(testSerializableExtra_3392903, fooSerializableExtra_3392903);",
+                "final Serializable testExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.foo(testExtraSerializable_3392903);",
+
+                "final Serializable fooExtraSerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"foo\", null);",
+                "t.bar(testExtraSerializable_3392903, fooExtraSerializable_3392903);",
 
                 "didHandle = true;",
             "}"
