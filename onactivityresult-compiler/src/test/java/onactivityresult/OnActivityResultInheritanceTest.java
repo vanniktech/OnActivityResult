@@ -15,7 +15,7 @@ import com.google.testing.compile.JavaFileObjects;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultInheritanceTest {
     @Test
-    public void testOnActivityResult() {
+    public void inheritance() {
         //@formatter:off
         final JavaFileObject actualSource = JavaFileObjects.forSourceString("test/BaseActivity", Joiner.on('\n').join(
             "package test;",

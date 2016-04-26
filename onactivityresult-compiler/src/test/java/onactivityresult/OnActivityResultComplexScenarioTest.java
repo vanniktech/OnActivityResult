@@ -5,7 +5,7 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultComplexScenarioTest {
     @Test
-    public void testComplexScenario() {
+    public void complexScenario() {
         //@formatter:off
         TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().hasExtra().build(
             "@OnActivityResult(requestCode = 3, resultCodes = { -1, 0 }) public void three(final Intent intent, @IntentData final Uri uri) {}",
@@ -108,9 +108,9 @@ public class OnActivityResultComplexScenarioTest {
             "} else if (requestCode == 10) {",
                 "if (resultCode == 1) {",
                     "final Uri intentData = IntentHelper.getIntentData(intent);",
-                    "final int extraIntIntExtra_48 = IntentHelper.getIntExtra(intent, \"extraInt\", 0);",
-                    "final double extraDoubleDoubleExtra_47602 = IntentHelper.getDoubleExtra(intent, \"extraDouble\", 0.0);",
-                    "t.ten(intentData, extraIntIntExtra_48, extraDoubleDoubleExtra_47602, resultCode);",
+                    "final int extraIntExtraInt_48 = IntentHelper.getExtraInt(intent, \"extraInt\", 0);",
+                    "final double extraDoubleExtraDouble_47602 = IntentHelper.getExtraDouble(intent, \"extraDouble\", 0.0);",
+                    "t.ten(intentData, extraIntExtraInt_48, extraDoubleExtraDouble_47602, resultCode);",
                     "didHandle = true;",
                 "}",
             "}"

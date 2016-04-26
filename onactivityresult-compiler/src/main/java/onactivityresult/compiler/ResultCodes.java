@@ -6,6 +6,7 @@ class ResultCodes implements Comparable<ResultCodes> {
     private final int[] resultCodes;
 
     ResultCodes(final int... resultCodes) {
+        //noinspection AndroidLintNewApi
         this.resultCodes = Arrays.copyOf(resultCodes, resultCodes.length);
 
         Arrays.sort(resultCodes);

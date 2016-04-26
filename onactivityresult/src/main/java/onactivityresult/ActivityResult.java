@@ -45,7 +45,7 @@ public final class ActivityResult {
             final Class<?> onActivityResultClass = Class.forName(className + ACTIVITY_RESULT_CLASS_SUFFIX);
             // noinspection unchecked
             onActivityResult = (IOnActivityResult<Object>) onActivityResultClass.newInstance();
-        } catch (final ClassNotFoundException e) {
+        } catch (final ClassNotFoundException ignore) {
             onActivityResult = findActivityResultForClass(clazz.getSuperclass());
         }
 

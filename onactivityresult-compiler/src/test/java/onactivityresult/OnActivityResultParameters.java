@@ -75,7 +75,13 @@ public class OnActivityResultParameters {
     }
 
     enum Type {
-        NONE("", ""), INTENT("Intent intent", "intent"), RESULT_CODE("int resultCode", "resultCode"), RESULT_CODE_INTENT("int resultCode, Intent intent", "resultCode, intent"), INTENT_RESULT_CODE("Intent intent, int resultCode", "intent, resultCode");
+        //@formatter:off
+        NONE("", ""),
+        INTENT("Intent intent", "intent"),
+        RESULT_CODE("int resultCode", "resultCode"),
+        RESULT_CODE_INTENT("int resultCode, Intent intent", "resultCode, intent"),
+        INTENT_RESULT_CODE("Intent intent, int resultCode", "intent, resultCode");
+        //@formatter:on
 
         final String declaration;
         final String call;

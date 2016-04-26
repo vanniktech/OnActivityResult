@@ -107,25 +107,25 @@ public class IntentHelperTest {
     @Test
     public void testGetStringExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getStringExtra(intent, "StringExtra", null);
+        IntentHelper.getExtraString(intent, "StringExtra", null);
         verify(intent).getStringExtra("StringExtra");
         verifyNoMoreInteractions(intent);
     }
 
     @Test
     public void testGetStringExtraDefaultValue() {
-        assertEquals("default", IntentHelper.getStringExtra(new Intent(), "myStringKey", "default"));
+        assertEquals("default", IntentHelper.getExtraString(new Intent(), "myStringKey", "default"));
     }
 
     @Test
     public void testGetStringExtraValue() {
-        assertEquals("awesome", IntentHelper.getStringExtra(new Intent().putExtra("myStringKey", "awesome"), "myStringKey", "default"));
+        assertEquals("awesome", IntentHelper.getExtraString(new Intent().putExtra("myStringKey", "awesome"), "myStringKey", "default"));
     }
 
     @Test
     public void testGetIntExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getIntExtra(intent, "IntExtra", -1);
+        IntentHelper.getExtraInt(intent, "IntExtra", -1);
         verify(intent).getIntExtra("IntExtra", -1);
         verifyNoMoreInteractions(intent);
     }
@@ -133,7 +133,7 @@ public class IntentHelperTest {
     @Test
     public void testGetFloatExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getFloatExtra(intent, "FloatExtra", -1.f);
+        IntentHelper.getExtraFloat(intent, "FloatExtra", -1.f);
         verify(intent).getFloatExtra("FloatExtra", -1.f);
         verifyNoMoreInteractions(intent);
     }
@@ -141,7 +141,7 @@ public class IntentHelperTest {
     @Test
     public void testGetByteExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getByteExtra(intent, "ByteExtra", (byte) 4);
+        IntentHelper.getExtraByte(intent, "ByteExtra", (byte) 4);
         verify(intent).getByteExtra("ByteExtra", (byte) 4);
         verifyNoMoreInteractions(intent);
     }
@@ -149,7 +149,7 @@ public class IntentHelperTest {
     @Test
     public void testGetBooleanExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getBooleanExtra(intent, "BooleanExtra", true);
+        IntentHelper.getExtraBoolean(intent, "BooleanExtra", true);
         verify(intent).getBooleanExtra("BooleanExtra", true);
         verifyNoMoreInteractions(intent);
     }
@@ -157,7 +157,7 @@ public class IntentHelperTest {
     @Test
     public void testGetDoubleExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getDoubleExtra(intent, "DoubleExtra", -1.d);
+        IntentHelper.getExtraDouble(intent, "DoubleExtra", -1.d);
         verify(intent).getDoubleExtra("DoubleExtra", -1.d);
         verifyNoMoreInteractions(intent);
     }
@@ -165,7 +165,7 @@ public class IntentHelperTest {
     @Test
     public void testGetShortExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getShortExtra(intent, "ShortExtra", (short) 1);
+        IntentHelper.getExtraShort(intent, "ShortExtra", (short) 1);
         verify(intent).getShortExtra("ShortExtra", (short) 1);
         verifyNoMoreInteractions(intent);
     }
@@ -173,7 +173,7 @@ public class IntentHelperTest {
     @Test
     public void testGetCharExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getCharExtra(intent, "CharExtra", (char) 65);
+        IntentHelper.getExtraChar(intent, "CharExtra", (char) 65);
         verify(intent).getCharExtra("CharExtra", (char) 65);
         verifyNoMoreInteractions(intent);
     }
@@ -181,7 +181,7 @@ public class IntentHelperTest {
     @Test
     public void testGetLongExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getLongExtra(intent, "LongExtra", -1L);
+        IntentHelper.getExtraLong(intent, "LongExtra", -1L);
         verify(intent).getLongExtra("LongExtra", -1L);
         verifyNoMoreInteractions(intent);
     }
@@ -189,25 +189,25 @@ public class IntentHelperTest {
     @Test
     public void testGetCharSequenceExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getCharSequenceExtra(intent, "CharSequenceExtra", null);
+        IntentHelper.getExtraCharSequence(intent, "CharSequenceExtra", null);
         verify(intent).getCharSequenceExtra("CharSequenceExtra");
         verifyNoMoreInteractions(intent);
     }
 
     @Test
     public void testGetCharSequenceExtraDefaultValue() {
-        assertEquals("default", IntentHelper.getCharSequenceExtra(new Intent(), "myCharSequenceKey", "default"));
+        assertEquals("default", IntentHelper.getExtraCharSequence(new Intent(), "myCharSequenceKey", "default"));
     }
 
     @Test
     public void testGetCharSequenceExtraValue() {
-        assertEquals("awesome", IntentHelper.getCharSequenceExtra(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesome"), "myCharSequenceKey", "default"));
+        assertEquals("awesome", IntentHelper.getExtraCharSequence(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesome"), "myCharSequenceKey", "default"));
     }
 
     @Test
     public void testGetBundleExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getBundleExtra(intent, "BundleExtra", null);
+        IntentHelper.getExtraBundle(intent, "BundleExtra", null);
         verify(intent).getBundleExtra("BundleExtra");
         verifyNoMoreInteractions(intent);
     }
@@ -215,20 +215,20 @@ public class IntentHelperTest {
     @Test
     public void testGetBundleExtraDefaultValue() {
         final Bundle defaultValue = new Bundle();
-        assertEquals(defaultValue, IntentHelper.getBundleExtra(new Intent(), "myBundleKey", defaultValue));
+        assertEquals(defaultValue, IntentHelper.getExtraBundle(new Intent(), "myBundleKey", defaultValue));
     }
 
     @Test
     public void testGetBundleExtraValue() {
         final Bundle bundle = new Bundle();
         bundle.putString("test", "1234");
-        assertEquals(bundle, IntentHelper.getBundleExtra(new Intent().putExtra("myBundleKey", bundle), "myBundleKey", null));
+        assertEquals(bundle, IntentHelper.getExtraBundle(new Intent().putExtra("myBundleKey", bundle), "myBundleKey", null));
     }
 
     @Test
     public void testGetSerializableExtra() {
         final Intent intent = mock(Intent.class);
-        IntentHelper.getSerializableExtra(intent, "SerializableExtra", null);
+        IntentHelper.getExtraSerializable(intent, "SerializableExtra", null);
         verify(intent).getSerializableExtra("SerializableExtra");
         verifyNoMoreInteractions(intent);
     }
@@ -236,12 +236,12 @@ public class IntentHelperTest {
     @Test
     public void testGetSerializableExtraDefaultValue() {
         final Serializable defaultValue = mock(Serializable.class);
-        assertEquals(defaultValue, IntentHelper.getSerializableExtra(new Intent(), "mySerializableKey", defaultValue));
+        assertEquals(defaultValue, IntentHelper.getExtraSerializable(new Intent(), "mySerializableKey", defaultValue));
     }
 
     @Test
     public void testGetSerializableExtraValue() {
         final Serializable serializable = mock(Serializable.class);
-        assertEquals(serializable, IntentHelper.getSerializableExtra(new Intent().putExtra("mySerializableKey", serializable), "mySerializableKey", null));
+        assertEquals(serializable, IntentHelper.getExtraSerializable(new Intent().putExtra("mySerializableKey", serializable), "mySerializableKey", null));
     }
 }
