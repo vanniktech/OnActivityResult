@@ -1,6 +1,2 @@
 # Retain generated class which implement IOnActivityResult.
 -keep public class * implements onactivityresult.internal.IOnActivityResult { public <init>(); }
-
-# Prevent obfuscation of types which use OnActivityResult annotations since the simple name
-# is used to reflectively look up the generated IOnActivityResult.
--keepnames class * { @onactivityresult.* *;}

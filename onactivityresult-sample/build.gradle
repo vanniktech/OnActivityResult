@@ -14,12 +14,16 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion as int
     buildToolsVersion rootProject.ext.buildToolsVersion as String
 
+    testBuildType 'release'
+
     defaultConfig {
-        applicationId "com.vanniktech.onactivityresult.sample"
+        applicationId 'com.vanniktech.onactivityresult.sample'
         minSdkVersion rootProject.ext.minSdkVersion as int
         targetSdkVersion rootProject.ext.targetSdkVersion as int
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
+
+        testProguardFile 'test-proguard-rules.pro'
     }
 
     def shouldSign = project.hasProperty('RELEASE_STORE_FILE') && project.hasProperty('RELEASE_STORE_PASSWORD') && project.hasProperty('RELEASE_KEY_ALIAS') && project.hasProperty('RELEASE_KEY_PASSWORD')
