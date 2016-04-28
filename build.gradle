@@ -53,7 +53,9 @@ ext {
     supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
     supportDesign = "com.android.support:design:$supportLibraryVersion"
 
-    butterknife = 'com.jakewharton:butterknife:7.0.1'
+    butterknifeVersion = '8.0.1'
+    butterknife = "com.jakewharton:butterknife:${butterknifeVersion}"
+    butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     google = [
             autoservice   : 'com.google.auto.service:auto-service:1.0-rc2',
