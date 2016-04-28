@@ -52,7 +52,6 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             shrinkResources true
             zipAlignEnabled true
 
@@ -71,6 +70,7 @@ dependencies {
     // apt 'com.vanniktech:onactivityresult-compiler:0.3.0'
 
     compile rootProject.ext.butterknife
+    apt rootProject.ext.butterknifeCompiler
 
     compile rootProject.ext.supportAppcompat
     compile rootProject.ext.supportDesign
