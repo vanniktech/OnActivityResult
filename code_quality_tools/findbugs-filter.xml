@@ -6,5 +6,11 @@
     <Match>
         <Class name="~.*Manifest\$.*"/>
     </Match>
+    <Match>
+        <Class name="~.*\$\$ViewBinder*"/>
+    </Match>
+    <Match>
+        <Class name="~.*\$\$ViewBinder\$InnerUnbinder*"/>
+    </Match>
 
 </FindBugsFilter>

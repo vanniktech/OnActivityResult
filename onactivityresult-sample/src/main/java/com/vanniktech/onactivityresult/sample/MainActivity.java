@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int    REQUEST_CODE_PICK_IMAGE      = 4;
     private static final int    REQUEST_CODE_TEST_2_ACTIVITY = 5;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
