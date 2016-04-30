@@ -6,3 +6,4 @@ coverage:
     range: "95...100"
     status:
         patch: false
+        changes: false
