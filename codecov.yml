@@ -1,0 +1,9 @@
+comment:
+    layout: header, diff, changes
+coverage:
+    precision: 2
+    round: down
+    range: "95...100"
+    status:
+        patch: false
+        changes: false
