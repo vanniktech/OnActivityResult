@@ -74,4 +74,78 @@ public class OnActivityResultExtraSerializableTest {
         );
         //@formatter:on
     }
+
+    @Test
+    public void classImplementingSerializable() {
+        //@formatter:off
+        TestActivity.create().hasExtra().addImport("java.io.Serializable").withExtraCode(
+            "class MySerializable implements Serializable {}"
+        ).build(
+            "@OnActivityResult(requestCode = 5) public void foo(@Extra final MySerializable test) {}"
+        ).generatesBody(
+            "if (requestCode == 5) {",
+                "final MySerializable testExtraMySerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.foo(testExtraMySerializable_3392903);",
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
+    public void classesImplementingSerializable() {
+        //@formatter:off
+        TestActivity.create().hasExtra().addImport("java.io.Serializable").withExtraCode(
+            "class MySerializable implements Serializable {}",
+            "class MySerializable2 implements Serializable {}"
+        ).build(
+            "@OnActivityResult(requestCode = 5) public void foo(@Extra final MySerializable test) {}",
+            "@OnActivityResult(requestCode = 5) public void bar(@Extra final MySerializable2 test) {}"
+        ).generatesBody(
+            "if (requestCode == 5) {",
+                "final MySerializable testExtraMySerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.foo(testExtraMySerializable_3392903);",
+                "final MySerializable2 testExtraMySerializable2_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.bar(testExtraMySerializable2_3392903);",
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
+    public void classInheritingClassImplementingSerializable() {
+        //@formatter:off
+        TestActivity.create().hasExtra().addImport("java.io.Serializable").withExtraCode(
+            "class MyClass implements Serializable {}",
+            "class MySerializable extends MyClass {}"
+        ).build(
+            "@OnActivityResult(requestCode = 5) public void bar(@Extra final MySerializable test) {}"
+        ).generatesBody(
+            "if (requestCode == 5) {",
+                "final MySerializable testExtraMySerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.bar(testExtraMySerializable_3392903);",
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
+    public void classImplementingInterfaceExtendingSerializable() {
+        //@formatter:off
+        TestActivity.create().hasExtra().addImport("java.io.Serializable").withExtraCode(
+            "interface Seriz extends Serializable {}",
+            "class MySerializable implements Seriz {}"
+        ).build(
+            "@OnActivityResult(requestCode = 5) public void bar(@Extra final MySerializable test) {}"
+        ).generatesBody(
+            "if (requestCode == 5) {",
+                "final MySerializable testExtraMySerializable_3392903 = IntentHelper.getExtraSerializable(intent, \"test\", null);",
+                "t.bar(testExtraMySerializable_3392903);",
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
 }

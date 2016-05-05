@@ -64,7 +64,7 @@ public final class IntentHelper {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
-    public static Serializable getExtraSerializable(final Intent intent, final String key, final Serializable defaultValue) {
+    public static <T extends Serializable> T getExtraSerializable(final Intent intent, final String key, final T defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 
