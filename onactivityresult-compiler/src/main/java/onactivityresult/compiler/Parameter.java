@@ -5,7 +5,6 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.TypeName;
 
 final class Parameter {
     static final String RESULT_CODE = "resultCode";
@@ -54,8 +53,8 @@ final class Parameter {
 
             final int hashCode = defaultValue.hashCode();
             final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
-            final String s = className != null ? className.simpleName() : annotatedParameter.readableName();
-            return name + "Extra" + s + "_" + identifier;
+            final String parameterName = className != null ? className.simpleName() : annotatedParameter.readableName();
+            return name + "Extra" + parameterName + "_" + identifier;
         }
 
         return name;

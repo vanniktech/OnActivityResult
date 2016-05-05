@@ -80,9 +80,9 @@ final class TestActivity {
             return this;
         }
 
-        public Builder withExtraCode(final String... extraCode) {
+        public Builder withExtraCode(final String... code) {
             this.extraCode = new ArrayList<>();
-            Collections.addAll(this.extraCode, extraCode);
+            Collections.addAll(this.extraCode, code);
             return this;
         }
 
