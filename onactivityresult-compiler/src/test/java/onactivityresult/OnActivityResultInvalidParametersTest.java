@@ -67,38 +67,11 @@ public class OnActivityResultInvalidParametersTest {
     }
 
     @Test
-    public void unsupportedFloatExtraParameter() {
+    public void unsupportedExtraParameter() {
         //@formatter:off
-        TestActivity.create().hasExtra().build(
-            "@OnActivityResult(requestCode = 3) public void myFancyFunction(@Extra final Float myFloat) {}"
-        ).failsWithErrorMessage("@Extra parameter does not support type java.lang.Float. (test.TestActivity.myFancyFunction)", 1);
-        //@formatter:on
-    }
-
-    @Test
-    public void unsupportedIntegerExtraParameter() {
-        //@formatter:off
-        TestActivity.create().hasExtra().build(
-            "@OnActivityResult(requestCode = 3) public void myFancyFunction(@Extra final Integer myInteger) {}"
-        ).failsWithErrorMessage("@Extra parameter does not support type java.lang.Integer. (test.TestActivity.myFancyFunction)", 1);
-        //@formatter:on
-    }
-
-    @Test
-    public void unsupportedBooleanExtraParameter() {
-        //@formatter:off
-        TestActivity.create().hasExtra().build(
-            "@OnActivityResult(requestCode = 3) public void myFancyFunction(@Extra final Boolean myBoolean) {}"
-        ).failsWithErrorMessage("@Extra parameter does not support type java.lang.Boolean. (test.TestActivity.myFancyFunction)", 1);
-        //@formatter:on
-    }
-
-    @Test
-    public void unsupportedLongExtraParameter() {
-        //@formatter:off
-        TestActivity.create().hasExtra().build(
-            "@OnActivityResult(requestCode = 3) public void myFancyFunction(@Extra final Long myLong) {}"
-        ).failsWithErrorMessage("@Extra parameter does not support type java.lang.Long. (test.TestActivity.myFancyFunction)", 1);
+        TestActivity.create().hasExtra().withExtraCode("class UnsupportedClass {}").build(
+            "@OnActivityResult(requestCode = 3) public void myFancyFunction(@Extra final UnsupportedClass unsupported) {}"
+        ).failsWithErrorMessage("@Extra parameter does not support type test.UnsupportedClass. (test.TestActivity.myFancyFunction)", 1);
         //@formatter:on
     }
 }

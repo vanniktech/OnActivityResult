@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.testing.compile.JavaFileObjects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.tools.JavaFileObject;
@@ -42,6 +43,8 @@ final class TestActivity {
         private final List<String> imports = new ArrayList<>();
         private boolean needsIntentHelper;
 
+        private List<String> extraCode;
+
         private Builder() {}
 
         public Builder hasIntentData() {
@@ -74,6 +77,12 @@ final class TestActivity {
         public Builder hasNotNull() {
             hasNotNull = true;
             needsIntentHelper = true;
+            return this;
+        }
+
+        public Builder withExtraCode(final String... code) {
+            this.extraCode = new ArrayList<>();
+            Collections.addAll(this.extraCode, code);
             return this;
         }
 
@@ -120,6 +129,12 @@ final class TestActivity {
 
             code.add(stringArrayToString(functions));
             code.add("}");
+
+            if (extraCode != null) {
+                for (final String s : extraCode) {
+                    code.add(s);
+                }
+            }
 
             return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
         }
@@ -171,7 +186,7 @@ final class TestActivity {
                     hasIntentData ? "import android.net.Uri;" : "",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
-    
+
                     "public class TestActivity$$OnActivityResult<T extends TestActivity> implements IOnActivityResult<T> {",
                         "@Override",
                         "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",

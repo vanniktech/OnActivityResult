@@ -4,37 +4,45 @@ import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import com.squareup.javapoet.ClassName;
+
 final class Parameter {
     static final String RESULT_CODE = "resultCode";
-    static final String INTENT      = "intent";
+    static final String INTENT = "intent";
     static final String INTENT_DATA = "intentData";
 
+    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final String defaultValue, final ClassName className) {
+        return new Parameter(simpleName, annotatedParameter, null, defaultValue, className);
+    }
+
     static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final String defaultValue) {
-        return new Parameter(simpleName, annotatedParameter, null, defaultValue);
+        return new Parameter(simpleName, annotatedParameter, null, defaultValue, null);
     }
 
     static Parameter createResultCode() {
-        return new Parameter(RESULT_CODE, null, null, null);
+        return new Parameter(RESULT_CODE, null, null, null, null);
     }
 
     static Parameter createIntent() {
-        return new Parameter(INTENT, null, null, null);
+        return new Parameter(INTENT, null, null, null, null);
     }
 
     static Parameter createIntentData(final PreCondition preCondition) {
-        return new Parameter(INTENT_DATA, AnnotatedParameter.INTENT_DATA, preCondition, null);
+        return new Parameter(INTENT_DATA, AnnotatedParameter.INTENT_DATA, preCondition, null, null);
     }
 
-    private final String            name;
-    private final String            defaultValue;
+    private final String name;
+    private final String defaultValue;
     public final AnnotatedParameter annotatedParameter;
-    public final PreCondition       preCondition;
+    public final PreCondition preCondition;
+    public final ClassName className;
 
-    private Parameter(final String name, final AnnotatedParameter annotatedParameter, final PreCondition preCondition, final String defaultValue) {
+    private Parameter(final String name, final AnnotatedParameter annotatedParameter, final PreCondition preCondition, final String defaultValue, final ClassName className) {
         this.name = name;
         this.annotatedParameter = annotatedParameter;
         this.preCondition = preCondition == null ? PreCondition.DEFAULT : preCondition;
         this.defaultValue = defaultValue;
+        this.className = className;
     }
 
     String getName() {
@@ -45,7 +53,8 @@ final class Parameter {
 
             final int hashCode = defaultValue.hashCode();
             final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
-            return name + "Extra" + annotatedParameter.readableName() + "_" + identifier;
+            final String parameterName = className != null ? className.simpleName() : annotatedParameter.readableName();
+            return name + "Extra" + parameterName + "_" + identifier;
         }
 
         return name;
@@ -70,7 +79,7 @@ final class Parameter {
         }
 
         final Parameter parameter = (Parameter) o;
-        return name != null ? name.equals(parameter.name) : parameter.name == null && (defaultValue != null ? defaultValue.equals(parameter.defaultValue) : parameter.defaultValue == null && annotatedParameter == parameter.annotatedParameter && preCondition == parameter.preCondition);
+        return name != null ? name.equals(parameter.name) : parameter.name == null && (defaultValue != null ? defaultValue.equals(parameter.defaultValue) : parameter.defaultValue == null && annotatedParameter == parameter.annotatedParameter && preCondition == parameter.preCondition && (className != null ? className.equals(parameter.className) : parameter.className == null));
     }
 
     @Override
@@ -79,6 +88,7 @@ final class Parameter {
         result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
         result = 31 * result + (annotatedParameter != null ? annotatedParameter.hashCode() : 0);
         result = 31 * result + preCondition.hashCode();
+        result = 31 * result + (className != null ? className.hashCode() : 0);
         return result;
     }
 

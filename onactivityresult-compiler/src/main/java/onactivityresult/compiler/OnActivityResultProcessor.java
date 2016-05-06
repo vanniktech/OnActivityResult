@@ -1,10 +1,6 @@
 package onactivityresult.compiler;
 
-import com.google.auto.common.SuperficialValidation;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
+import static javax.tools.Diagnostic.Kind.ERROR;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -29,6 +25,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 import onactivityresult.Extra;
 import onactivityresult.ExtraBoolean;
@@ -43,27 +40,33 @@ import onactivityresult.ExtraString;
 import onactivityresult.IntentData;
 import onactivityresult.OnActivityResult;
 
-import static javax.tools.Diagnostic.Kind.ERROR;
+import com.google.auto.common.SuperficialValidation;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
 
 @AutoService(Processor.class)
 @SuppressWarnings({ "PMD.GodClass", "PMD.ExcessiveImports" })
 public class OnActivityResultProcessor extends AbstractProcessor {
-    static final String         ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
+    static final String ACTIVITY_RESULT_CLASS_SUFFIX = "$$OnActivityResult";
 
-    private static final String FQN_ANDROID_INTENT           = "android.content.Intent";
+    private static final String FQN_ANDROID_INTENT = "android.content.Intent";
 
-    private static final int    RESULT_CANCELED              = 0;
-    private static final int    RESULT_OK                    = -1;
-    private static final int    RESULT_FIRST_USER            = 1;
+    private static final int RESULT_CANCELED = 0;
+    private static final int RESULT_OK = -1;
+    private static final int RESULT_FIRST_USER = 1;
 
-    private Filer               filer;
-    private Elements            elementUtils;
+    private Filer filer;
+    private Elements elementUtils;
+    private Types typeUtils;
 
     @Override
     public void init(final ProcessingEnvironment environment) {
         synchronized (this) {
             super.init(environment);
 
+            typeUtils = environment.getTypeUtils();
             elementUtils = environment.getElementUtils();
             filer = environment.getFiler();
         }
@@ -144,9 +147,10 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 boolean didFindMatch = false;
                 final AnnotatedParameter[] supportedAnnotatedParameters = AnnotatedParameter.values();
 
-                for (final AnnotatedParameter annotatedParameter : supportedAnnotatedParameters) {
-                    final TypeName parameterType = TypeVariableName.get(parameter.asType());
+                final TypeMirror parameterTypeMirror = parameter.asType();
+                final TypeName parameterType = TypeVariableName.get(parameterTypeMirror);
 
+                for (final AnnotatedParameter annotatedParameter : supportedAnnotatedParameters) {
                     if (annotatedParameter.asType().equals(parameterType)) {
                         final ExecutableElement executableElement = (ExecutableElement) method;
                         annotatedParameters.put(executableElement, (VariableElement) parameter, annotatedParameter.createParameter(parameter));
@@ -156,7 +160,17 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 }
 
                 if (!didFindMatch) {
-                    throw new OnActivityResultProcessingException(method, "@%s parameter does not support type %s", annotation.getSimpleName(), parameter.asType().toString());
+                    final boolean isImplementingSerializable = typeUtils.isAssignable(parameterTypeMirror, elementUtils.getTypeElement(AnnotatedParameter.SERIALIZABLE.asType().toString()).asType());
+
+                    if (isImplementingSerializable) {
+                        final ExecutableElement executableElement = (ExecutableElement) method;
+                        annotatedParameters.put(executableElement, (VariableElement) parameter, AnnotatedParameter.SERIALIZABLE.createParameter(parameter));
+                        didFindMatch = true;
+                    }
+                }
+
+                if (!didFindMatch) {
+                    throw new OnActivityResultProcessingException(method, "@%s parameter does not support type %s", annotation.getSimpleName(), parameterTypeMirror.toString());
                 }
             } catch (final OnActivityResultProcessingException e) {
                 e.printError(processingEnv);

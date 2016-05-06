@@ -110,7 +110,8 @@ public enum AnnotatedParameter {
     SERIALIZABLE(Extra.class, ClassName.get(Serializable.class)) {
         @Override
         Parameter createParameter(final Element element) {
-            return Parameter.create(this, element.getSimpleName().toString(), "null");
+            final ClassName className = (ClassName) TypeVariableName.get(element.asType());
+            return Parameter.create(this, element.getSimpleName().toString(), "null", className);
         }
     },
     INTENT_DATA(IntentData.class, ClassName.get("android.net", "Uri")) {

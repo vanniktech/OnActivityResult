@@ -73,8 +73,9 @@ public final class IntentHelper {
         return extra != null ? extra : defaultValue;
     }
 
-    public static Serializable getExtraSerializable(final Intent intent, final String key, final Serializable defaultValue) {
-        final Serializable extra = intent.getSerializableExtra(key);
+    public static <T extends Serializable> T getExtraSerializable(final Intent intent, final String key, final T defaultValue) {
+        //noinspection unchecked
+        final T extra = (T) intent.getSerializableExtra(key);
         return extra != null ? extra : defaultValue;
     }
 
