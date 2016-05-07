@@ -42,7 +42,9 @@ import onactivityresult.OnActivityResult;
 
 import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeVariableName;
 
@@ -306,9 +308,14 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
         if (cachedActivityResultClass == null) {
             final String packageName = this.getPackageName(enclosingElement);
-            final String className = Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX;
 
-            final ActivityResultClass activityResultClass = new ActivityResultClass(packageName, className, targetType);
+            TypeName targetTypeName = TypeName.get(enclosingElement.asType());
+            if (targetTypeName instanceof ParameterizedTypeName) {
+                targetTypeName = ((ParameterizedTypeName) targetTypeName).rawType;
+            }
+
+            final ClassName className = ClassName.get(packageName, Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX);
+            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName);
 
             final String superActivityResultClass = this.findParent(enclosingElement, activityResultClasses);
 

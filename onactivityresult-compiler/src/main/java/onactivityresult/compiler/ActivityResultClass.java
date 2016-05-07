@@ -1,11 +1,7 @@
 package onactivityresult.compiler;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.PUBLIC;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,46 +14,49 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import static javax.lang.model.element.Modifier.FINAL;
-import static javax.lang.model.element.Modifier.PUBLIC;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeVariableName;
 
 final class ActivityResultClass {
-    private static final String                 TARGET_VARIABLE_NAME        = "t";
-    private static final String                 TYPE_VARIABLE_NAME          = TARGET_VARIABLE_NAME.toUpperCase(Locale.US);
+    private static final String TARGET_VARIABLE_NAME = "t";
+    private static final String TYPE_VARIABLE_NAME = TARGET_VARIABLE_NAME.toUpperCase(Locale.US);
 
-    private static final String                 REQUEST_CODE_PARAMETER_NAME = "requestCode";
-    private static final String                 ON_RESULT_METHOD_NAME       = "onResult";
-    private static final String                 DID_HANDLE_VARIABLE         = "didHandle";
+    private static final String REQUEST_CODE_PARAMETER_NAME = "requestCode";
+    private static final String ON_RESULT_METHOD_NAME = "onResult";
+    private static final String DID_HANDLE_VARIABLE = "didHandle";
 
-    private static final ClassName              ACTIVITY_ON_RESULT          = ClassName.get("onactivityresult.internal", "IOnActivityResult");
-    private static final ClassName              INTENT                      = ClassName.get("android.content", "Intent");
-    private static final ClassName              URI                         = ClassName.get("android.net", "Uri");
-    private static final ClassName              BUNDLE                      = ClassName.get("android.os", "Bundle");
-    private static final ClassName              INTENT_HELPER               = ClassName.get("onactivityresult", "IntentHelper");
+    private static final ClassName ACTIVITY_ON_RESULT = ClassName.get("onactivityresult.internal", "IOnActivityResult");
+    private static final ClassName INTENT = ClassName.get("android.content", "Intent");
+    private static final ClassName URI = ClassName.get("android.net", "Uri");
+    private static final ClassName BUNDLE = ClassName.get("android.os", "Bundle");
+    private static final ClassName INTENT_HELPER = ClassName.get("onactivityresult", "IntentHelper");
 
-    private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR      = new Comparator<MethodCall>() {
-                                                                                @Override
-                                                                                public int compare(final MethodCall lhs, final MethodCall rhs) {
-                                                                                    return lhs.getResultCodes().compareTo(rhs.getResultCodes());
-                                                                                }
-                                                                            };
+    private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR = new Comparator<MethodCall>() {
+        @Override
+        public int compare(final MethodCall lhs, final MethodCall rhs) {
+            return lhs.getResultCodes().compareTo(rhs.getResultCodes());
+        }
+    };
 
-    private final String                        classPackage;
-    private final String                        className;
-    private final String                        targetClass;
-    private String                              superActivityResultClass;
+    private final ClassName generatedClassName;
+    private final TypeName targetTypeName;
+    private String superActivityResultClass;
 
-    private final ActivityResultMethodCalls     activityResultCalls         = new ActivityResultMethodCalls();
+    private final ActivityResultMethodCalls activityResultCalls = new ActivityResultMethodCalls();
 
-    ActivityResultClass(final String classPackage, final String className, final String targetClass) {
-        this.classPackage = classPackage;
-        this.className = className;
-        this.targetClass = targetClass;
+    ActivityResultClass(final ClassName generatedClassName, final TypeName targetTypeName) {
+        this.generatedClassName = generatedClassName;
+        this.targetTypeName = targetTypeName;
     }
 
     JavaFile brewJava() {
-        final TypeSpec.Builder result = TypeSpec.classBuilder(className).addModifiers(PUBLIC);
-        result.addTypeVariable(TypeVariableName.get(TYPE_VARIABLE_NAME, ClassName.bestGuess(targetClass)));
+        final TypeSpec.Builder result = TypeSpec.classBuilder(generatedClassName).addModifiers(PUBLIC);
+        result.addTypeVariable(TypeVariableName.get(TYPE_VARIABLE_NAME, targetTypeName));
 
         final TypeVariableName typeVariableName = TypeVariableName.get(TYPE_VARIABLE_NAME);
 
@@ -69,7 +68,7 @@ final class ActivityResultClass {
 
         result.addMethod(this.createOnResultMethod());
 
-        return JavaFile.builder(classPackage, result.build()).skipJavaLangImports(true).addFileComment("Generated code from OnActivityResult. Do not modify!").build();
+        return JavaFile.builder(generatedClassName.packageName(), result.build()).skipJavaLangImports(true).addFileComment("Generated code from OnActivityResult. Do not modify!").build();
     }
 
     void add(final MethodCall element, final RequestCode requestCode) {
