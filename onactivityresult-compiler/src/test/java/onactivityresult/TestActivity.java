@@ -150,8 +150,8 @@ final class TestActivity {
             return this;
         }
 
-        public Builder withPackageName(final String packageName) {
-            this.packageName = packageName;
+        public Builder withPackageName(final String name) {
+            this.packageName = name;
             return this;
         }
     }
