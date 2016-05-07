@@ -1,7 +1,6 @@
 package onactivityresult;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.testing.compile.JavaFileObjects;
 
 import java.util.ArrayList;
