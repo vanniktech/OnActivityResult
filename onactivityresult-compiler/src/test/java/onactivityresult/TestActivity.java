@@ -1,7 +1,7 @@
 package onactivityresult;
 
-import com.google.common.base.Joiner;
-import com.google.testing.compile.JavaFileObjects;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,8 +11,8 @@ import javax.tools.JavaFileObject;
 
 import onactivityresult.compiler.OnActivityResultProcessor;
 
-import static com.google.common.truth.Truth.assertAbout;
-import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
+import com.google.common.base.Joiner;
+import com.google.testing.compile.JavaFileObjects;
 
 final class TestActivity {
     public static Builder create() {
@@ -158,12 +158,12 @@ final class TestActivity {
 
     public static class Source {
         private final JavaFileObject source;
-        private final boolean        needsIntentHelper;
-        private final boolean        hasIntentData;
-        private final int            headLines;
+        private final boolean needsIntentHelper;
+        private final boolean hasIntentData;
+        private final int headLines;
         private final String packageName;
-        private boolean              needsBundle;
-        private boolean              needsSerializable;
+        private boolean needsBundle;
+        private boolean needsSerializable;
 
         Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines, final String packageName) {
             this.source = source;
