@@ -125,6 +125,21 @@ public class OnActivityResultModifierTest {
         assertThatSucceeds(source);
     }
 
+    @Test
+    public void upperCasePackageName() {
+        //@formatter:off
+        TestActivity.create().withPackageName("com.Test").build(
+            "@OnActivityResult(requestCode = 3) public void test() {}"
+        ).generatesBody(
+            "if (requestCode == 3) {",
+                "t.test();",
+
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
+
     private void assertThatSucceeds(final JavaFileObject source) {
         assertAbout(javaSource()).that(source).compilesWithoutError();
         assertAbout(javaSource()).that(source).processedWith(new OnActivityResultProcessor()).compilesWithoutError();

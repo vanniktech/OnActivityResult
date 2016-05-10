@@ -1,7 +1,7 @@
 package onactivityresult;
 
-import com.google.common.base.Joiner;
-import com.google.testing.compile.JavaFileObjects;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,8 +11,8 @@ import javax.tools.JavaFileObject;
 
 import onactivityresult.compiler.OnActivityResultProcessor;
 
-import static com.google.common.truth.Truth.assertAbout;
-import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
+import com.google.common.base.Joiner;
+import com.google.testing.compile.JavaFileObjects;
 
 final class TestActivity {
     public static Builder create() {
@@ -44,6 +44,7 @@ final class TestActivity {
         private boolean needsIntentHelper;
 
         private List<String> extraCode;
+        private String packageName;
 
         private Builder() {}
 
@@ -136,7 +137,8 @@ final class TestActivity {
                 }
             }
 
-            return new Source(JavaFileObjects.forSourceString("test/TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines);
+            final String packName = packageName != null ? packageName : "test";
+            return new Source(JavaFileObjects.forSourceString(packName + ".TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines, packName);
         }
 
         Builder addImport(final String name) {
@@ -147,21 +149,28 @@ final class TestActivity {
             imports.add(name);
             return this;
         }
+
+        public Builder withPackageName(final String name) {
+            this.packageName = name;
+            return this;
+        }
     }
 
     public static class Source {
         private final JavaFileObject source;
-        private final boolean        needsIntentHelper;
-        private final boolean        hasIntentData;
-        private final int            headLines;
-        private boolean              needsBundle;
-        private boolean              needsSerializable;
+        private final boolean needsIntentHelper;
+        private final boolean hasIntentData;
+        private final int headLines;
+        private final String packageName;
+        private boolean needsBundle;
+        private boolean needsSerializable;
 
-        Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines) {
+        Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines, final String packageName) {
             this.source = source;
             this.needsIntentHelper = needsIntentHelper;
             this.hasIntentData = hasIntentData;
             this.headLines = headLines;
+            this.packageName = packageName;
         }
 
         Source needsBundle() {
@@ -176,7 +185,7 @@ final class TestActivity {
 
         public void generatesBody(final String... code) {
             //@formatter:off
-            final JavaFileObject generation = JavaFileObjects.forSourceString("test/TestActivity$$OnActivityResult", Joiner.on('\n').join(
+            final JavaFileObject generation = JavaFileObjects.forSourceString(packageName + ".TestActivity$$OnActivityResult", Joiner.on('\n').join(
                     "// Generated code from OnActivityResult. Do not modify!",
                     "package test;",
                     "import android.content.Intent;",
