@@ -11,12 +11,16 @@ final class Parameter {
     static final String INTENT = "intent";
     static final String INTENT_DATA = "intentData";
 
-    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final String defaultValue, final ClassName className) {
-        return new Parameter(simpleName, annotatedParameter, null, defaultValue, className);
+    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final ClassName className) {
+        return new Parameter(simpleName, annotatedParameter, null, "null", className);
     }
 
     static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName, final String defaultValue) {
         return new Parameter(simpleName, annotatedParameter, null, defaultValue, null);
+    }
+
+    static Parameter create(final AnnotatedParameter annotatedParameter, final String simpleName) {
+        return new Parameter(simpleName, annotatedParameter, null, "null", null);
     }
 
     static Parameter createResultCode() {

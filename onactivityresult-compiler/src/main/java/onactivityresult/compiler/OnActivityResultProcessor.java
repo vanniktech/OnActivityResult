@@ -320,13 +320,9 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             }
 
             final ClassName className = ClassName.get(packageName, Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX);
-            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName);
 
             final String superActivityResultClass = this.findParent(enclosingElement, activityResultClasses);
-
-            if (superActivityResultClass != null) {
-                activityResultClass.setSuperActivityResultClass(superActivityResultClass);
-            }
+            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName, superActivityResultClass);
 
             activityResultClasses.put(targetType, activityResultClass);
             return activityResultClass;
