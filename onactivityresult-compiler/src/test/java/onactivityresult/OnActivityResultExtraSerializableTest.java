@@ -117,7 +117,7 @@ public class OnActivityResultExtraSerializableTest {
     public void classInheritingClassImplementingSerializable() {
         //@formatter:off
         TestActivity.create().hasExtra().addImport("java.io.Serializable").withExtraCode(
-            "class MyClass implements Serializable {}",
+            "abstract class MyClass implements Serializable {}",
             "class MySerializable extends MyClass {}"
         ).build(
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final MySerializable test) {}"

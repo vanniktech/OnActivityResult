@@ -162,9 +162,14 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 }
 
                 if (!didFindMatch) {
+                    final boolean isImplementingParcelable = typeUtils.isAssignable(parameterTypeMirror, elementUtils.getTypeElement(AnnotatedParameter.PARCELABLE.asType().toString()).asType());
                     final boolean isImplementingSerializable = typeUtils.isAssignable(parameterTypeMirror, elementUtils.getTypeElement(AnnotatedParameter.SERIALIZABLE.asType().toString()).asType());
 
-                    if (isImplementingSerializable) {
+                    if (isImplementingParcelable) {
+                        final ExecutableElement executableElement = (ExecutableElement) method;
+                        annotatedParameters.put(executableElement, (VariableElement) parameter, AnnotatedParameter.PARCELABLE.createParameter(parameter));
+                        didFindMatch = true;
+                    } else if (isImplementingSerializable) {
                         final ExecutableElement executableElement = (ExecutableElement) method;
                         annotatedParameters.put(executableElement, (VariableElement) parameter, AnnotatedParameter.SERIALIZABLE.createParameter(parameter));
                         didFindMatch = true;

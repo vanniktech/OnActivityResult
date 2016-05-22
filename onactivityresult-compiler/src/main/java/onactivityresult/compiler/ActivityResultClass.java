@@ -263,6 +263,9 @@ final class ActivityResultClass {
                 } else if (AnnotatedParameter.SERIALIZABLE == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getExtraSerializable($L, $S, $L)", parameter.className, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
+                } else if (AnnotatedParameter.PARCELABLE == parameter.annotatedParameter) {
+                    result.addStatement("final $T $L = $T.getExtraParcelable($L, $S, $L)", parameter.className, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    existingParameters.add(parameter);
                 }
             }
         }

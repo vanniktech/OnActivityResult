@@ -114,6 +114,13 @@ public enum AnnotatedParameter {
             return Parameter.create(this, element.getSimpleName().toString(), "null", className);
         }
     },
+    PARCELABLE(Extra.class, ClassName.get("android.os", "Parcelable")) {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ClassName className = (ClassName) TypeVariableName.get(element.asType());
+            return Parameter.create(this, element.getSimpleName().toString(), "null", className);
+        }
+    },
     INTENT_DATA(IntentData.class, ClassName.get("android.net", "Uri")) {
         @Override
         Parameter createParameter(final Element element) {

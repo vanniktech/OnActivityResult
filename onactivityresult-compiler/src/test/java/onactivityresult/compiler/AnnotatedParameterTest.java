@@ -20,5 +20,6 @@ public class AnnotatedParameterTest {
         assertEquals("CharSequence", AnnotatedParameter.CHAR_SEQUENCE.readableName());
         assertEquals("Bundle", AnnotatedParameter.BUNDLE.readableName());
         assertEquals("Serializable", AnnotatedParameter.SERIALIZABLE.readableName());
+        assertEquals("Parcelable", AnnotatedParameter.PARCELABLE.readableName());
     }
 }
