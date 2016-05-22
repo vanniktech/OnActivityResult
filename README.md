@@ -116,7 +116,7 @@ Some examples can be found [here](./onactivityresult-sample/src/main/java/com/va
 
 [Thanks to JakeWharton's ButterKnife](https://github.com/JakeWharton/butterknife)
 
-[Thanks to Hannes Dorfmann's Annotation Processing 101](http://hannesdorfmann.com/annotation-processing/annotationprocessing101/)
+[Thanks to Hannes Dorfmann's Annotation Processing 101](http://hannesdorfmann.com/annotation-processing/annotationprocessing101)
 
 # License
 
