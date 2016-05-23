@@ -3,6 +3,7 @@ package onactivityresult;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
@@ -243,5 +244,25 @@ public class IntentHelperTest {
     public void testGetSerializableExtraValue() {
         final Serializable serializable = mock(Serializable.class);
         assertEquals(serializable, IntentHelper.getExtraSerializable(new Intent().putExtra("mySerializableKey", serializable), "mySerializableKey", null));
+    }
+
+    @Test
+    public void testGetParcelableExtra() {
+        final Intent intent = mock(Intent.class);
+        IntentHelper.getExtraParcelable(intent, "ParcelableExtra", null);
+        verify(intent).getParcelableExtra("ParcelableExtra");
+        verifyNoMoreInteractions(intent);
+    }
+
+    @Test
+    public void testGetParcelableExtraDefaultValue() {
+        final Parcelable defaultValue = mock(Parcelable.class);
+        assertEquals(defaultValue, IntentHelper.getExtraParcelable(new Intent(), "myParcelableKey", defaultValue));
+    }
+
+    @Test
+    public void testGetParcelableExtraValue() {
+        final Parcelable parcelable = mock(Parcelable.class);
+        assertEquals(parcelable, IntentHelper.getExtraParcelable(new Intent().putExtra("myParcelableKey", parcelable), "myParcelableKey", null));
     }
 }

@@ -32,8 +32,6 @@ final class ActivityResultClass {
 
     private static final ClassName ACTIVITY_ON_RESULT = ClassName.get("onactivityresult.internal", "IOnActivityResult");
     private static final ClassName INTENT = ClassName.get("android.content", "Intent");
-    private static final ClassName URI = ClassName.get("android.net", "Uri");
-    private static final ClassName BUNDLE = ClassName.get("android.os", "Bundle");
     private static final ClassName INTENT_HELPER = ClassName.get("onactivityresult", "IntentHelper");
 
     private static final Comparator<MethodCall> METHOD_CALL_COMPARATOR = new Comparator<MethodCall>() {
@@ -45,13 +43,14 @@ final class ActivityResultClass {
 
     private final ClassName generatedClassName;
     private final TypeName targetTypeName;
-    private String superActivityResultClass;
+    private final String superActivityResultClass;
 
     private final ActivityResultMethodCalls activityResultCalls = new ActivityResultMethodCalls();
 
-    ActivityResultClass(final ClassName generatedClassName, final TypeName targetTypeName) {
+    ActivityResultClass(final ClassName generatedClassName, final TypeName targetTypeName, final String superActivityResultClass) {
         this.generatedClassName = generatedClassName;
         this.targetTypeName = targetTypeName;
+        this.superActivityResultClass = superActivityResultClass;
     }
 
     JavaFile brewJava() {
@@ -225,50 +224,49 @@ final class ActivityResultClass {
 
             if (isNotPresent) {
                 if (AnnotatedParameter.INTENT_DATA == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getIntentData$L($L)", URI, parameter.getName(), INTENT_HELPER, parameter.preCondition.getSuffix(), Parameter.INTENT);
+                    result.addStatement("final $T $L = $T.getIntentData$L($L)", AnnotatedParameter.INTENT_DATA.asType(), parameter.getName(), INTENT_HELPER, parameter.preCondition.getSuffix(), Parameter.INTENT);
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BOOLEAN == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraBoolean($L, $S, $L)", boolean.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraBoolean($L, $S, $L)", AnnotatedParameter.BOOLEAN.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BYTE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraByte($L, $S, (byte) $L)", byte.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraByte($L, $S, (byte) $L)", AnnotatedParameter.BYTE.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.CHAR == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraChar($L, $S, (char) $L)", char.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraChar($L, $S, (char) $L)", AnnotatedParameter.CHAR.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.DOUBLE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraDouble($L, $S, $L)", double.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraDouble($L, $S, $L)", AnnotatedParameter.DOUBLE.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.FLOAT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraFloat($L, $S, $Lf)", float.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraFloat($L, $S, $Lf)", AnnotatedParameter.FLOAT.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.INT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraInt($L, $S, $L)", int.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraInt($L, $S, $L)", AnnotatedParameter.INT.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.LONG == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraLong($L, $S, $LL)", long.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraLong($L, $S, $LL)", AnnotatedParameter.LONG.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.SHORT == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraShort($L, $S, (short) $L)", short.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraShort($L, $S, (short) $L)", AnnotatedParameter.SHORT.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.STRING == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraString($L, $S, $S)", String.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraString($L, $S, $S)", AnnotatedParameter.STRING.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.CHAR_SEQUENCE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraCharSequence($L, $S, $L)", CharSequence.class, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraCharSequence($L, $S, $L)", AnnotatedParameter.CHAR_SEQUENCE.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.BUNDLE == parameter.annotatedParameter) {
-                    result.addStatement("final $T $L = $T.getExtraBundle($L, $S, $L)", BUNDLE, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    result.addStatement("final $T $L = $T.getExtraBundle($L, $S, $L)", AnnotatedParameter.BUNDLE.asType(), parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
                 } else if (AnnotatedParameter.SERIALIZABLE == parameter.annotatedParameter) {
                     result.addStatement("final $T $L = $T.getExtraSerializable($L, $S, $L)", parameter.className, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
                     existingParameters.add(parameter);
+                } else if (AnnotatedParameter.PARCELABLE == parameter.annotatedParameter) {
+                    result.addStatement("final $T $L = $T.getExtraParcelable($L, $S, $L)", parameter.className, parameter.getName(), INTENT_HELPER, Parameter.INTENT, parameter.getKey(), parameter.getDefaultValue());
+                    existingParameters.add(parameter);
                 }
             }
         }
-    }
-
-    void setSuperActivityResultClass(final String superActivityResultClass) {
-        this.superActivityResultClass = superActivityResultClass;
     }
 }

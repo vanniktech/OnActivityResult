@@ -3,6 +3,7 @@ package onactivityresult;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
@@ -65,6 +66,10 @@ public final class IntentHelper {
     }
 
     public static <T extends Serializable> T getExtraSerializable(final Intent intent, final String key, final T defaultValue) {
+        throw new UnsupportedOperationException("Just a stub for testing purposes");
+    }
+
+    public static <T extends Parcelable> T getExtraParcelable(final Intent intent, final String key, final T defaultValue) {
         throw new UnsupportedOperationException("Just a stub for testing purposes");
     }
 

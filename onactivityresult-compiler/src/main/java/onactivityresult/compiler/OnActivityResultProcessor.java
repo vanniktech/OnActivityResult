@@ -162,9 +162,14 @@ public class OnActivityResultProcessor extends AbstractProcessor {
                 }
 
                 if (!didFindMatch) {
+                    final boolean isImplementingParcelable = typeUtils.isAssignable(parameterTypeMirror, elementUtils.getTypeElement(AnnotatedParameter.PARCELABLE.asType().toString()).asType());
                     final boolean isImplementingSerializable = typeUtils.isAssignable(parameterTypeMirror, elementUtils.getTypeElement(AnnotatedParameter.SERIALIZABLE.asType().toString()).asType());
 
-                    if (isImplementingSerializable) {
+                    if (isImplementingParcelable) {
+                        final ExecutableElement executableElement = (ExecutableElement) method;
+                        annotatedParameters.put(executableElement, (VariableElement) parameter, AnnotatedParameter.PARCELABLE.createParameter(parameter));
+                        didFindMatch = true;
+                    } else if (isImplementingSerializable) {
                         final ExecutableElement executableElement = (ExecutableElement) method;
                         annotatedParameters.put(executableElement, (VariableElement) parameter, AnnotatedParameter.SERIALIZABLE.createParameter(parameter));
                         didFindMatch = true;
@@ -315,13 +320,9 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             }
 
             final ClassName className = ClassName.get(packageName, Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX);
-            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName);
 
             final String superActivityResultClass = this.findParent(enclosingElement, activityResultClasses);
-
-            if (superActivityResultClass != null) {
-                activityResultClass.setSuperActivityResultClass(superActivityResultClass);
-            }
+            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName, superActivityResultClass);
 
             activityResultClasses.put(targetType, activityResultClass);
             return activityResultClass;

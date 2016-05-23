@@ -98,20 +98,27 @@ public enum AnnotatedParameter {
     CHAR_SEQUENCE(Extra.class, ClassName.get(CharSequence.class)) {
         @Override
         Parameter createParameter(final Element element) {
-            return Parameter.create(this, element.getSimpleName().toString(), "null");
+            return Parameter.create(this, element.getSimpleName().toString());
         }
     },
     BUNDLE(Extra.class, ClassName.get("android.os", "Bundle")) {
         @Override
         Parameter createParameter(final Element element) {
-            return Parameter.create(this, element.getSimpleName().toString(), "null");
+            return Parameter.create(this, element.getSimpleName().toString());
         }
     },
     SERIALIZABLE(Extra.class, ClassName.get(Serializable.class)) {
         @Override
         Parameter createParameter(final Element element) {
             final ClassName className = (ClassName) TypeVariableName.get(element.asType());
-            return Parameter.create(this, element.getSimpleName().toString(), "null", className);
+            return Parameter.create(this, element.getSimpleName().toString(), className);
+        }
+    },
+    PARCELABLE(Extra.class, ClassName.get("android.os", "Parcelable")) {
+        @Override
+        Parameter createParameter(final Element element) {
+            final ClassName className = (ClassName) TypeVariableName.get(element.asType());
+            return Parameter.create(this, element.getSimpleName().toString(), className);
         }
     },
     INTENT_DATA(IntentData.class, ClassName.get("android.net", "Uri")) {

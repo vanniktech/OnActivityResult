@@ -3,6 +3,7 @@ package onactivityresult;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -76,6 +77,12 @@ public final class IntentHelper {
     public static <T extends Serializable> T getExtraSerializable(final Intent intent, final String key, final T defaultValue) {
         //noinspection unchecked
         final T extra = (T) intent.getSerializableExtra(key);
+        return extra != null ? extra : defaultValue;
+    }
+
+    public static <T extends Parcelable> T getExtraParcelable(final Intent intent, final String key, final T defaultValue) {
+        //noinspection unchecked
+        final T extra = (T) intent.getParcelableExtra(key);
         return extra != null ? extra : defaultValue;
     }
 

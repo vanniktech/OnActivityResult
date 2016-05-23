@@ -164,6 +164,7 @@ final class TestActivity {
         private final String packageName;
         private boolean needsBundle;
         private boolean needsSerializable;
+        private boolean needsParcelable;
 
         Source(final JavaFileObject source, final boolean hasIntentData, final boolean needsIntentHelper, final int headLines, final String packageName) {
             this.source = source;
@@ -183,6 +184,11 @@ final class TestActivity {
             return this;
         }
 
+        Source needsParcelable() {
+            needsParcelable = true;
+            return this;
+        }
+
         public void generatesBody(final String... code) {
             //@formatter:off
             final JavaFileObject generation = JavaFileObjects.forSourceString(packageName + ".TestActivity$$OnActivityResult", Joiner.on('\n').join(
@@ -192,6 +198,7 @@ final class TestActivity {
 
                     needsBundle ? "import android.os.Bundle;" : "",
                     needsSerializable ? "import java.io.Serializable;" : "",
+                    needsParcelable ? "import android.os.Parcelable;" : "",
                     hasIntentData ? "import android.net.Uri;" : "",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
