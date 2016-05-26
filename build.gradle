@@ -71,7 +71,7 @@ ext {
     ]
 
     square = [
-            javapoet: 'com.squareup:javapoet:1.6.1'
+            javapoet: 'com.squareup:javapoet:1.7.0'
     ]
 
     javaVersion = JavaVersion.VERSION_1_7
