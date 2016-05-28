@@ -55,13 +55,17 @@ final class Parameter {
                 return name + preCondition.getSuffix();
             }
 
-            final int hashCode = defaultValue.hashCode();
+            final int hashCode = getDefaultValueHashCode();
             final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
             final String parameterName = className != null ? className.simpleName() : annotatedParameter.readableName();
             return name + "Extra" + parameterName + "_" + identifier;
         }
 
         return name;
+    }
+
+    private int getDefaultValueHashCode() {
+        return defaultValue != null ? defaultValue.hashCode() : Integer.MAX_VALUE; // Need for distinguishing String("") & String(null)
     }
 
     String getKey() {
@@ -89,7 +93,7 @@ final class Parameter {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
+        result = 31 * result + getDefaultValueHashCode();
         result = 31 * result + (annotatedParameter != null ? annotatedParameter.hashCode() : 0);
         result = 31 * result + preCondition.hashCode();
         result = 31 * result + (className != null ? className.hashCode() : 0);

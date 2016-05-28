@@ -7,7 +7,7 @@ public class OnActivityResultComplexScenarioTest {
     @Test
     public void complexScenario() {
         //@formatter:off
-        TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().hasExtra().build(
+        TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().hasExtra().addImport("onactivityresult.ExtraString").build(
             "@OnActivityResult(requestCode = 3, resultCodes = { -1, 0 }) public void three(final Intent intent, @IntentData final Uri uri) {}",
             "@OnActivityResult(requestCode = 3, resultCodes = { 1 }) public void three(final Intent intent) {}",
 
@@ -30,7 +30,12 @@ public class OnActivityResultComplexScenarioTest {
             "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri, final Intent intent) {}",
             "@OnActivityResult(requestCode = 9, resultCodes = { 1 }) public void nine(@IntentData final Uri uri) {}",
 
-            "@OnActivityResult(requestCode = 10, resultCodes = { 1 }) public void ten(@IntentData final Uri uri, @Extra final int extraInt, @Extra final double extraDouble, final int resultCode) {}"
+            "@OnActivityResult(requestCode = 10, resultCodes = { 1 }) public void ten(@IntentData final Uri uri, @Extra final int extraInt, @Extra final double extraDouble, final int resultCode) {}",
+
+            "@OnActivityResult(requestCode = 11) public void elevenExtra(@Extra final String extra) {}",
+            "@OnActivityResult(requestCode = 11) public void elevenExtraString(@ExtraString final String extra) {}",
+            "@OnActivityResult(requestCode = 11) public void elevenExtraStringDefaultValue(@ExtraString(defaultValue = \"\") final String extra) {}",
+            "@OnActivityResult(requestCode = 11) public void elevenExtraStringDefaultValueTest(@ExtraString(defaultValue = \"test\") final String extra) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
                 "if (resultCode == 1) {",
@@ -113,6 +118,15 @@ public class OnActivityResultComplexScenarioTest {
                     "t.ten(intentData, extraIntExtraInt_48, extraDoubleExtraDouble_47602, resultCode);",
                     "didHandle = true;",
                 "}",
+            "} else if (requestCode == 11) {",
+                "final String extraExtraString_2147483647 = IntentHelper.getExtraString(intent, \"extra\", null);",
+                "t.elevenExtra(extraExtraString_2147483647);",
+                "final String extraExtraString_0 = IntentHelper.getExtraString(intent, \"extra\", \"\");",
+                "t.elevenExtraString(extraExtraString_0);",
+                "t.elevenExtraStringDefaultValue(extraExtraString_0);",
+                "final String extraExtraString_3556498 = IntentHelper.getExtraString(intent, \"extra\", \"test\");",
+                "t.elevenExtraStringDefaultValueTest(extraExtraString_3556498);",
+                "didHandle = true;",
             "}"
         );
         //@formatter:on

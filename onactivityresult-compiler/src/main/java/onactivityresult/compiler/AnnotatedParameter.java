@@ -91,7 +91,7 @@ public enum AnnotatedParameter {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraString extraAnnotation = element.getAnnotation(ExtraString.class);
-            final String defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : "";
+            final String defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : null;
             return Parameter.create(this, element.getSimpleName().toString(), defaultValue);
         }
     },
