@@ -30,8 +30,8 @@ dependencies {
 ### Snapshots
 
 ```groovy
-compile 'com.vanniktech:onactivityresult:0.5.0-SNAPSHOT'
-apt 'com.vanniktech:onactivityresult-compiler:0.5.0-SNAPSHOT'
+compile 'com.vanniktech:onactivityresult:0.6.0-SNAPSHOT'
+apt 'com.vanniktech:onactivityresult-compiler:0.6.0-SNAPSHOT'
 ```
 
 Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
