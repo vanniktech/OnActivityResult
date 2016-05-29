@@ -22,6 +22,9 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * <li>short</li>
  * <li>String</li>
  * <li>Charsequence</li>
+ * <li>Parcelable</li>
+ * <li>Serializable</li>
+ * <li>Types implementing Parcelable or Serializable</li>
  * </ul>
  * Example:<br>
  * <p>
