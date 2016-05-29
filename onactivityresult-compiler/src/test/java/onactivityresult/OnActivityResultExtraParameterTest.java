@@ -21,7 +21,7 @@ public class OnActivityResultExtraParameterTest {
                 { "int", "_48", "0" },
                 { "long", "_48", "0L" },
                 { "short", "_48", "(short) 0" },
-                { "String", "_0", "\"\"" },
+                { "String", "_2147483647", "null" },
                 //@formatter:on
         });
     }
@@ -48,20 +48,22 @@ public class OnActivityResultExtraParameterTest {
 
     @Test
     public void testExtraAndExtraSpecificParametersUseSameParameter() {
-        //@formatter:off
-        TestActivity.create().hasExtra().addImport("onactivityresult.Extra" + camelCaseType()).build(
-                "@OnActivityResult(requestCode = 3) public void extra(@Extra final " + type + " test) {}",
-                "@OnActivityResult(requestCode = 3) public void specificExtra(@Extra" + camelCaseType() + " final " + type + " test) {}"
-        ).generatesBody(
-            "if (requestCode == 3) {",
-                getExtractVariableStatement("test"),
-                callFunction("extra", "test"),
-                callFunction("specificExtra", "test"),
+        if (!"String".equals(type)) { // String has special handling
+            //@formatter:off
+            TestActivity.create().hasExtra().addImport("onactivityresult.Extra" + camelCaseType()).build(
+                    "@OnActivityResult(requestCode = 3) public void extra(@Extra final " + type + " test) {}",
+                    "@OnActivityResult(requestCode = 3) public void specificExtra(@Extra" + camelCaseType() + " final " + type + " test) {}"
+            ).generatesBody(
+                "if (requestCode == 3) {",
+                    getExtractVariableStatement("test"),
+                    callFunction("extra", "test"),
+                    callFunction("specificExtra", "test"),
 
-                "didHandle = true;",
-            "}"
-        );
-        //@formatter:on
+                    "didHandle = true;",
+                "}"
+            );
+            //@formatter:on
+        }
     }
 
     @Test
