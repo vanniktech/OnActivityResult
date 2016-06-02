@@ -1,7 +1,19 @@
 # Change Log
 
-Version 0.5.0 *(In development)*
+Version 0.6.0 *(In development)*
 --------------------------------
+
+Version 0.5.0 *(2016-05-29)*
+--------------------------------
+
+- @Extra String defaults value should be null and not empty string. Fix \#46 [\#64](https://github.com/vanniktech/OnActivityResult/pull/64) ([vanniktech](https://github.com/vanniktech))
+- Add Parcelable support for @Extra [\#60](https://github.com/vanniktech/OnActivityResult/pull/60) ([vanniktech](https://github.com/vanniktech))
+- Add test to ensure upper package names are allowed [\#57](https://github.com/vanniktech/OnActivityResult/pull/57) ([vanniktech](https://github.com/vanniktech))
+- Add @Extra support for classes implementing Serializable [\#56](https://github.com/vanniktech/OnActivityResult/pull/56) ([vanniktech](https://github.com/vanniktech))
+- Tweak proguard rules and add test [\#52](https://github.com/vanniktech/OnActivityResult/pull/52) ([vanniktech](https://github.com/vanniktech))
+- Add Serializable support [\#43](https://github.com/vanniktech/OnActivityResult/pull/43) ([vanniktech](https://github.com/vanniktech))
+- Add Bundle support [\#42](https://github.com/vanniktech/OnActivityResult/pull/42) ([vanniktech](https://github.com/vanniktech))
+- Add CharSequence support [\#41](https://github.com/vanniktech/OnActivityResult/pull/41) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.4.0 *(2016-03-29)*
 --------------------------------
