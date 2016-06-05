@@ -88,6 +88,21 @@ public class OnActivityResultExtraNameTest {
     }
 
     @Test
+    public void extraNumericName() {
+        //@formatter:off
+        TestActivity.create().hasExtra().build(
+            "@OnActivityResult(requestCode = 3) public void extra(@Extra(name = \"2134\") final boolean param) {}"
+        ).generatesBody(
+            "if (requestCode == 3) {",
+                "final boolean _2134ExtraBoolean = IntentHelper.getExtraBoolean(intent, \"2134\", false);",
+                "t.extra(_2134ExtraBoolean);",
+                "didHandle = true;",
+            "}"
+        );
+        //@formatter:on
+    }
+
+    @Test
     public void duplicateIntentNames() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
