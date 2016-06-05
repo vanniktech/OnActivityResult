@@ -11,8 +11,8 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Parcelable test) {}"
         ).needsParcelable().generatesBody(
             "if (requestCode == 3) {",
-                "final Parcelable testExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.test(testExtraParcelable_3392903);",
+                "final Parcelable testExtraParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.test(testExtraParcelable);",
 
                 "didHandle = true;",
             "}"
@@ -27,9 +27,9 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Parcelable foo, @Extra final Parcelable bar) {}"
         ).needsParcelable().generatesBody(
             "if (requestCode == 3) {",
-                "final Parcelable fooExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"foo\", null);",
-                "final Parcelable barExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"bar\", null);",
-                "t.test(fooExtraParcelable_3392903, barExtraParcelable_3392903);",
+                "final Parcelable fooExtraParcelable = IntentHelper.getExtraParcelable(intent, \"foo\", null);",
+                "final Parcelable barExtraParcelable = IntentHelper.getExtraParcelable(intent, \"bar\", null);",
+                "t.test(fooExtraParcelable, barExtraParcelable);",
 
                 "didHandle = true;",
             "}"
@@ -45,9 +45,9 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Parcelable value) {}"
         ).needsParcelable().generatesBody(
             "if (requestCode == 5) {",
-                "final Parcelable valueExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"value\", null);",
-                "t.foo(valueExtraParcelable_3392903);",
-                "t.bar(valueExtraParcelable_3392903);",
+                "final Parcelable valueExtraParcelable = IntentHelper.getExtraParcelable(intent, \"value\", null);",
+                "t.foo(valueExtraParcelable);",
+                "t.bar(valueExtraParcelable);",
 
                 "didHandle = true;",
             "}"
@@ -63,11 +63,11 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Parcelable test, @Extra final Parcelable foo) {}"
         ).needsParcelable().generatesBody(
             "if (requestCode == 5) {",
-                "final Parcelable testExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.foo(testExtraParcelable_3392903);",
+                "final Parcelable testExtraParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.foo(testExtraParcelable);",
 
-                "final Parcelable fooExtraParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"foo\", null);",
-                "t.bar(testExtraParcelable_3392903, fooExtraParcelable_3392903);",
+                "final Parcelable fooExtraParcelable = IntentHelper.getExtraParcelable(intent, \"foo\", null);",
+                "t.bar(testExtraParcelable, fooExtraParcelable);",
 
                 "didHandle = true;",
             "}"
@@ -87,8 +87,8 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final MyParcelable test) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final MyParcelable testExtraMyParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.foo(testExtraMyParcelable_3392903);",
+                "final MyParcelable testExtraMyParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.foo(testExtraMyParcelable);",
                 "didHandle = true;",
             "}"
         );
@@ -112,10 +112,10 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final MyParcelable2 test) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final MyParcelable testExtraMyParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.foo(testExtraMyParcelable_3392903);",
-                "final MyParcelable2 testExtraMyParcelable2_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.bar(testExtraMyParcelable2_3392903);",
+                "final MyParcelable testExtraMyParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.foo(testExtraMyParcelable);",
+                "final MyParcelable2 testExtraMyParcelable2 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.bar(testExtraMyParcelable2);",
                 "didHandle = true;",
             "}"
         );
@@ -135,8 +135,8 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final MyParcelable test) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final MyParcelable testExtraMyParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.bar(testExtraMyParcelable_3392903);",
+                "final MyParcelable testExtraMyParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.bar(testExtraMyParcelable);",
                 "didHandle = true;",
             "}"
         );
@@ -156,8 +156,8 @@ public class OnActivityResultExtraParcelableTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final MyParcelable test) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final MyParcelable testExtraMyParcelable_3392903 = IntentHelper.getExtraParcelable(intent, \"test\", null);",
-                "t.bar(testExtraMyParcelable_3392903);",
+                "final MyParcelable testExtraMyParcelable = IntentHelper.getExtraParcelable(intent, \"test\", null);",
+                "t.bar(testExtraMyParcelable);",
                 "didHandle = true;",
             "}"
         );

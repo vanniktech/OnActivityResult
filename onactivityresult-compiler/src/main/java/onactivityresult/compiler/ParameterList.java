@@ -1,5 +1,7 @@
 package onactivityresult.compiler;
 
+import com.squareup.javapoet.NameAllocator;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,16 +31,13 @@ final class ParameterList implements Iterable<Parameter> {
         return set.size() == number;
     }
 
-    @Override
-    public String toString() {
+    public String toString(final NameAllocator nameAllocator) {
         final StringBuilder stringBuilder = new StringBuilder();
 
-        final Iterator<Parameter> iterator = list.iterator();
-
-        if (iterator.hasNext()) {
-            do {
-                stringBuilder.append(iterator.next().getName()).append(", ");
-            } while (iterator.hasNext());
+        if (list.size() > 0) {
+            for (final Parameter parameter : list) {
+                stringBuilder.append(nameAllocator.get(parameter.hashCode())).append(", ");
+            }
 
             stringBuilder.setLength(stringBuilder.length() - 2);
         }

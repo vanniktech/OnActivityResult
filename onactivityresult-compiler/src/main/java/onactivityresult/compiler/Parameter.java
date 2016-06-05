@@ -1,10 +1,10 @@
 package onactivityresult.compiler;
 
+import com.squareup.javapoet.ClassName;
+
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
-
-import com.squareup.javapoet.ClassName;
 
 final class Parameter {
     static final String RESULT_CODE = "resultCode";
@@ -55,10 +55,8 @@ final class Parameter {
                 return name + preCondition.getSuffix();
             }
 
-            final int hashCode = getDefaultValueHashCode();
-            final String identifier = hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
             final String parameterName = className != null ? className.simpleName() : annotatedParameter.readableName();
-            return name + "Extra" + parameterName + "_" + identifier;
+            return name + "Extra" + parameterName;
         }
 
         return name;
