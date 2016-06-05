@@ -14,6 +14,7 @@
     </rule>
     <rule ref="rulesets/java/design.xml">
         <exclude name="AccessorClassGeneration"/>
+        <exclude name="GodClass"/>
         <exclude name="ConfusingTernary"/>
         <exclude name="TooFewBranchesForASwitchStatement"/>
         <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>

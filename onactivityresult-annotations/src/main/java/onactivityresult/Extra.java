@@ -36,7 +36,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * </code>
  * </p>
  * <br>
- * extra name: same as parameter <br>
+ * extra name: either the value returned by {@link Extra#name()} or the same as the parameter name<br>
  * NOTE: In this case it would be extra<br>
  * <br>
  * Since the type will be derived it's not possible to set a default value via the annotation. In case the Intent does not contain the extra, type default values will be provided automatically.<br>
@@ -46,4 +46,10 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  */
 @Retention(CLASS)
 @Target(PARAMETER)
-public @interface Extra {}
+public @interface Extra {
+    /**
+     * @return the name of the extra parameter which is contained in the Intent
+     * @since 0.6.0
+     */
+    String name() default "";
+}

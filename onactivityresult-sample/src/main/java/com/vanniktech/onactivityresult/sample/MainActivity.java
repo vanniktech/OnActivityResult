@@ -1,9 +1,5 @@
 package com.vanniktech.onactivityresult.sample;
 
-import onactivityresult.ActivityResult;
-import onactivityresult.IntentData;
-import onactivityresult.OnActivityResult;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +12,9 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import onactivityresult.ActivityResult;
+import onactivityresult.IntentData;
+import onactivityresult.OnActivityResult;
 
 public class MainActivity extends AppCompatActivity {
     private static final int    REQUEST_CODE_TEST_ACTIVITY   = 3;

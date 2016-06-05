@@ -1,10 +1,10 @@
 package onactivityresult;
 
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.CLASS;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.CLASS;
 
 /**
  * parameters of a {@link OnActivityResult} annotated method can be annotated to get a byte extra of the Intent<br>
@@ -34,4 +34,10 @@ public @interface ExtraByte {
      * @since 0.3.0
      */
     byte defaultValue() default 0;
+
+    /**
+     * @return the name of the extra parameter which is contained in the Intent
+     * @since 0.6.0
+     */
+    String name() default "";
 }
