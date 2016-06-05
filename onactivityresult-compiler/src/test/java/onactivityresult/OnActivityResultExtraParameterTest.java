@@ -13,22 +13,21 @@ public class OnActivityResultExtraParameterTest {
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 //@formatter:off
-                { "boolean", "_97196323", "false" },
-                { "byte", "_48", "(byte) 0" },
-                { "char", "_48", "(char) 0" },
-                { "double", "_47602", "0d" },
-                { "float", "_47602", "0.f" },
-                { "int", "_48", "0" },
-                { "long", "_48", "0L" },
-                { "short", "_48", "(short) 0" },
-                { "String", "_2147483647", "null" },
+                { "boolean", "false" },
+                { "byte", "(byte) 0" },
+                { "char", "(char) 0" },
+                { "double", "0d" },
+                { "float", "0.f" },
+                { "int", "0" },
+                { "long", "0L" },
+                { "short", "(short) 0" },
+                { "String", "null" },
                 //@formatter:on
         });
     }
 
     @Parameterized.Parameter(0) public String type;
-    @Parameterized.Parameter(1) public String defaultIdentifier;
-    @Parameterized.Parameter(2) public String defaultValue;
+    @Parameterized.Parameter(1) public String defaultValue;
 
     @Test
     public void testExtra() {
@@ -204,7 +203,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     private String getVariableName(final String origin) {
-        return origin + "Extra" + camelCaseType() + defaultIdentifier;
+        return origin + "Extra" + camelCaseType();
     }
 
     private String camelCaseType() {

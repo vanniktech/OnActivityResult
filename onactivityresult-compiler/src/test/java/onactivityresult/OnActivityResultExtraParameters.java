@@ -25,8 +25,8 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 3) public void test(@" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " test) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
-                "t.test(test" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
+                "t.test(test" + type.annotation.getSimpleName() + ");",
 
                 "didHandle = true;",
             "}"
@@ -41,9 +41,9 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 3) public void test(@" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " foo, @" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " bar) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final " + type.type.getSimpleName() + " foo" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"foo\", " + type.defaultValueString + ");",
-                "final " + type.type.getSimpleName() + " bar" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"bar\", " + type.defaultValueString + ");",
-                "t.test(foo" + type.annotation.getSimpleName() + "_" + type.identifier() + ", bar" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " foo" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"foo\", " + type.defaultValueString + ");",
+                "final " + type.type.getSimpleName() + " bar" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"bar\", " + type.defaultValueString + ");",
+                "t.test(foo" + type.annotation.getSimpleName() + ", bar" + type.annotation.getSimpleName() + ");",
 
                 "didHandle = true;",
             "}"
@@ -59,9 +59,9 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 5) public void bar(@" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " value) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final " + type.type.getSimpleName() + " value" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"value\", " + type.defaultValueString + ");",
-                "t.foo(value" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
-                "t.bar(value" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " value" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"value\", " + type.defaultValueString + ");",
+                "t.foo(value" + type.annotation.getSimpleName() + ");",
+                "t.bar(value" + type.annotation.getSimpleName() + ");",
 
                 "didHandle = true;",
             "}"
@@ -77,11 +77,11 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 5) public void bar(@" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " test, @" + type.annotation.getSimpleName() + " final " + type.type.getSimpleName() + " foo) {}"
         ).generatesBody(
             "if (requestCode == 5) {",
-                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
-                "t.foo(test" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
+                "t.foo(test" + type.annotation.getSimpleName() + ");",
 
-                "final " + type.type.getSimpleName() + " foo" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"foo\", " + type.defaultValueString + ");",
-                "t.bar(test" + type.annotation.getSimpleName() + "_" + type.identifier() + ", foo" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " foo" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"foo\", " + type.defaultValueString + ");",
+                "t.bar(test" + type.annotation.getSimpleName() + ", foo" + type.annotation.getSimpleName() + ");",
 
                 "didHandle = true;",
             "}"
@@ -96,8 +96,8 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 3) public void test(@" + type.annotation.getSimpleName() + "(defaultValue = " + type.defaultValueString2 + ") final " + type.type.getSimpleName() + " test) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_" + type.identifier2() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString2 + ");",
-                "t.test(test" + type.annotation.getSimpleName() + "_" + type.identifier2() + ");",
+                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString2 + ");",
+                "t.test(test" + type.annotation.getSimpleName() + ");",
 
                 "didHandle = true;",
             "}"
@@ -114,13 +114,13 @@ public class OnActivityResultExtraParameters {
             "@OnActivityResult(requestCode = 3) public void bar(@" + type.annotation.getSimpleName() + "(defaultValue = " + type.defaultValueString2 + ") final " + type.type.getSimpleName() + " test) {}"
         ).generatesBody(
             "if (requestCode == 3) {",
-                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_" + type.identifier() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
-                "t.foobar(test" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString + ");",
+                "t.foobar(test" + type.annotation.getSimpleName() + ");",
 
-                "t.foo(test" + type.annotation.getSimpleName() + "_" + type.identifier() + ");",
+                "t.foo(test" + type.annotation.getSimpleName() + ");",
 
-                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_" + type.identifier2()+ " = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString2 + ");",
-                "t.bar(test" + type.annotation.getSimpleName() + "_" + type.identifier2()+ ");",
+                "final " + type.type.getSimpleName() + " test" + type.annotation.getSimpleName() + "_ = IntentHelper.get" + type.annotation.getSimpleName() + "(intent, \"test\", " + type.defaultValueString2 + ");",
+                "t.bar(test" + type.annotation.getSimpleName() + "_);",
 
                 "didHandle = true;",
             "}"
@@ -164,16 +164,6 @@ public class OnActivityResultExtraParameters {
             this.defaultValue2 = defaultValue2;
             this.defaultValueString = defaultValueString;
             this.defaultValueString2 = defaultValueString2;
-        }
-
-        String identifier() {
-            final int hashCode = defaultValue.hashCode();
-            return hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
-        }
-
-        String identifier2() {
-            final int hashCode = defaultValue2.hashCode();
-            return hashCode < 0 ? "N" + -hashCode : String.valueOf(hashCode);
         }
     }
 }

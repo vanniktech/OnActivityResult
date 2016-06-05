@@ -11,8 +11,8 @@ public class OnActivityResultExtraBundleTest {
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Bundle test) {}"
         ).needsBundle().generatesBody(
             "if (requestCode == 3) {",
-                "final Bundle testExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"test\", null);",
-                "t.test(testExtraBundle_3392903);",
+                "final Bundle testExtraBundle = IntentHelper.getExtraBundle(intent, \"test\", null);",
+                "t.test(testExtraBundle);",
 
                 "didHandle = true;",
             "}"
@@ -27,9 +27,9 @@ public class OnActivityResultExtraBundleTest {
             "@OnActivityResult(requestCode = 3) public void test(@Extra final Bundle foo, @Extra final Bundle bar) {}"
         ).needsBundle().generatesBody(
             "if (requestCode == 3) {",
-                "final Bundle fooExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"foo\", null);",
-                "final Bundle barExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"bar\", null);",
-                "t.test(fooExtraBundle_3392903, barExtraBundle_3392903);",
+                "final Bundle fooExtraBundle = IntentHelper.getExtraBundle(intent, \"foo\", null);",
+                "final Bundle barExtraBundle = IntentHelper.getExtraBundle(intent, \"bar\", null);",
+                "t.test(fooExtraBundle, barExtraBundle);",
 
                 "didHandle = true;",
             "}"
@@ -45,9 +45,9 @@ public class OnActivityResultExtraBundleTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Bundle value) {}"
         ).needsBundle().generatesBody(
             "if (requestCode == 5) {",
-                "final Bundle valueExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"value\", null);",
-                "t.foo(valueExtraBundle_3392903);",
-                "t.bar(valueExtraBundle_3392903);",
+                "final Bundle valueExtraBundle = IntentHelper.getExtraBundle(intent, \"value\", null);",
+                "t.foo(valueExtraBundle);",
+                "t.bar(valueExtraBundle);",
 
                 "didHandle = true;",
             "}"
@@ -63,11 +63,11 @@ public class OnActivityResultExtraBundleTest {
             "@OnActivityResult(requestCode = 5) public void bar(@Extra final Bundle test, @Extra final Bundle foo) {}"
         ).needsBundle().generatesBody(
             "if (requestCode == 5) {",
-                "final Bundle testExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"test\", null);",
-                "t.foo(testExtraBundle_3392903);",
+                "final Bundle testExtraBundle = IntentHelper.getExtraBundle(intent, \"test\", null);",
+                "t.foo(testExtraBundle);",
 
-                "final Bundle fooExtraBundle_3392903 = IntentHelper.getExtraBundle(intent, \"foo\", null);",
-                "t.bar(testExtraBundle_3392903, fooExtraBundle_3392903);",
+                "final Bundle fooExtraBundle = IntentHelper.getExtraBundle(intent, \"foo\", null);",
+                "t.bar(testExtraBundle, fooExtraBundle);",
 
                 "didHandle = true;",
             "}"
