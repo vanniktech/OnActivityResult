@@ -1,5 +1,9 @@
 package onactivityresult.compiler;
 
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.Locale;
@@ -18,17 +22,14 @@ import onactivityresult.ExtraShort;
 import onactivityresult.ExtraString;
 import onactivityresult.IntentData;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeVariableName;
-
 public enum AnnotatedParameter {
     BOOLEAN(ExtraBoolean.class, TypeVariableName.BOOLEAN) {
         @Override
         Parameter createParameter(final Element element) {
             final ExtraBoolean extraAnnotation = element.getAnnotation(ExtraBoolean.class);
             final boolean defaultValue = extraAnnotation != null && extraAnnotation.defaultValue();
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     BYTE(ExtraByte.class, TypeVariableName.BYTE) {
@@ -36,7 +37,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraByte extraAnnotation = element.getAnnotation(ExtraByte.class);
             final byte defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     CHAR(ExtraChar.class, TypeVariableName.CHAR) {
@@ -44,7 +46,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraChar extraAnnotation = element.getAnnotation(ExtraChar.class);
             final char defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf((int) defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf((int) defaultValue));
         }
     },
     DOUBLE(ExtraDouble.class, TypeVariableName.DOUBLE) {
@@ -52,7 +55,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraDouble extraAnnotation = element.getAnnotation(ExtraDouble.class);
             final double defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0d;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     FLOAT(ExtraFloat.class, TypeVariableName.FLOAT) {
@@ -60,7 +64,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraFloat extraAnnotation = element.getAnnotation(ExtraFloat.class);
             final float defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0.f;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     INT(ExtraInt.class, TypeVariableName.INT) {
@@ -68,7 +73,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraInt extraAnnotation = element.getAnnotation(ExtraInt.class);
             final int defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     LONG(ExtraLong.class, TypeVariableName.LONG) {
@@ -76,7 +82,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraLong extraAnnotation = element.getAnnotation(ExtraLong.class);
             final long defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0L;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     SHORT(ExtraShort.class, TypeVariableName.SHORT) {
@@ -84,7 +91,8 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraShort extraAnnotation = element.getAnnotation(ExtraShort.class);
             final short defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : 0;
-            return Parameter.create(this, element.getSimpleName().toString(), String.valueOf(defaultValue));
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, String.valueOf(defaultValue));
         }
     },
     STRING(ExtraString.class, ClassName.get(String.class)) {
@@ -92,33 +100,38 @@ public enum AnnotatedParameter {
         Parameter createParameter(final Element element) {
             final ExtraString extraAnnotation = element.getAnnotation(ExtraString.class);
             final String defaultValue = extraAnnotation != null ? extraAnnotation.defaultValue() : null;
-            return Parameter.create(this, element.getSimpleName().toString(), defaultValue);
+            final String parameterName = getParameterName(element, extraAnnotation != null && extraAnnotation.name().length() > 0 ? extraAnnotation.name() : null);
+            return Parameter.create(this, parameterName, defaultValue);
         }
     },
     CHAR_SEQUENCE(Extra.class, ClassName.get(CharSequence.class)) {
         @Override
         Parameter createParameter(final Element element) {
-            return Parameter.create(this, element.getSimpleName().toString());
+            final String parameterName = getParameterName(element, null);
+            return Parameter.create(this, parameterName);
         }
     },
     BUNDLE(Extra.class, ClassName.get("android.os", "Bundle")) {
         @Override
         Parameter createParameter(final Element element) {
-            return Parameter.create(this, element.getSimpleName().toString());
+            final String parameterName = getParameterName(element, null);
+            return Parameter.create(this, parameterName);
         }
     },
     SERIALIZABLE(Extra.class, ClassName.get(Serializable.class)) {
         @Override
         Parameter createParameter(final Element element) {
             final ClassName className = (ClassName) TypeVariableName.get(element.asType());
-            return Parameter.create(this, element.getSimpleName().toString(), className);
+            final String parameterName = getParameterName(element, null);
+            return Parameter.create(this, parameterName, className);
         }
     },
     PARCELABLE(Extra.class, ClassName.get("android.os", "Parcelable")) {
         @Override
         Parameter createParameter(final Element element) {
             final ClassName className = (ClassName) TypeVariableName.get(element.asType());
-            return Parameter.create(this, element.getSimpleName().toString(), className);
+            final String parameterName = getParameterName(element, null);
+            return Parameter.create(this, parameterName, className);
         }
     },
     INTENT_DATA(IntentData.class, ClassName.get("android.net", "Uri")) {
@@ -129,8 +142,21 @@ public enum AnnotatedParameter {
         }
     };
 
-    private final Class<? extends Annotation> annotation;
-    private final TypeName type;
+    private static String getParameterName(final Element element, final String other) {
+        final Extra extra = element.getAnnotation(Extra.class);
+        final String name = extra != null ? extra.name() : null;
+
+        if (name != null && name.length() > 0) {
+            return name;
+        } else if (other != null && other.length() > 0) {
+            return other;
+        }
+
+        return element.getSimpleName().toString();
+    }
+
+    public final Class<? extends Annotation> annotation;
+    public final TypeName type;
 
     AnnotatedParameter(final Class<? extends Annotation> annotation, final TypeName type) {
         this.annotation = annotation;
@@ -138,14 +164,6 @@ public enum AnnotatedParameter {
     }
 
     abstract Parameter createParameter(final Element element);
-
-    public final TypeName asType() {
-        return type;
-    }
-
-    public final Class<? extends Annotation> getAnnotation() {
-        return annotation;
-    }
 
     public String readableName() {
         final String[] split = this.name().split("_");
