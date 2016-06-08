@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * </code>
  * </p>
  * <br>
- * extra name: same as parameter <br>
+ * extra name: either the value returned by {@link ExtraByte#name()} or the same as the parameter name<br>
  * NOTE: In this case it would be extraByte<br>
  * <br>
  * NOTE: If you don't care about the {@link ExtraByte#defaultValue()} you can also use the {@link Extra} annotation<br>

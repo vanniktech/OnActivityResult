@@ -1,10 +1,15 @@
 # Change Log
 
-Version 0.6.0 *(In development)*
---------------------------------
+Version 0.6.0 *(2016-06-08)*
+----------------------------
+
+- Fix Proguard rules [\#70](https://github.com/vanniktech/OnActivityResult/pull/70) ([vanniktech](https://github.com/vanniktech))
+- Verify that Numeric Intent names also do work [\#68](https://github.com/vanniktech/OnActivityResult/pull/68) ([vanniktech](https://github.com/vanniktech))
+- Generate better names using NameAllocator [\#67](https://github.com/vanniktech/OnActivityResult/pull/67) ([vanniktech](https://github.com/vanniktech))
+- Add name\(\) method to all Extra annotations to specify Intent name. Fixes \#47 [\#66](https://github.com/vanniktech/OnActivityResult/pull/66) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.5.0 *(2016-05-29)*
---------------------------------
+----------------------------
 
 - @Extra String defaults value should be null and not empty string. Fix \#46 [\#64](https://github.com/vanniktech/OnActivityResult/pull/64) ([vanniktech](https://github.com/vanniktech))
 - Add Parcelable support for @Extra [\#60](https://github.com/vanniktech/OnActivityResult/pull/60) ([vanniktech](https://github.com/vanniktech))
@@ -16,7 +21,7 @@ Version 0.5.0 *(2016-05-29)*
 - Add CharSequence support [\#41](https://github.com/vanniktech/OnActivityResult/pull/41) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.4.0 *(2016-03-29)*
---------------------------------
+----------------------------
 
 - Cache OnActivityResult Classes to use only one reflection call per class [\#39](https://github.com/vanniktech/OnActivityResult/pull/39) ([vanniktech](https://github.com/vanniktech))
 - Fix bug when only parent class had @OnActivityResult annotation [\#37](https://github.com/vanniktech/OnActivityResult/pull/37) ([vanniktech](https://github.com/vanniktech))
@@ -24,7 +29,7 @@ Version 0.4.0 *(2016-03-29)*
 - OnActivityResult now returns boolean whether things were handled or not [\#31](https://github.com/vanniktech/OnActivityResult/pull/31) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.3.0 *(2016-02-27)*
---------------------------------
+----------------------------
 
 - Add @Extra annotation [\#26](https://github.com/vanniktech/OnActivityResult/pull/26) ([vanniktech](https://github.com/vanniktech))
 - Skip Java Lang imports [\#25](https://github.com/vanniktech/OnActivityResult/pull/25) ([vanniktech](https://github.com/vanniktech))
