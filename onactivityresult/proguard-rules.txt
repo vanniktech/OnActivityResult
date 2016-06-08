@@ -1,2 +1,7 @@
-# Retain generated class which implement IOnActivityResult.
--keep public class * implements onactivityresult.internal.IOnActivityResult { public <init>(); }
+-keep class onactivityresult.** { *; }
+-dontwarn onactivityresult.internal.**
+-keep class **$$OnActivityResult { *; }
+
+-keepclasseswithmembernames class * {
+    @onactivityresult.* <methods>;
+}
