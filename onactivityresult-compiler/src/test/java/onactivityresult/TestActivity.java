@@ -200,9 +200,11 @@ final class TestActivity {
                     needsParcelable ? "import android.os.Parcelable;" : "",
                     hasIntentData ? "import android.net.Uri;" : "",
                     needsSerializable ? "import java.io.Serializable;" : "",
+                    "import javax.annotation.Generated;",
                     hasIntentData || needsIntentHelper ? "import onactivityresult.IntentHelper;" : "",
                     "import onactivityresult.internal.IOnActivityResult;",
 
+                    "@Generated(\"onactivityresult.compiler.OnActivityResultProcessor\")",
                     "public class TestActivity$$OnActivityResult<T extends TestActivity> implements IOnActivityResult<T> {",
                         "@Override",
                         "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",

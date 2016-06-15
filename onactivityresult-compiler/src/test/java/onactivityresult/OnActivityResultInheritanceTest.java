@@ -1,7 +1,7 @@
 package onactivityresult;
 
-import static com.google.common.truth.Truth.assertAbout;
-import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
+import com.google.common.base.Joiner;
+import com.google.testing.compile.JavaFileObjects;
 
 import org.junit.Test;
 
@@ -9,8 +9,8 @@ import javax.tools.JavaFileObject;
 
 import onactivityresult.compiler.OnActivityResultProcessor;
 
-import com.google.common.base.Joiner;
-import com.google.testing.compile.JavaFileObjects;
+import static com.google.common.truth.Truth.assertAbout;
+import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultInheritanceTest {
@@ -45,8 +45,10 @@ public class OnActivityResultInheritanceTest {
             "package test;",
 
             "import android.content.Intent;",
+            "import javax.annotation.Generated;",
             "import onactivityresult.internal.IOnActivityResult;",
 
+            "@Generated(\"onactivityresult.compiler.OnActivityResultProcessor\")",
             "public class BaseActivity$$OnActivityResult<T extends BaseActivity> implements IOnActivityResult<T> {",
                 "@Override",
                 "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
@@ -70,7 +72,9 @@ public class OnActivityResultInheritanceTest {
             "package test;",
 
             "import android.content.Intent;",
+            "import javax.annotation.Generated;",
 
+            "@Generated(\"onactivityresult.compiler.OnActivityResultProcessor\")",
             "public class TestActivity$$OnActivityResult<T extends TestActivity> extends BaseActivity$$OnActivityResult<T> {",
                 "@Override",
                 "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
@@ -98,7 +102,9 @@ public class OnActivityResultInheritanceTest {
             "package test;",
 
             "import android.content.Intent;",
+            "import javax.annotation.Generated;",
 
+            "@Generated(\"onactivityresult.compiler.OnActivityResultProcessor\")",
             "public class AnotherTestActivity$$OnActivityResult<T extends AnotherTestActivity> extends TestActivity$$OnActivityResult<T> {",
                 "@Override",
                 "public boolean onResult(final T t, final int requestCode, final int resultCode, final Intent intent) {",
