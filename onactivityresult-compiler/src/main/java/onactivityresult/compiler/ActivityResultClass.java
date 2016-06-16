@@ -1,5 +1,6 @@
 package onactivityresult.compiler;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -19,6 +20,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.annotation.Generated;
 
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
@@ -45,13 +48,15 @@ final class ActivityResultClass {
     private final ClassName generatedClassName;
     private final TypeName targetTypeName;
     private final String superActivityResultClass;
+    private final boolean shouldAddGeneratedAnnotation;
 
     private final ActivityResultMethodCalls activityResultCalls = new ActivityResultMethodCalls();
 
-    ActivityResultClass(final ClassName generatedClassName, final TypeName targetTypeName, final String superActivityResultClass) {
+    ActivityResultClass(final ClassName generatedClassName, final TypeName targetTypeName, final String superActivityResultClass, final boolean shouldAddGeneratedAnnotation) {
         this.generatedClassName = generatedClassName;
         this.targetTypeName = targetTypeName;
         this.superActivityResultClass = superActivityResultClass;
+        this.shouldAddGeneratedAnnotation = shouldAddGeneratedAnnotation;
     }
 
     JavaFile brewJava() {
@@ -67,6 +72,10 @@ final class ActivityResultClass {
         }
 
         result.addMethod(this.createOnResultMethod());
+
+        if (shouldAddGeneratedAnnotation) {
+            result.addAnnotation(AnnotationSpec.builder(Generated.class).addMember("value", "$S", OnActivityResultProcessor.class.getCanonicalName()).build());
+        }
 
         return JavaFile.builder(generatedClassName.packageName(), result.build()).skipJavaLangImports(true).addFileComment("Generated code from OnActivityResult. Do not modify!").build();
     }

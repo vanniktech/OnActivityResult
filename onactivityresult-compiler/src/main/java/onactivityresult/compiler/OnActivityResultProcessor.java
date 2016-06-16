@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Generated;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -318,13 +319,17 @@ public class OnActivityResultProcessor extends AbstractProcessor {
             final ClassName className = ClassName.get(packageName, Utils.getClassName(enclosingElement, packageName) + ACTIVITY_RESULT_CLASS_SUFFIX);
 
             final String superActivityResultClass = this.findParent(enclosingElement, activityResultClasses);
-            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName, superActivityResultClass);
+            final ActivityResultClass activityResultClass = new ActivityResultClass(className, targetTypeName, superActivityResultClass, shouldAddGeneratedAnnotation());
 
             activityResultClasses.put(targetType, activityResultClass);
             return activityResultClass;
         }
 
         return cachedActivityResultClass;
+    }
+
+    private boolean shouldAddGeneratedAnnotation() {
+        return elementUtils.getTypeElement(Generated.class.getCanonicalName()) != null;
     }
 
     private String findParent(final TypeElement typeElement, final Map<String, ActivityResultClass> activityResultClasses) {
