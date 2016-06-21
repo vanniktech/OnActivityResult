@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class ParameterListTest {
     @Test
-    public void testAddShouldNotAddNonNull() {
+    public void addShouldNotAddNonNull() {
         final ParameterList parameters = new ParameterList();
         assertEquals(0, parameters.size());
 
@@ -15,7 +15,7 @@ public class ParameterListTest {
     }
 
     @Test
-    public void testAddShouldAddNonNull() {
+    public void addShouldAddNonNull() {
         final ParameterList parameters = new ParameterList();
         assertEquals(0, parameters.size());
 
@@ -24,7 +24,7 @@ public class ParameterListTest {
     }
 
     @Test
-    public void testHasNumberOfDifferentParameters() {
+    public void hasNumberOfDifferentParameters() {
         final ParameterList parameters = new ParameterList();
         assertEquals(true, parameters.hasNumberOfDifferentParameters(0));
 

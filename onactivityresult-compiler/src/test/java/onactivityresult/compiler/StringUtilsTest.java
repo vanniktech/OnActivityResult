@@ -18,12 +18,12 @@ import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 @SuppressWarnings("checkstyle:magicnumber")
 public class StringUtilsTest {
     @Test
-    public void testConstructorShouldBePrivate() {
+    public void constructorShouldBePrivate() {
         PrivateConstructorChecker.forClass(StringUtils.class).expectedTypeOfException(AssertionError.class).expectedExceptionMessage("No instances.").check();
     }
 
     @Test
-    public void testGetList() {
+    public void getList() {
         assertEquals("", StringUtils.getList(","));
         // noinspection NullArgumentToVariableArgMethod
         assertEquals("", StringUtils.getList(",", null));
@@ -35,7 +35,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void testGetReadableParameters() {
+    public void getReadableParameters() {
         assertEquals("", StringUtils.getReadableParameters(null));
         assertEquals("", StringUtils.getReadableParameters(Collections.<VariableElement>emptyList()));
         assertEquals("Intent, Float", StringUtils.getReadableParameters(Arrays.asList(this.createVariableElement("android.content.Intent"), this.createVariableElement("java.lang.Float"))));

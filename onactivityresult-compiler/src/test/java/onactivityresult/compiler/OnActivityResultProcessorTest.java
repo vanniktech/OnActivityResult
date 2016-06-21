@@ -11,7 +11,7 @@ import javax.lang.model.SourceVersion;
 
 public class OnActivityResultProcessorTest {
     @Test
-    public void testGetSupportedAnnotationTypes() {
+    public void getSupportedAnnotationTypes() {
         final OnActivityResultProcessor onActivityResultProcessor = new OnActivityResultProcessor();
         final Set<String> supportedAnnotationTypes = onActivityResultProcessor.getSupportedAnnotationTypes();
         final String[] strings = supportedAnnotationTypes.toArray(new String[supportedAnnotationTypes.size()]);
@@ -35,7 +35,7 @@ public class OnActivityResultProcessorTest {
     }
 
     @Test
-    public void testGetSupportedSourceVersion() {
+    public void getSupportedSourceVersion() {
         final OnActivityResultProcessor onActivityResultProcessor = new OnActivityResultProcessor();
         final SourceVersion actual = onActivityResultProcessor.getSupportedSourceVersion();
 
@@ -43,7 +43,7 @@ public class OnActivityResultProcessorTest {
     }
 
     @Test
-    public void testActivityResultClassSuffix() {
+    public void activityResultClassSuffix() {
         assertEquals("$$OnActivityResult", OnActivityResultProcessor.ACTIVITY_RESULT_CLASS_SUFFIX);
     }
 }

@@ -13,22 +13,22 @@ import javax.lang.model.element.AnnotationMirror;
 
 public class PreConditionTest {
     @Test
-    public void testNotNull() {
+    public void notNull() {
         assertEquals(Parameter.PreCondition.NONNULL, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.NotNull"))));
     }
 
     @Test
-    public void testNonNull() {
+    public void nonNull() {
         assertEquals(Parameter.PreCondition.NONNULL, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.NonNull"))));
     }
 
     @Test
-    public void testNullable() {
+    public void nullable() {
         assertEquals(Parameter.PreCondition.NULLABLE, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.Nullable"))));
     }
 
     @Test
-    public void testDefault() {
+    public void defaultPrecondition() {
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.<AnnotationMirror>emptyList()));
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("OnActivityResult"))));
         assertEquals(Parameter.PreCondition.DEFAULT, Parameter.PreCondition.from(Collections.singletonList(this.createAnnotationMirror("test.OnActivityResult"))));
@@ -37,7 +37,7 @@ public class PreConditionTest {
     }
 
     @Test
-    public void testMultiple() {
+    public void multiple() {
         assertEquals(Parameter.PreCondition.NULLABLE, Parameter.PreCondition.from(Arrays.asList(this.createAnnotationMirror("test.Nullable"), this.createAnnotationMirror("test.NotNull"))));
     }
 

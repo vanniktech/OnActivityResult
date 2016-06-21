@@ -14,12 +14,12 @@ import com.pushtorefresh.private_constructor_checker.PrivateConstructorChecker;
 
 public class UtilsTest {
     @Test
-    public void testConstructorShouldBePrivate() {
+    public void constructorShouldBePrivate() {
         PrivateConstructorChecker.forClass(Utils.class).expectedTypeOfException(AssertionError.class).expectedExceptionMessage("No instances.").check();
     }
 
     @Test
-    public void testIsParameter() {
+    public void isParameter() {
         assertEquals(true, Utils.isParameter(this.getVariableElement(ElementKind.PARAMETER)));
 
         assertEquals(false, Utils.isParameter(this.getVariableElement(ElementKind.METHOD)));
@@ -31,7 +31,7 @@ public class UtilsTest {
     }
 
     @Test
-    public void testIsMethod() {
+    public void isMethod() {
         assertEquals(true, Utils.isMethod(this.getMethodElement(ElementKind.METHOD)));
 
         assertEquals(false, Utils.isMethod(this.getMethodElement(ElementKind.PARAMETER)));

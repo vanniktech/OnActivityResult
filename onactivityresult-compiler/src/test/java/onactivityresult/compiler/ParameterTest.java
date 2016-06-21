@@ -9,12 +9,12 @@ import com.squareup.javapoet.ClassName;
 
 public class ParameterTest {
     @Test
-    public void testConstructorConfirmsParameters() {
+    public void constructorConfirmsParameters() {
         PrivateConstructorChecker.forClass(Parameter.class).expectedWithParameters(String.class, AnnotatedParameter.class, Parameter.PreCondition.class, String.class, ClassName.class).check();
     }
 
     @Test
-    public void testPreConditionSuffix() {
+    public void preConditionSuffix() {
         assertEquals("Nullable", Parameter.PreCondition.NULLABLE.getSuffix());
         assertEquals("NonNull", Parameter.PreCondition.NONNULL.getSuffix());
         assertEquals("", Parameter.PreCondition.DEFAULT.getSuffix());

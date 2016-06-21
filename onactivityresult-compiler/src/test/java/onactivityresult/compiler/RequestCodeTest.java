@@ -9,7 +9,7 @@ import org.junit.Test;
 public class RequestCodeTest {
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-    public void testEquals() {
+    public void equality() {
         final RequestCode same = new RequestCode(4);
         //noinspection EqualsWithItself
         assertEquals(true, same.equals(same));
@@ -25,7 +25,7 @@ public class RequestCodeTest {
     }
 
     @Test
-    public void testHashCode() {
+    public void hashCodes() {
         assertEquals(new RequestCode(3).hashCode(), new RequestCode(3).hashCode());
         assertNotEquals(new RequestCode(5).hashCode(), new RequestCode(3).hashCode());
     }
