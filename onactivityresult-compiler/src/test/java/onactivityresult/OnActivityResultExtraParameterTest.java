@@ -30,7 +30,7 @@ public class OnActivityResultExtraParameterTest {
     @Parameterized.Parameter(1) public String defaultValue;
 
     @Test
-    public void testExtra() {
+    public void extra() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 3) public void test(@Extra final " + type + " test) {}"
@@ -46,7 +46,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraAndExtraSpecificParametersUseSameParameter() {
+    public void extraAndExtraSpecificParametersUseSameParameter() {
         if (!"String".equals(type)) { // String has special handling
             //@formatter:off
             TestActivity.create().hasExtra().addImport("onactivityresult.Extra" + camelCaseType()).build(
@@ -66,7 +66,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtras() {
+    public void extras() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 3) public void test(@Extra final " + type + " foo, @Extra final " + type + " bar) {}"
@@ -83,7 +83,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraSameRequestCode() {
+    public void extraSameRequestCode() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final " + type + " test) {}",
@@ -101,7 +101,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraDifferentRequestCode() {
+    public void extraDifferentRequestCode() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final " + type + " test) {}",
@@ -123,7 +123,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraSameRequestCodeDifferentExtras() {
+    public void extraSameRequestCodeDifferentExtras() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 5) public void foo(@Extra final " + type + " test) {}",
@@ -143,7 +143,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraSameRequestCodeSameResultCodeDifferentExtras() {
+    public void extraSameRequestCodeSameResultCodeDifferentExtras() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 5, resultCodes = { 1 }) public void foo(@Extra final " + type + " test) {}",
@@ -165,7 +165,7 @@ public class OnActivityResultExtraParameterTest {
     }
 
     @Test
-    public void testExtraSameRequestCodeDifferentResultCodesDifferentExtras() {
+    public void extraSameRequestCodeDifferentResultCodesDifferentExtras() {
         //@formatter:off
         TestActivity.create().hasExtra().build(
             "@OnActivityResult(requestCode = 5, resultCodes = { 1 }) public void foo(@Extra final " + type + " test) {}",

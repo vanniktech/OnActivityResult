@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class OnActivityResultResultCodesValidationTest {
     @Test
-    public void testNegativeInvalidFilterResultCodes() {
+    public void negativeInvalidFilterResultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 1, resultCodes = {-2}) void myOnActivityResult() { }"
@@ -13,7 +13,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testPositiveInvalidFilterResultCodes() {
+    public void positiveInvalidFilterResultCodes() {
         //@formatter:off
         TestActivity.create().build(
             "@OnActivityResult(requestCode = 1, resultCodes = {2}) void myOnActivityResult() { }"
@@ -22,7 +22,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testActivityResultDuplicatedFilterResultCodesShouldLetProcessorNotFail() {
+    public void activityResultDuplicatedFilterResultCodesShouldLetProcessorNotFail() {
         //@formatter:off
         TestActivity.create().hasActivity().build(
             "@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_CANCELED, Activity.RESULT_CANCELED }) void myOnActivityResult() { }"
@@ -31,7 +31,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testActivityResultCanceledFilterResultCodesShouldLetProcessorNotFail() {
+    public void activityResultCanceledFilterResultCodesShouldLetProcessorNotFail() {
         //@formatter:off
         TestActivity.create().hasActivity().build(
             "@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_CANCELED }) void myOnActivityResult() { }"
@@ -40,7 +40,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testActivityResultOkFilterResultCodesShouldLetProcessorNotFail() {
+    public void activityResultOkFilterResultCodesShouldLetProcessorNotFail() {
         //@formatter:off
         TestActivity.create().hasActivity().build(
             "@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_OK }) void myOnActivityResult() { }"
@@ -49,7 +49,7 @@ public class OnActivityResultResultCodesValidationTest {
     }
 
     @Test
-    public void testActivityResultFirstUserFilterResultCodesShouldLetProcessorNotFail() {
+    public void activityResultFirstUserFilterResultCodesShouldLetProcessorNotFail() {
         //@formatter:off
         TestActivity.create().hasActivity().build(
             "@OnActivityResult(requestCode = 1, resultCodes = { Activity.RESULT_FIRST_USER }) void myOnActivityResult() { }"

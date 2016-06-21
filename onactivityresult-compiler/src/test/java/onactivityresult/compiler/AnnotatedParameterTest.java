@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class AnnotatedParameterTest {
     @Test
-    public void testReadableName() {
+    public void readableName() {
         assertEquals("Boolean", AnnotatedParameter.BOOLEAN.readableName());
         assertEquals("Byte", AnnotatedParameter.BYTE.readableName());
         assertEquals("Char", AnnotatedParameter.CHAR.readableName());
