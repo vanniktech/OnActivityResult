@@ -8,7 +8,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super(MainActivity.class);
     }
 
-    public void testActivityStarts() {
+    public void testActivityStarts() { // NOPMD - We're using JUnit 3 here.
         getActivity(); // Trigger activity creation.
         getInstrumentation().waitForIdleSync(); // Wait for it to complete startup.
 
