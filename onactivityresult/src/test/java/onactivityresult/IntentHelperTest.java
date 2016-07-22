@@ -115,12 +115,12 @@ public class IntentHelperTest {
 
     @Test
     public void testGetStringExtraDefaultValue() {
-        assertEquals("default", IntentHelper.getExtraString(new Intent(), "myStringKey", "default"));
+        assertEquals("my_default", IntentHelper.getExtraString(new Intent(), "myStringKey", "my_default"));
     }
 
     @Test
     public void testGetStringExtraValue() {
-        assertEquals("awesome", IntentHelper.getExtraString(new Intent().putExtra("myStringKey", "awesome"), "myStringKey", "default"));
+        assertEquals("awesomey", IntentHelper.getExtraString(new Intent().putExtra("myStringKey", "awesomey"), "myStringKey", "default"));
     }
 
     @Test
@@ -197,12 +197,12 @@ public class IntentHelperTest {
 
     @Test
     public void testGetCharSequenceExtraDefaultValue() {
-        assertEquals("default", IntentHelper.getExtraCharSequence(new Intent(), "myCharSequenceKey", "default"));
+        assertEquals("another_default", IntentHelper.getExtraCharSequence(new Intent(), "myCharSequenceKey", "another_default"));
     }
 
     @Test
     public void testGetCharSequenceExtraValue() {
-        assertEquals("awesome", IntentHelper.getExtraCharSequence(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesome"), "myCharSequenceKey", "default"));
+        assertEquals("awesomeness", IntentHelper.getExtraCharSequence(new Intent().putExtra("myCharSequenceKey", (CharSequence) "awesomeness"), "myCharSequenceKey", "default"));
     }
 
     @Test
