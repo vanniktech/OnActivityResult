@@ -8,7 +8,7 @@ import org.junit.Test;
 @SuppressWarnings("checkstyle:magicnumber")
 public class RequestCodeTest {
     @Test
-    @SuppressWarnings("PMD.EqualsNull")
+    @SuppressWarnings({ "PMD.EqualsNull", "SelfEquals", "EqualsIncompatibleType" })
     public void equality() {
         final RequestCode same = new RequestCode(4);
         //noinspection EqualsWithItself

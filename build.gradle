@@ -10,9 +10,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.4.0'
-        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.4.0'
+        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.5.0'
 
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
         classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
     }
@@ -40,38 +40,38 @@ ext {
     isCI = 'true'.equals(System.getProperty('CI'))
 
     minSdkVersion = 15
-    compileSdkVersion = 23
-    targetSdkVersion = 23
-    buildToolsVersion = '23.0.3'
+    compileSdkVersion = 25
+    targetSdkVersion = 25
+    buildToolsVersion = '25.0.0'
 
     shouldPreDex = !isCI
 
-    supportLibraryVersion = '23.3.0'
+    supportLibraryVersion = '25.0.1'
 
     intellijAnnotations = "com.intellij:annotations:12.0"
     supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
     supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
     supportDesign = "com.android.support:design:$supportLibraryVersion"
 
-    butterknifeVersion = '8.2.1'
+    butterknifeVersion = '8.4.0'
     butterknife = "com.jakewharton:butterknife:${butterknifeVersion}"
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     google = [
             autoservice   : 'com.google.auto.service:auto-service:1.0-rc2',
-            compiletesting: 'com.google.testing.compile:compile-testing:0.9'
+            compiletesting: 'com.google.testing.compile:compile-testing:0.10'
     ]
 
     testing = [
             android           : 'com.google.android:android:4.1.1.4',
             junit             : 'junit:junit:4.12',
-            mockito           : 'org.mockito:mockito-core:2.0.52-beta',
-            robolectric       : 'org.robolectric:robolectric:3.1.2',
+            mockito           : 'org.mockito:mockito-core:2.2.24',
+            robolectric       : 'org.robolectric:robolectric:3.1.4',
             privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0'
     ]
 
     square = [
-            javapoet: 'com.squareup:javapoet:1.7.0'
+            javapoet: 'com.squareup:javapoet:1.8.0'
     ]
 
     javaVersion = JavaVersion.VERSION_1_7
@@ -97,6 +97,6 @@ subprojects { project ->
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.2.1'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }

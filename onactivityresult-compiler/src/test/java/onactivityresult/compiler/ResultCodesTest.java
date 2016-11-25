@@ -27,7 +27,7 @@ public class ResultCodesTest {
     }
 
     @Test
-    @SuppressWarnings("PMD.EqualsNull")
+    @SuppressWarnings({ "PMD.EqualsNull", "SelfEquals", "EqualsIncompatibleType" })
     public void equality() {
         final ResultCodes same = new ResultCodes(-1);
         //noinspection EqualsWithItself
