@@ -105,7 +105,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
         this.writeActivityResultClasses(activityResultClasses);
 
-        return true;
+        return false;
     }
 
     @Override
