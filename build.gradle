@@ -88,6 +88,10 @@ subprojects { project ->
 
     project.plugins.apply('net.ltgt.errorprone')
 
+    configurations.errorprone {
+        resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.15'
+    }
+
     if (!rootProject.ext.isCI) {
         tasks.matching { it instanceof Test }.all {
             testLogging.events = ["failed", "passed", "skipped"]
