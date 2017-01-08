@@ -11,7 +11,7 @@ import butterknife.OnClick;
 
 public class ForResultActivity extends AppCompatActivity {
 
-    public static final int RESULT_USER_DEFINED = Activity.RESULT_FIRST_USER + 1;
+    static final int RESULT_USER_DEFINED = Activity.RESULT_FIRST_USER + 1;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
