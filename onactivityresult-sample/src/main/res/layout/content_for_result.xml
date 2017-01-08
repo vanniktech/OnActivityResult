@@ -27,4 +27,11 @@
         android:layout_height="wrap_content"
         android:text="Close with ResultCode Cancel"
         tools:ignore="HardcodedText"/>
+
+    <Button
+        android:id="@+id/close_with_resultcode_user_defined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close with ResultCode user defined"
+        tools:ignore="HardcodedText"/>
 </LinearLayout>

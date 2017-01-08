@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Got activity for result canceled", Toast.LENGTH_SHORT).show();
     }
 
+    @OnActivityResult(requestCode = REQUEST_CODE_TEST_ACTIVITY, resultCodes = {ForResultActivity.RESULT_USER_DEFINED})
+    void onActivityResultTestActivityUserDefined(final int resultCode) {
+        Toast.makeText(this, "Got activity for result user defined. resultCode = " + resultCode, Toast.LENGTH_SHORT).show();
+    }
+
     @OnActivityResult(requestCode = REQUEST_CODE_TEST_2_ACTIVITY)
     void onActivityResultTest2Activity(final int resultCode, final Intent intent) {
         Toast.makeText(this, "Got activity for result 2 " + resultCode + " with intent " + intent, Toast.LENGTH_SHORT).show();
