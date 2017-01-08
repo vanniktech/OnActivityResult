@@ -56,6 +56,10 @@ public class OnActivityResultProcessor extends AbstractProcessor {
 
     private static final String FQN_ANDROID_INTENT = "android.content.Intent";
 
+    private static final int RESULT_CANCELED = 0;
+    private static final int RESULT_OK = -1;
+    private static final int RESULT_FIRST_USER = 1;
+
     private Filer filer;
     private Elements elementUtils;
     private Types typeUtils;
@@ -287,6 +291,10 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         final Set<Integer> set = new HashSet<>(filterResultCodes.length);
 
         for (final int filterResultCode : filterResultCodes) {
+            if (filterResultCode != RESULT_CANCELED && filterResultCode != RESULT_OK && filterResultCode < RESULT_FIRST_USER) {
+                throw new OnActivityResultProcessingException(element, "Invalid resultCode %s", filterResultCode);
+            }
+
             if (set.contains(filterResultCode)) {
                 throw new OnActivityResultProcessingException(element, "Duplicate resultCode %s", filterResultCode);
             } else {
