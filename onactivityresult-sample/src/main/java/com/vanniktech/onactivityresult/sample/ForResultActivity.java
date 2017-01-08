@@ -10,6 +10,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ForResultActivity extends AppCompatActivity {
+
+    static final int RESULT_USER_DEFINED = Activity.RESULT_FIRST_USER + 1;
+
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -31,6 +34,12 @@ public class ForResultActivity extends AppCompatActivity {
     @OnClick(R.id.close_with_resultcode_cancel)
     void onResultCodeCanceledClicked() {
         this.setResult(Activity.RESULT_CANCELED);
+        this.finish();
+    }
+
+    @OnClick(R.id.close_with_resultcode_user_defined)
+    void onResultCodeUserDefinedClicked() {
+        this.setResult(RESULT_USER_DEFINED);
         this.finish();
     }
 }
