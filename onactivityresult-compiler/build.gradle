@@ -10,8 +10,9 @@ dependencies {
 
     compile rootProject.ext.square.javapoet
 
-    compile rootProject.ext.google.autoservice
+    compileOnly rootProject.ext.google.autoservice
 
+    testCompile rootProject.ext.google.autoservice
     testCompile rootProject.ext.testing.android
     testCompile rootProject.ext.testing.junit
     testCompile rootProject.ext.testing.mockito
