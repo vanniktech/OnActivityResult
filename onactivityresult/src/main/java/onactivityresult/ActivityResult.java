@@ -42,7 +42,7 @@ public final class ActivityResult {
         IOnActivityResult<Object> onActivityResult;
 
         try {
-            final Class<?> onActivityResultClass = Class.forName(className + ACTIVITY_RESULT_CLASS_SUFFIX);
+            final Class<?> onActivityResultClass = clazz.getClassLoader().loadClass(className + ACTIVITY_RESULT_CLASS_SUFFIX);
             // noinspection unchecked
             onActivityResult = (IOnActivityResult<Object>) onActivityResultClass.newInstance();
         } catch (final ClassNotFoundException ignore) {
