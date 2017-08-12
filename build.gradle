@@ -6,15 +6,16 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        google()
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.4.0'
         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.5.0'
 
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
     }
 }
 
@@ -29,6 +30,12 @@ junitJacoco {
 }
 
 allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+    }
+
     // Workaround to prevent Gradle from stealing focus from other apps during tests run/etc.
     // https://gist.github.com/artem-zinnatullin/4c250e04636e25797165
     tasks.withType(JavaForkOptions) {
@@ -40,20 +47,20 @@ ext {
     isCI = 'true'.equals(System.getProperty('CI'))
 
     minSdkVersion = 15
-    compileSdkVersion = 25
-    targetSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    compileSdkVersion = 26
+    targetSdkVersion = 26
+    buildToolsVersion = '26.0.1'
 
     shouldPreDex = !isCI
 
-    supportLibraryVersion = '25.1.0'
+    supportLibraryVersion = '26.0.1'
 
     intellijAnnotations = "com.intellij:annotations:12.0"
     supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
     supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
     supportDesign = "com.android.support:design:$supportLibraryVersion"
 
-    butterknifeVersion = '8.4.0'
+    butterknifeVersion = '8.8.0'
     butterknife = "com.jakewharton:butterknife:${butterknifeVersion}"
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
@@ -82,6 +89,7 @@ subprojects { project ->
     group = GROUP
 
     repositories {
+        google()
         jcenter()
         mavenCentral()
     }
@@ -91,15 +99,9 @@ subprojects { project ->
     configurations.errorprone {
         resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.15'
     }
-
-    if (!rootProject.ext.isCI) {
-        tasks.matching { it instanceof Test }.all {
-            testLogging.events = ["failed", "passed", "skipped"]
-        }
-    }
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.4'
+  gradleVersion = '4.1'
   distributionType = Wrapper.DistributionType.ALL
 }
