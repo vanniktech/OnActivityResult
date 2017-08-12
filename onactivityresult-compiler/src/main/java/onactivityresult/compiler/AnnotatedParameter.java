@@ -142,7 +142,7 @@ public enum AnnotatedParameter {
         }
     };
 
-    private static String getParameterName(final Element element, final String other) {
+    static String getParameterName(final Element element, final String other) {
         final Extra extra = element.getAnnotation(Extra.class);
         final String name = extra != null ? extra.name() : null;
 
@@ -163,7 +163,7 @@ public enum AnnotatedParameter {
         this.type = type;
     }
 
-    abstract Parameter createParameter(final Element element);
+    abstract Parameter createParameter(Element element);
 
     public String readableName() {
         final String[] split = this.name().split("_");

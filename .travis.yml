@@ -1,22 +1,21 @@
 language: android
 
 android:
-    components:
-        - tools
-        - platform-tools
-        - build-tools-25.0.2
-        - android-25
-        - extra-android-support
-        - extra-android-m2repository
-        - sys-img-armeabi-v7a-android-18
+  components:
+    - tools
+    - platform-tools
+    - sys-img-armeabi-v7a-android-18
 
 jdk:
-    - oraclejdk8
+  - oraclejdk8
 
 before_install:
-    - pip install --user codecov
+  - pip install --user codecov
 
 before_script:
+  # Install SDK license so Android Gradle plugin can install deps.
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
   # Create and start an emulator for instrumentation tests.
   - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
@@ -25,27 +24,27 @@ before_script:
 
 install: true
 
-script: ./gradlew clean build connectedAndroidTest
+script: ./gradlew clean build connectedCheck
 
 after_success:
-    - .buildscript/deploy_snapshot.sh
-    - codecov
+  - .buildscript/deploy_snapshot.sh
+  - codecov
 
 env:
-    global:
-        - secure: "QxJSypCQHSa8LaWTuA5+kiw4xvc8K0BMGBXHZL2TnRlA80eWn4B8nGxgy6yQJUP9fywBIf3eb1Jf583Ey4JzKXcmI65MyyHWdBc7E4c859z3PLVnbwR0kZxdVGRnXvXy/FrCaEd3d8GBbVnBtByWMXV1qPXQ1WKYW01wLAI8+9S+KEX5bNEab1ujVFb2goaQt0EwA03UPxzrpbYJ2Oatj0470eq/ENVFRm2spOh8LLXhtj6suUCSka1/7U4dyVG99TUuF31aTGx0/ahqPek8HVQQ63mMYRW/2Z1VgjkiJB6ITv+aPxQ45v/pc1rRThkzj6IuBTMNGPh7M13kC8/jnU8mRY+i8aHzmMvnAy72ubM+H12QVOVseaPJStQY6j0HI8eXBljBfyhV/oGDWnstu8LgwpTjM/AFfvvToMTmJ9n2KMd+6wYHnOqUJcFR7workjwIxlk7MZxlSpwORJdazg/SkMrvW+IERnvU+uSfbTYqG/izjdB11J60kVJPih5M2d2oZZnqXIHh3tt7ChXzXGZxYct5itw7CzRt2Zl+BDk77asVGWD+REfL4AbM1zo9DacXQFKO2kJ+ieMpbNwK1iJBMNslyw4zyQjYL0wHEGB+URaMmSAKbjjuRvH4qXt+qMR/zcc9I/m+p5zB6syJ7nvvB/2IyXkwTZHZs95nCRQ="
-        - secure: "f142Sv6LYK5rYOcEA/uz5K0bH23NkTeMIgcMp1bK4UqAPDtwF6EZM4+AaEVeMSl0wq0FsrmYwLgHE8AGD8tbh41w/EClcphuP0TU4p9KyAfvxM10IZ058cpZ/SO419lEc2xw+Zz4pshWv9ywztWPCh6INkFQBmne7NzADYk9iP4X0Pwu8n4x1GJuwWPCLTfdo6Pc4tMh4cYfxHk1S6rpZv5p67kNgShgAtCbrKTdgY+qY+tx3GpIDwj1R7pR4PBfAWFnaC8WASUJySCG4YZbYKvaf7PShOOzMrYMFKRW8hmgFqXNeZbwo7s3OBxxsc8ToNb454fzg9O7eZzdpPG/JWWnr+L3bVBtJXcW5jEMi6QnukclAJ63I3ThYvnW6m2H6yTsUm0C5sjpCpIWFeK4LkrK/lXsGxvfA6KFUGpI8A/MVepm8vmSptHRzp4fIutwqwG/wpNGN9hgYZVk61skFj0BV0ekTlRTyOhoAaHMhjpk+4jsapVOQwkuUkUtaK5A61/TveX2mZxttW1AJf3x6IDLfGaoJJ2o8faSqdNS/YUQgCO6qnbEbtYs6wCDMkaODvLRF4f2S/+2u3WsQ1lMziC8k8FPrg3QB4EvaTGi1TiasdnVDjm/+WvIFgFe+vOtAb/bED8o7HK0b9uAAamzXAyRX0wq4au9A0whh90wU9g="
+  global:
+    - secure: "QxJSypCQHSa8LaWTuA5+kiw4xvc8K0BMGBXHZL2TnRlA80eWn4B8nGxgy6yQJUP9fywBIf3eb1Jf583Ey4JzKXcmI65MyyHWdBc7E4c859z3PLVnbwR0kZxdVGRnXvXy/FrCaEd3d8GBbVnBtByWMXV1qPXQ1WKYW01wLAI8+9S+KEX5bNEab1ujVFb2goaQt0EwA03UPxzrpbYJ2Oatj0470eq/ENVFRm2spOh8LLXhtj6suUCSka1/7U4dyVG99TUuF31aTGx0/ahqPek8HVQQ63mMYRW/2Z1VgjkiJB6ITv+aPxQ45v/pc1rRThkzj6IuBTMNGPh7M13kC8/jnU8mRY+i8aHzmMvnAy72ubM+H12QVOVseaPJStQY6j0HI8eXBljBfyhV/oGDWnstu8LgwpTjM/AFfvvToMTmJ9n2KMd+6wYHnOqUJcFR7workjwIxlk7MZxlSpwORJdazg/SkMrvW+IERnvU+uSfbTYqG/izjdB11J60kVJPih5M2d2oZZnqXIHh3tt7ChXzXGZxYct5itw7CzRt2Zl+BDk77asVGWD+REfL4AbM1zo9DacXQFKO2kJ+ieMpbNwK1iJBMNslyw4zyQjYL0wHEGB+URaMmSAKbjjuRvH4qXt+qMR/zcc9I/m+p5zB6syJ7nvvB/2IyXkwTZHZs95nCRQ="
+    - secure: "f142Sv6LYK5rYOcEA/uz5K0bH23NkTeMIgcMp1bK4UqAPDtwF6EZM4+AaEVeMSl0wq0FsrmYwLgHE8AGD8tbh41w/EClcphuP0TU4p9KyAfvxM10IZ058cpZ/SO419lEc2xw+Zz4pshWv9ywztWPCh6INkFQBmne7NzADYk9iP4X0Pwu8n4x1GJuwWPCLTfdo6Pc4tMh4cYfxHk1S6rpZv5p67kNgShgAtCbrKTdgY+qY+tx3GpIDwj1R7pR4PBfAWFnaC8WASUJySCG4YZbYKvaf7PShOOzMrYMFKRW8hmgFqXNeZbwo7s3OBxxsc8ToNb454fzg9O7eZzdpPG/JWWnr+L3bVBtJXcW5jEMi6QnukclAJ63I3ThYvnW6m2H6yTsUm0C5sjpCpIWFeK4LkrK/lXsGxvfA6KFUGpI8A/MVepm8vmSptHRzp4fIutwqwG/wpNGN9hgYZVk61skFj0BV0ekTlRTyOhoAaHMhjpk+4jsapVOQwkuUkUtaK5A61/TveX2mZxttW1AJf3x6IDLfGaoJJ2o8faSqdNS/YUQgCO6qnbEbtYs6wCDMkaODvLRF4f2S/+2u3WsQ1lMziC8k8FPrg3QB4EvaTGi1TiasdnVDjm/+WvIFgFe+vOtAb/bED8o7HK0b9uAAamzXAyRX0wq4au9A0whh90wU9g="
 
 branches:
-    except:
-        - gh-pages
+  except:
+    - gh-pages
 
 notifications:
-    email: false
+  email: false
 
 sudo: false
 
 cache:
-    directories:
-        - $HOME/.gradle
-        - $HOME/.m2
+  directories:
+    - $HOME/.gradle
+    - $HOME/.m2
