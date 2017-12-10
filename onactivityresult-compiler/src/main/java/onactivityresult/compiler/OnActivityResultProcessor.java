@@ -1,6 +1,5 @@
 package onactivityresult.compiler;
 
-import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -134,10 +133,6 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
 
         for (final Element parameter : parameters) {
-            if (!SuperficialValidation.validateElement(parameter)) {
-                continue;
-            }
-
             try {
                 final ExecutableElement method = (ExecutableElement) parameter.getEnclosingElement();
 
@@ -186,10 +181,6 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
 
         for (final Element parameter : parameters) {
-            if (!SuperficialValidation.validateElement(parameter)) {
-                continue;
-            }
-
             try {
                 final ExecutableElement method = (ExecutableElement) parameter.getEnclosingElement();
 
@@ -211,10 +202,6 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         final Set<? extends Element> elements = environment.getElementsAnnotatedWith(annotation);
 
         for (final Element element : elements) {
-            if (!SuperficialValidation.validateElement(element)) {
-                continue;
-            }
-
             try {
                 if (!Utils.isMethod(element)) {
                     throw new OnActivityResultProcessingException(element, "@%s annotation must be on a method", annotation.getSimpleName());
