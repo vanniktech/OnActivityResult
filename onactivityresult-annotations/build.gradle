@@ -1,10 +1,10 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 
-targetCompatibility = rootProject.ext.javaVersion as JavaVersion
-sourceCompatibility = rootProject.ext.javaVersion as JavaVersion
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
-    testCompile rootProject.ext.testing.junit
+  testImplementation rootProject.ext.testing.junit
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

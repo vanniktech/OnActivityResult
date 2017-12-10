@@ -1,77 +1,68 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+  }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion as int
-    buildToolsVersion rootProject.ext.buildToolsVersion as String
+  compileSdkVersion rootProject.ext.compileSdkVersion as int
 
-    defaultConfig {
-        applicationId 'com.vanniktech.onactivityresult.sample'
-        minSdkVersion rootProject.ext.minSdkVersion as int
-        targetSdkVersion rootProject.ext.targetSdkVersion as int
-        versionCode 1
-        versionName '1.0'
+  defaultConfig {
+    applicationId 'com.vanniktech.onactivityresult.sample'
+    minSdkVersion rootProject.ext.minSdkVersion as int
+    targetSdkVersion rootProject.ext.targetSdkVersion as int
+    versionCode 1
+    versionName '1.0'
+  }
+
+  def shouldSign = project.hasProperty('RELEASE_STORE_FILE') && project.hasProperty('RELEASE_STORE_PASSWORD') && project.hasProperty('RELEASE_KEY_ALIAS') && project.hasProperty('RELEASE_KEY_PASSWORD')
+
+  if (shouldSign) {
+    signingConfigs {
+      release {
+        // http://stackoverflow.com/a/21020469/1979703
+        storeFile file(RELEASE_STORE_FILE)
+        storePassword RELEASE_STORE_PASSWORD
+        keyAlias RELEASE_KEY_ALIAS
+        keyPassword RELEASE_KEY_PASSWORD
+      }
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      shrinkResources true
+      zipAlignEnabled true
+
+      if (shouldSign) {
+        signingConfig signingConfigs.release
+      }
     }
 
-    def shouldSign = project.hasProperty('RELEASE_STORE_FILE') && project.hasProperty('RELEASE_STORE_PASSWORD') && project.hasProperty('RELEASE_KEY_ALIAS') && project.hasProperty('RELEASE_KEY_PASSWORD')
-
-    if (shouldSign) {
-        signingConfigs {
-            release {
-                // http://stackoverflow.com/a/21020469/1979703
-                storeFile file(RELEASE_STORE_FILE)
-                storePassword RELEASE_STORE_PASSWORD
-                keyAlias RELEASE_KEY_ALIAS
-                keyPassword RELEASE_KEY_PASSWORD
-            }
-        }
+    debug {
+      minifyEnabled true
     }
-
-    compileOptions {
-        sourceCompatibility rootProject.ext.javaVersion as JavaVersion
-        targetCompatibility rootProject.ext.javaVersion as JavaVersion
-    }
-
-    dexOptions {
-        preDexLibraries = rootProject.ext.shouldPreDex
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
-
-            if (shouldSign) {
-                signingConfig signingConfigs.release
-            }
-        }
-
-        debug {
-            minifyEnabled true
-        }
-    }
+  }
 }
 
 dependencies {
-    compile project(':onactivityresult')
-    apt project(':onactivityresult-compiler')
+  implementation project(':onactivityresult')
+  annotationProcessor project(':onactivityresult-compiler')
 
-    // compile 'com.vanniktech:onactivityresult:0.6.0'
-    // apt 'com.vanniktech:onactivityresult-compiler:0.6.0'
+  implementation rootProject.ext.butterknife
+  annotationProcessor rootProject.ext.butterknifeCompiler
 
-    compile rootProject.ext.butterknife
-    apt rootProject.ext.butterknifeCompiler
-
-    compile rootProject.ext.supportAppcompat
-    compile rootProject.ext.supportDesign
+  implementation rootProject.ext.supportAppcompat
+  implementation rootProject.ext.supportDesign
 }
