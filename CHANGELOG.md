@@ -1,7 +1,33 @@
 # Change Log
 
-Version 0.7.0 *(In development)*
+Version 0.8.0 *(In development)*
 --------------------------------
+
+Version 0.7.0 *(2017-12-08)*
+----------------------------
+
+- Update dependencies to latest and clean build files up. [\#100](https://github.com/vanniktech/OnActivityResult/pull/100) ([vanniktech](https://github.com/vanniktech))
+- Remove SuperficialValidation.validateElement checks. [\#99](https://github.com/vanniktech/OnActivityResult/pull/99) ([vanniktech](https://github.com/vanniktech))
+- Update license in travis.yml file. [\#98](https://github.com/vanniktech/OnActivityResult/pull/98) ([vanniktech](https://github.com/vanniktech))
+- Don't clean build again when deploying SNAPSHOTS. [\#94](https://github.com/vanniktech/OnActivityResult/pull/94) ([vanniktech](https://github.com/vanniktech))
+- Better Travis Configuration + dependency updates. [\#93](https://github.com/vanniktech/OnActivityResult/pull/93) ([vanniktech](https://github.com/vanniktech))
+- Delete codecov yml file. [\#92](https://github.com/vanniktech/OnActivityResult/pull/92) ([vanniktech](https://github.com/vanniktech))
+- Don't generate BuildConfig file for release builds. [\#90](https://github.com/vanniktech/OnActivityResult/pull/90) ([vanniktech](https://github.com/vanniktech))
+- Use getClassLoader\(\).loadClass\(\) instead of Class.forName [\#89](https://github.com/vanniktech/OnActivityResult/pull/89) ([vanniktech](https://github.com/vanniktech))
+- Change AutoService to CompileOnly. [\#88](https://github.com/vanniktech/OnActivityResult/pull/88) ([vanniktech](https://github.com/vanniktech))
+- Update Gradle to 3.4 [\#87](https://github.com/vanniktech/OnActivityResult/pull/87) ([vanniktech](https://github.com/vanniktech))
+- Support user defined result code [\#86](https://github.com/vanniktech/OnActivityResult/pull/86) ([operando](https://github.com/operando))
+- Force Error Prone Version to 2.0.15 [\#85](https://github.com/vanniktech/OnActivityResult/pull/85) ([vanniktech](https://github.com/vanniktech))
+- Do not claim annotations in processor. [\#84](https://github.com/vanniktech/OnActivityResult/pull/84) ([vanniktech](https://github.com/vanniktech))
+- Update deps to latest [\#83](https://github.com/vanniktech/OnActivityResult/pull/83) ([vanniktech](https://github.com/vanniktech))
+- Update all deps [\#81](https://github.com/vanniktech/OnActivityResult/pull/81) ([vanniktech](https://github.com/vanniktech))
+- Update Gradle Version Plugin to 0.13.0 [\#79](https://github.com/vanniktech/OnActivityResult/pull/79) ([vanniktech](https://github.com/vanniktech))
+- Update Robolectric to 3.1.2 [\#78](https://github.com/vanniktech/OnActivityResult/pull/78) ([vanniktech](https://github.com/vanniktech))
+- Update ButterKnife to 8.2.1 [\#77](https://github.com/vanniktech/OnActivityResult/pull/77) ([vanniktech](https://github.com/vanniktech))
+- Update Code Quality Tools to 0.4.0 [\#76](https://github.com/vanniktech/OnActivityResult/pull/76) ([vanniktech](https://github.com/vanniktech))
+- Remove test prefix [\#73](https://github.com/vanniktech/OnActivityResult/pull/73) ([vanniktech](https://github.com/vanniktech))
+- Add @Generated annotation onto generated classes [\#72](https://github.com/vanniktech/OnActivityResult/pull/72) ([vanniktech](https://github.com/vanniktech))
+- Update to Robolectric 3.1 [\#71](https://github.com/vanniktech/OnActivityResult/pull/71) ([vanniktech](https://github.com/vanniktech))
 
 Version 0.6.0 *(2016-06-08)*
 ----------------------------

@@ -13,25 +13,17 @@
 ## Gradle
 
 ```groovy
-buildscript {
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-}
-
-apply plugin: 'com.neenbedankt.android-apt'
-
 dependencies {
-    compile 'com.vanniktech:onactivityresult:0.6.0'
-    apt 'com.vanniktech:onactivityresult-compiler:0.6.0'
+  compile 'com.vanniktech:onactivityresult:0.7.0'
+  annotationProcessor 'com.vanniktech:onactivityresult-compiler:0.7.0'
 }
 ```
 
 ### Snapshots
 
 ```groovy
-compile 'com.vanniktech:onactivityresult:0.7.0-SNAPSHOT'
-apt 'com.vanniktech:onactivityresult-compiler:0.7.0-SNAPSHOT'
+compile 'com.vanniktech:onactivityresult:0.8.0-SNAPSHOT'
+annotationProcessor 'com.vanniktech:onactivityresult-compiler:0.8.0-SNAPSHOT'
 ```
 
 Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
@@ -43,9 +35,9 @@ Override `onActivityResult` in your Activity / Fragment and call `ActivityResult
 ```java
 @Override
 protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+  super.onActivityResult(requestCode, resultCode, data);
 
-    ActivityResult.onResult(requestCode, resultCode, data).into(this);
+  ActivityResult.onResult(requestCode, resultCode, data).into(this);
 }
 ```
 
