@@ -1,7 +1,10 @@
 # Change Log
 
-Version 0.7.0 *(2017-12-08)*
+Version 0.8.0 *(In development)*
 --------------------------------
+
+Version 0.7.0 *(2017-12-08)*
+----------------------------
 
 - Update dependencies to latest and clean build files up. [\#100](https://github.com/vanniktech/OnActivityResult/pull/100) ([vanniktech](https://github.com/vanniktech))
 - Remove SuperficialValidation.validateElement checks. [\#99](https://github.com/vanniktech/OnActivityResult/pull/99) ([vanniktech](https://github.com/vanniktech))

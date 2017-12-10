@@ -22,8 +22,8 @@ dependencies {
 ### Snapshots
 
 ```groovy
-compile 'com.vanniktech:onactivityresult:0.7.0-SNAPSHOT'
-annotationProcessor 'com.vanniktech:onactivityresult-compiler:0.7.0-SNAPSHOT'
+compile 'com.vanniktech:onactivityresult:0.8.0-SNAPSHOT'
+annotationProcessor 'com.vanniktech:onactivityresult-compiler:0.8.0-SNAPSHOT'
 ```
 
 Modules are located on [Maven Central](https://oss.sonatype.org/#nexus-search;quick~onactivityresult).
