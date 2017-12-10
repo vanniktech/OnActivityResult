@@ -5,41 +5,36 @@ afterEvaluate {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion as int
-    buildToolsVersion rootProject.ext.buildToolsVersion as String
+  compileSdkVersion rootProject.ext.compileSdkVersion as int
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion as int
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion as int
 
-        consumerProguardFiles 'proguard-rules.txt'
+    consumerProguardFiles 'proguard-rules.txt'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  buildTypes {
+    release {
+      consumerProguardFiles 'proguard-rules.txt'
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-
-    compileOptions {
-        sourceCompatibility rootProject.ext.javaVersion as JavaVersion
-        targetCompatibility rootProject.ext.javaVersion as JavaVersion
-    }
-
-    dexOptions {
-        preDexLibraries = rootProject.ext.shouldPreDex
-    }
-
-    buildTypes {
-        release {
-            consumerProguardFiles 'proguard-rules.txt'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+  }
 }
 
 dependencies {
-    compile project(':onactivityresult-annotations')
+  api project(':onactivityresult-annotations')
 
-    compile rootProject.ext.supportAnnotations
+  api rootProject.ext.supportAnnotations
 
-    testCompile rootProject.ext.testing.junit
-    testCompile rootProject.ext.testing.mockito
-    testCompile rootProject.ext.testing.privateConstructor
-    testCompile rootProject.ext.testing.robolectric
+  testImplementation rootProject.ext.testing.junit
+  testImplementation rootProject.ext.testing.mockito
+  testImplementation rootProject.ext.testing.privateConstructor
+  testImplementation rootProject.ext.testing.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

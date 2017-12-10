@@ -1,25 +1,23 @@
-import org.gradle.internal.jvm.Jvm
+apply plugin: 'java-library'
 
-apply plugin: 'java'
-
-targetCompatibility = rootProject.ext.javaVersion as JavaVersion
-sourceCompatibility = rootProject.ext.javaVersion as JavaVersion
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
-    compile project(':onactivityresult-annotations')
+  implementation project(':onactivityresult-annotations')
 
-    compile rootProject.ext.square.javapoet
+  api rootProject.ext.square.javapoet
 
-    compileOnly rootProject.ext.google.autoservice
+  compileOnly rootProject.ext.google.autoservice
+  compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
-    testCompile rootProject.ext.google.autoservice
-    testCompile rootProject.ext.testing.android
-    testCompile rootProject.ext.testing.junit
-    testCompile rootProject.ext.testing.mockito
-    testCompile rootProject.ext.google.compiletesting
-    testCompile rootProject.ext.testing.privateConstructor
-    testCompile rootProject.ext.intellijAnnotations
-    testCompile files(Jvm.current().getToolsJar())
+  testImplementation rootProject.ext.testing.android
+  testImplementation rootProject.ext.testing.junit
+  testImplementation rootProject.ext.testing.mockito
+  testImplementation rootProject.ext.google.compiletesting
+  testImplementation rootProject.ext.testing.privateConstructor
+  testImplementation rootProject.ext.intellijAnnotations
+  testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

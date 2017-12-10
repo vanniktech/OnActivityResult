@@ -3,37 +3,35 @@ apply plugin: 'com.vanniktech.code.quality.tools'
 apply plugin: "com.vanniktech.android.junit.jacoco"
 
 buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        google()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-    dependencies {
-        classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.8.0'
-        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.7.0'
+  repositories {
+    mavenCentral()
+    jcenter()
+    google()
+  }
+  dependencies {
+    classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.8.0'
+    classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.10.0'
 
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
-        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
-    }
+    classpath 'com.android.tools.build:gradle:3.0.1'
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+  }
 }
 
 codeQualityTools {
   checkstyle {
-    toolVersion = '8.1'
+    toolVersion = '8.5'
   }
   pmd {
     toolVersion = '5.8.1'
   }
   detekt {
-    toolVersion = '1.0.0.M13.2'
+    toolVersion = '1.0.0.RC5-6'
   }
   ktlint {
-    toolVersion = '0.9.1'
+    toolVersion = '0.14.0'
   }
   errorProne {
-    toolVersion = '2.0.21'
+    toolVersion = '2.1.2'
   }
   cpd {
     ignoreFailures = true // Fix later.
@@ -44,82 +42,63 @@ codeQualityTools {
 }
 
 junitJacoco {
-    ignoreProjects = ['onactivityresult-sample'] // Don't care about sample
+  ignoreProjects = ['onactivityresult-sample'] // Don't care about sample
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        jcenter()
-        google()
-    }
-
-    // Workaround to prevent Gradle from stealing focus from other apps during tests run/etc.
-    // https://gist.github.com/artem-zinnatullin/4c250e04636e25797165
-    tasks.withType(JavaForkOptions) {
-        jvmArgs '-Djava.awt.headless=true'
-    }
+  repositories {
+    mavenCentral()
+    jcenter()
+    google()
+  }
 }
 
 ext {
-    isCI = 'true'.equals(System.getProperty('CI'))
+  minSdkVersion = 15
+  compileSdkVersion = 27
+  targetSdkVersion = 27
 
-    minSdkVersion = 15
-    compileSdkVersion = 26
-    targetSdkVersion = 26
-    buildToolsVersion = '26.0.1'
+  supportLibraryVersion = '27.0.2'
 
-    shouldPreDex = !isCI
+  intellijAnnotations = "com.intellij:annotations:12.0"
+  supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
+  supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
+  supportDesign = "com.android.support:design:$supportLibraryVersion"
 
-    supportLibraryVersion = '26.0.1'
+  butterknifeVersion = '8.8.1'
+  butterknife = "com.jakewharton:butterknife:${butterknifeVersion}"
+  butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
-    intellijAnnotations = "com.intellij:annotations:12.0"
-    supportAnnotations = "com.android.support:support-annotations:$supportLibraryVersion"
-    supportAppcompat = "com.android.support:appcompat-v7:$supportLibraryVersion"
-    supportDesign = "com.android.support:design:$supportLibraryVersion"
+  google = [
+      autoservice   : 'com.google.auto.service:auto-service:1.0-rc3',
+      compiletesting: 'com.google.testing.compile:compile-testing:0.14'
+  ]
 
-    butterknifeVersion = '8.8.0'
-    butterknife = "com.jakewharton:butterknife:${butterknifeVersion}"
-    butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
+  testing = [
+      android       : 'com.google.android:android:4.1.1.4',
+      junit       : 'junit:junit:4.12',
+      mockito       : 'org.mockito:mockito-core:2.13.0',
+      robolectric     : 'org.robolectric:robolectric:3.5.1',
+      privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0'
+  ]
 
-    google = [
-            autoservice   : 'com.google.auto.service:auto-service:1.0-rc2',
-            compiletesting: 'com.google.testing.compile:compile-testing:0.10'
-    ]
-
-    testing = [
-            android           : 'com.google.android:android:4.1.1.4',
-            junit             : 'junit:junit:4.12',
-            mockito           : 'org.mockito:mockito-core:2.5.0',
-            robolectric       : 'org.robolectric:robolectric:3.1.4',
-            privateConstructor: 'com.pushtorefresh.java-private-constructor-checker:checker:1.2.0'
-    ]
-
-    square = [
-            javapoet: 'com.squareup:javapoet:1.8.0'
-    ]
-
-    javaVersion = JavaVersion.VERSION_1_7
+  square = [
+      javapoet: 'com.squareup:javapoet:1.9.0'
+  ]
 }
 
 subprojects { project ->
-    version = VERSION_NAME
-    group = GROUP
+  version = VERSION_NAME
+  group = GROUP
 
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
-
-    project.plugins.apply('net.ltgt.errorprone')
-
-    configurations.errorprone {
-        resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.15'
-    }
+  repositories {
+    google()
+    jcenter()
+    mavenCentral()
+  }
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '4.1'
+  gradleVersion = '4.4'
   distributionType = Wrapper.DistributionType.ALL
 }
