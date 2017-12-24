@@ -12,16 +12,16 @@ public class RequestCodeTest {
     public void equality() {
         final RequestCode same = new RequestCode(4);
         //noinspection EqualsWithItself
-        assertEquals(true, same.equals(same));
+        assertEquals(same, same);
 
-        assertEquals(true, new RequestCode(4).equals(new RequestCode(4)));
-        assertEquals(false, new RequestCode(3).equals(new RequestCode(5)));
+        assertEquals(new RequestCode(4), new RequestCode(4));
+        assertNotEquals(new RequestCode(3), new RequestCode(5));
 
         //noinspection EqualsBetweenInconvertibleTypes
-        assertEquals(false, new RequestCode(5).equals(5));
+        assertNotEquals(new RequestCode(5), 5);
 
         //noinspection ObjectEqualsNull
-        assertEquals(false, new RequestCode(5).equals(null));
+        assertNotEquals(new RequestCode(5), null);
     }
 
     @Test

@@ -128,7 +128,7 @@ public class OnActivityResultProcessor extends AbstractProcessor {
         return annotatedParameters;
     }
 
-    private void processAnnotatedExtraParameters(final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
+    @SuppressWarnings("PMD.CyclomaticComplexity") private void processAnnotatedExtraParameters(final RoundEnvironment environment, final AnnotatedMethodParameters annotatedParameters) {
         final Class<? extends Annotation> annotation = Extra.class;
         final Set<? extends Element> parameters = environment.getElementsAnnotatedWith(annotation);
 

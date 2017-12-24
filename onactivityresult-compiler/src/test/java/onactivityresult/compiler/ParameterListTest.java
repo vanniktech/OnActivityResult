@@ -1,6 +1,7 @@
 package onactivityresult.compiler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -26,18 +27,18 @@ public class ParameterListTest {
     @Test
     public void hasNumberOfDifferentParameters() {
         final ParameterList parameters = new ParameterList();
-        assertEquals(true, parameters.hasNumberOfDifferentParameters(0));
+        assertTrue(parameters.hasNumberOfDifferentParameters(0));
 
         parameters.add(Parameter.createIntent());
-        assertEquals(true, parameters.hasNumberOfDifferentParameters(1));
+        assertTrue(parameters.hasNumberOfDifferentParameters(1));
 
         parameters.add(Parameter.createIntent()); // Adding the same is not different
-        assertEquals(true, parameters.hasNumberOfDifferentParameters(1));
+        assertTrue(parameters.hasNumberOfDifferentParameters(1));
 
         parameters.add(Parameter.createResultCode()); // Adding different is different
-        assertEquals(true, parameters.hasNumberOfDifferentParameters(2));
+        assertTrue(parameters.hasNumberOfDifferentParameters(2));
 
         parameters.add(Parameter.createResultCode()); // Adding the same is not different
-        assertEquals(true, parameters.hasNumberOfDifferentParameters(2));
+        assertTrue(parameters.hasNumberOfDifferentParameters(2));
     }
 }

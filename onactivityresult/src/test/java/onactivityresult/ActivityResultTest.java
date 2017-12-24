@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 
 import onactivityresult.internal.IOnActivityResult;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
@@ -104,7 +104,7 @@ public class ActivityResultTest {
         final ActivityResult.OnResult onResult = ActivityResult.onResult(1, 2, null);
         final Result result = new Result();
 
-        assertEquals(true, onResult.into(result));
+        assertTrue(onResult.into(result));
     }
 
     public static class Result {}

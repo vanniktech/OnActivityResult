@@ -8,11 +8,11 @@ import javax.lang.model.element.VariableElement;
 
 final class Utils {
     static boolean isParameter(final Element element) {
-        return element.getKind() == ElementKind.PARAMETER && (element instanceof VariableElement);
+        return element.getKind() == ElementKind.PARAMETER && element instanceof VariableElement;
     }
 
     static boolean isMethod(final Element element) {
-        return element.getKind() == ElementKind.METHOD && (element instanceof ExecutableElement);
+        return element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement;
     }
 
     static String getClassName(final TypeElement type, final String packageName) {

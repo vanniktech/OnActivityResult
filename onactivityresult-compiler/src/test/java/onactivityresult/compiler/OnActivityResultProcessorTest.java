@@ -14,7 +14,7 @@ public class OnActivityResultProcessorTest {
     public void getSupportedAnnotationTypes() {
         final OnActivityResultProcessor onActivityResultProcessor = new OnActivityResultProcessor();
         final Set<String> supportedAnnotationTypes = onActivityResultProcessor.getSupportedAnnotationTypes();
-        final String[] strings = supportedAnnotationTypes.toArray(new String[supportedAnnotationTypes.size()]);
+        final String[] strings = supportedAnnotationTypes.toArray(new String[0]);
 
         final String[] expected = new String[] {
             "onactivityresult.ExtraByte",

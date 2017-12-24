@@ -22,7 +22,7 @@ codeQualityTools {
     toolVersion = '8.5'
   }
   pmd {
-    toolVersion = '5.8.1'
+    toolVersion = '6.0.0'
   }
   detekt {
     toolVersion = '1.0.0.RC5-6'

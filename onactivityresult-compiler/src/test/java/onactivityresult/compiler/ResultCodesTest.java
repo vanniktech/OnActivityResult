@@ -31,23 +31,23 @@ public class ResultCodesTest {
     public void equality() {
         final ResultCodes same = new ResultCodes(-1);
         //noinspection EqualsWithItself
-        assertEquals(true, same.equals(same));
+        assertEquals(same, same);
 
-        assertEquals(true, new ResultCodes(-1).equals(new ResultCodes(-1)));
-        assertEquals(true, new ResultCodes(0).equals(new ResultCodes(0)));
-        assertEquals(true, new ResultCodes(1).equals(new ResultCodes(1)));
-        assertEquals(true, new ResultCodes(-1, 0).equals(new ResultCodes(-1, 0)));
+        assertEquals(new ResultCodes(-1), new ResultCodes(-1));
+        assertEquals(new ResultCodes(0), new ResultCodes(0));
+        assertEquals(new ResultCodes(1), new ResultCodes(1));
+        assertEquals(new ResultCodes(-1, 0), new ResultCodes(-1, 0));
 
-        assertEquals(false, new ResultCodes().equals(new ResultCodes(0)));
-        assertEquals(false, new ResultCodes(1, 2).equals(new ResultCodes(0)));
-        assertEquals(false, new ResultCodes(-1).equals(new ResultCodes(0)));
-        assertEquals(false, new ResultCodes(0).equals(new ResultCodes(1)));
+        assertNotEquals(new ResultCodes(), new ResultCodes(0));
+        assertNotEquals(new ResultCodes(1, 2), new ResultCodes(0));
+        assertNotEquals(new ResultCodes(-1), new ResultCodes(0));
+        assertNotEquals(new ResultCodes(0), new ResultCodes(1));
 
         //noinspection ObjectEqualsNull
-        assertEquals(false, new ResultCodes(0).equals(null));
+        assertNotEquals(new ResultCodes(0), null);
 
         //noinspection EqualsBetweenInconvertibleTypes
-        assertEquals(false, new ResultCodes(0).equals("0"));
+        assertNotEquals(new ResultCodes(0), "0");
     }
 
     @Test
