@@ -14,7 +14,7 @@ import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultInheritanceTest {
-    @Test
+    @Test @SuppressWarnings("PMD.ExcessiveMethodLength")
     public void inheritance() {
         //@formatter:off
         final JavaFileObject actualSource = JavaFileObjects.forSourceString("test/BaseActivity", Joiner.on('\n').join(

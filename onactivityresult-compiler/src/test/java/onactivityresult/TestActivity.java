@@ -14,7 +14,7 @@ import onactivityresult.compiler.OnActivityResultProcessor;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
 
-final class TestActivity {
+@SuppressWarnings("PMD.CyclomaticComplexity") final class TestActivity {
     public static Builder create() {
         return new Builder();
     }
@@ -45,8 +45,6 @@ final class TestActivity {
 
         private List<String> extraCode;
         private String packageName;
-
-        private Builder() {}
 
         public Builder hasIntentData() {
             hasIntentData = true;
@@ -87,7 +85,7 @@ final class TestActivity {
             return this;
         }
 
-        public Source build(final String... functions) {
+        @SuppressWarnings("PMD.NPathComplexity") public Source build(final String... functions) {
             final List<String> code = new ArrayList<>();
 
             code.add("package test;");
@@ -138,7 +136,7 @@ final class TestActivity {
             }
 
             final String packName = packageName != null ? packageName : "test";
-            return new Source(JavaFileObjects.forSourceString(packName + ".TestActivity", Joiner.on('\n').join(code.toArray(new String[code.size()]))), hasIntentData, needsIntentHelper, headLines, packName);
+            return new Source(JavaFileObjects.forSourceString(packName + ".TestActivity", Joiner.on('\n').join(code.toArray(new String[0]))), hasIntentData, needsIntentHelper, headLines, packName);
         }
 
         Builder addImport(final String name) {

@@ -4,7 +4,7 @@ import org.junit.Test;
 
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class OnActivityResultComplexScenarioTest {
-    @Test
+    @Test @SuppressWarnings("PMD.ExcessiveMethodLength")
     public void complexScenario() {
         //@formatter:off
         TestActivity.create().hasNullable().hasNotNull().hasIntentData().hasIntent().hasExtra().addImport("onactivityresult.ExtraString").build(

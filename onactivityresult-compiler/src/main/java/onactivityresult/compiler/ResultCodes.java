@@ -31,7 +31,7 @@ class ResultCodes implements Comparable<ResultCodes> {
         return Arrays.hashCode(resultCodes);
     }
 
-    @Override
+    @Override @SuppressWarnings("PMD.CyclomaticComplexity")
     public int compareTo(final ResultCodes o) {
         if (o.resultCodes.length == 0 && this.resultCodes.length == 0) {
             return 0;

@@ -154,7 +154,7 @@ final class ActivityResultClass {
         return sortedMethodCallsGroupedByResultCodes;
     }
 
-    private void addMethodCallsForResultCodes(final MethodSpec.Builder result, final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes) {
+    @SuppressWarnings("PMD.CyclomaticComplexity") private void addMethodCallsForResultCodes(final MethodSpec.Builder result, final Map<ResultCodes, List<MethodCall>> sortedMethodCallsGroupedByResultCodes) {
         final Set<Parameter> existingParameters = new HashSet<>();
         boolean isFirstResultCodeIfStatement = true;
 
@@ -230,7 +230,7 @@ final class ActivityResultClass {
         }
     }
 
-    private void addNecessaryParameterVariables(final NameAllocator nameAllocator, final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {
+    @SuppressWarnings("PMD.CyclomaticComplexity") private void addNecessaryParameterVariables(final NameAllocator nameAllocator, final MethodSpec.Builder result, final Set<Parameter> existingParameters, final ParameterList parameterList) {
         for (final Parameter parameter : parameterList) {
             final boolean isNotPresent = !existingParameters.contains(parameter);
 

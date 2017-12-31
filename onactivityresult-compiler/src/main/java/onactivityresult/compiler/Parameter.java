@@ -75,6 +75,7 @@ final class Parameter {
     }
 
     @Override
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -89,6 +90,7 @@ final class Parameter {
     }
 
     @Override
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + getDefaultValueHashCode();

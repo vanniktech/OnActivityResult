@@ -1,6 +1,7 @@
 package onactivityresult.compiler;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -20,26 +21,26 @@ public class UtilsTest {
 
     @Test
     public void isParameter() {
-        assertEquals(true, Utils.isParameter(this.getVariableElement(ElementKind.PARAMETER)));
+        assertTrue(Utils.isParameter(this.getVariableElement(ElementKind.PARAMETER)));
 
-        assertEquals(false, Utils.isParameter(this.getVariableElement(ElementKind.METHOD)));
-        assertEquals(false, Utils.isParameter(this.getVariableElement(ElementKind.FIELD)));
+        assertFalse(Utils.isParameter(this.getVariableElement(ElementKind.METHOD)));
+        assertFalse(Utils.isParameter(this.getVariableElement(ElementKind.FIELD)));
 
-        assertEquals(false, Utils.isParameter(this.getMethodElement(ElementKind.METHOD)));
-        assertEquals(false, Utils.isParameter(this.getMethodElement(ElementKind.FIELD)));
-        assertEquals(false, Utils.isParameter(this.getMethodElement(ElementKind.PARAMETER)));
+        assertFalse(Utils.isParameter(this.getMethodElement(ElementKind.METHOD)));
+        assertFalse(Utils.isParameter(this.getMethodElement(ElementKind.FIELD)));
+        assertFalse(Utils.isParameter(this.getMethodElement(ElementKind.PARAMETER)));
     }
 
     @Test
     public void isMethod() {
-        assertEquals(true, Utils.isMethod(this.getMethodElement(ElementKind.METHOD)));
+        assertTrue(Utils.isMethod(this.getMethodElement(ElementKind.METHOD)));
 
-        assertEquals(false, Utils.isMethod(this.getMethodElement(ElementKind.PARAMETER)));
-        assertEquals(false, Utils.isMethod(this.getMethodElement(ElementKind.FIELD)));
+        assertFalse(Utils.isMethod(this.getMethodElement(ElementKind.PARAMETER)));
+        assertFalse(Utils.isMethod(this.getMethodElement(ElementKind.FIELD)));
 
-        assertEquals(false, Utils.isMethod(this.getVariableElement(ElementKind.METHOD)));
-        assertEquals(false, Utils.isMethod(this.getVariableElement(ElementKind.FIELD)));
-        assertEquals(false, Utils.isMethod(this.getVariableElement(ElementKind.PARAMETER)));
+        assertFalse(Utils.isMethod(this.getVariableElement(ElementKind.METHOD)));
+        assertFalse(Utils.isMethod(this.getVariableElement(ElementKind.FIELD)));
+        assertFalse(Utils.isMethod(this.getVariableElement(ElementKind.PARAMETER)));
     }
 
     private ExecutableElement getMethodElement(final ElementKind elementKind) {
