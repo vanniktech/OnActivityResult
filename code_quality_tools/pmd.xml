@@ -32,10 +32,8 @@
     <exclude name="OnlyOneReturn"/>
     <exclude name="CallSuperInConstructor"/>
     <exclude name="AvoidPrefixingMethodParameters"/>
-    <!-- We do scoping correctly an don't want private in order to remove creation of synthetic accessor method. https://github.com/pmd/pmd/issues/809 -->
     <exclude name="CommentDefaultAccessModifier"/>
     <exclude name="DefaultPackage"/>
-    <!-- https://github.com/pmd/pmd/issues/811 -->
     <exclude name="AvoidFinalLocalVariable"/>
   </rule>
   <rule ref="category/java/design.xml">
@@ -64,7 +62,6 @@
     <exclude name="AvoidFieldNameMatchingMethodName"/>
     <exclude name="LoggerIsNotStaticFinal"/>
     <exclude name="AvoidDuplicateLiterals"/>
-    <!-- We do scoping correctly an don't want private in order to remove creation of synthetic accessor method. https://github.com/pmd/pmd/issues/809 -->
     <exclude name="BeanMembersShouldSerialize"/>
     <!-- Possibly a lot of false positives. https://github.com/pmd/pmd/issues/810 -->
     <exclude name="DataflowAnomalyAnalysis"/>
