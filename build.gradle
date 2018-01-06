@@ -7,9 +7,10 @@ buildscript {
     mavenCentral()
     jcenter()
     google()
+    gradlePluginPortal()
   }
   dependencies {
-    classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.8.0'
+    classpath 'com.vanniktech:gradle-code-quality-tools-plugin:0.9.0'
     classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0'
 
     classpath 'com.android.tools.build:gradle:3.0.1'
