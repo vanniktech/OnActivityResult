@@ -52,6 +52,7 @@ android {
 
     debug {
       minifyEnabled true
+      testCoverageEnabled true
     }
   }
 }
