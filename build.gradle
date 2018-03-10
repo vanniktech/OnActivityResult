@@ -42,10 +42,6 @@ codeQualityTools {
   }
 }
 
-junitJacoco {
-  ignoreProjects = ['onactivityresult-sample'] // Don't care about sample
-}
-
 allprojects {
   repositories {
     mavenCentral()
