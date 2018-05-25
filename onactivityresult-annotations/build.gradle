@@ -7,4 +7,4 @@ dependencies {
   testImplementation rootProject.ext.testing.junit
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply plugin: "com.vanniktech.maven.publish"
