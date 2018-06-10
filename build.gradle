@@ -39,8 +39,8 @@ codeQualityTools {
 allprojects {
   repositories {
     mavenCentral()
-    jcenter()
     google()
+    jcenter()
   }
 }
 
